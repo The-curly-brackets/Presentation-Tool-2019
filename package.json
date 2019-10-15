@@ -1,0 +1,23 @@
+{
+  "name": "presentation-tool-2019",
+  "version": "1.0.0",
+  "description": "a powerpoint look a like",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/The-curly-brackets/Presentation-Tool-2019.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/The-curly-brackets/Presentation-Tool-2019/issues"
+  },
+  "homepage": "https://github.com/The-curly-brackets/Presentation-Tool-2019#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1"
+  }
+}
