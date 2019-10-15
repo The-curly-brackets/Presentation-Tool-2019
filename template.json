@@ -1,0 +1,92 @@
+{
+	"authors": [
+		{
+			"username": "lambda"
+		}
+	],
+	"slides": [
+		[
+			"theme": "default",
+			"textboxes": [
+				[
+					{
+						"position": {
+							"x" : "",
+							"y" : ""
+						},
+						"size": {
+							"width" : "",
+							"height" : ""
+						}
+					},
+					{
+						"position": {
+							"x" : "",
+							"y" : ""
+						},
+						"size": {
+							"width" : "",
+							"height" : ""
+						}
+					}
+				]
+			],
+			"images": [
+				[
+					{
+						"position": {
+							"x" : "",
+							"y" : ""
+						},
+						"size": {
+							"width" : "",
+							"height" : ""
+						},
+						"src": ""
+
+					},
+					{
+						"position": {
+							"x" : "",
+							"y" : ""
+						},
+						"size": {
+							"width" : "",
+							"height" : ""
+						},
+						"src": ""
+					}
+				]
+			]
+		],
+		[
+			"theme": "dark",
+			"textboxes": [
+				[
+					{
+						"position": {
+							"x" : "",
+							"y" : ""
+						},
+						"size": {
+							"width" : "",
+							"height" : ""
+						}
+					},
+					{
+						"position": {
+							"x" : "",
+							"y" : ""
+						},
+						"size": {
+							"width" : "",
+							"height" : ""
+						}
+					}
+				]
+			],
+			"images": [[]]
+		]
+
+	]
+}
