@@ -1,0 +1,102 @@
+<html>
+    <head>
+        <title>Pitch'n</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="../css/toolMain.css">
+        <style>
+            body{
+                background-color: #ebebeb;
+            }
+
+            /* Code for bar with edit account and sign out*/
+
+            ul {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                background-color: #3e3e3e;
+            }
+
+            li {
+                float: right;
+            }
+
+            li a {
+                display: block;
+                color: white;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+            }
+
+            li a:hover {
+                background-color: black;
+            }
+
+            .mainContent{
+                margin-top: 2%;
+                max-width: 1100px;
+                margin-left: auto;
+                margin-right: auto;
+                text-align: center;
+            }
+
+            h1{
+                margin-bottom: 4%;
+            }
+
+            /* Presentations list */
+
+            #presFrame{
+                margin-top: 10px;
+                background-color: white;
+                max-width: 1100px;
+                min-height: 100px;
+                text-align: left;
+            }
+
+            #presFrame> div{
+                float: left;
+                margin: 10px;
+            }
+
+            a.btn{
+                background-color: #2f71e3;
+                color: #ebebeb;
+                text-decoration: none;
+                padding: 10px;
+                border: 1px;
+                border-radius: 10px;
+            }
+
+            .presBtns {
+                padding-top: 30px;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div>
+            <ul>
+                <li><a href="#">Sign out</a></li>
+                <li><a href="#">Edit accout</a></li>
+            </ul>
+        </div>
+        <div class="mainContent">
+            <h1>My Presentations</h1>
+            <div id="presFrame">
+                <div id="presPreview" style="width:130px; height:80px; border:1px solid black;"></div>
+                <div>
+                    <p id="presName" style="font-weight: bold">Presentation Name</p>
+                    <p id="presDate">17.10.19</p>
+                </div>
+                <div class="presBtns" style="float: right;">
+                    <a id="editPresBtn" href="#" class="btn">Edit</a>
+                    <a id="viewPresBtn" href="#" class="btn">View</a>
+                    <a id="sharePresBtn" href="#" class="btn">Share</a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
