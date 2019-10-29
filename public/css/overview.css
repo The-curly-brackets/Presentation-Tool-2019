@@ -1,0 +1,96 @@
+body{
+    background-color: #ebebeb;
+}
+
+/* Code for bar with new presentation, edit account and sign out */
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #3e3e3e;
+}
+
+ul>li {
+    float: right;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: black;
+}
+
+.newPresBtn {
+    float: left;
+}
+
+#newPresBtn {
+    background-color: #3e3e3e;
+    color: white;
+    padding: 10px;
+    border: none;
+    font-size: large;
+}
+
+#newPresBtn:hover{
+    background-color: black;
+}
+
+.mainContent{
+    margin-top: 2%;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+h1{
+    margin-bottom: 4%;
+}
+
+/* CSS for the presentations list */
+
+.presFrame{
+    margin-top: 10px;
+    background-color: white;
+    max-width: 1100px;
+    min-height: 100px;
+    text-align: left;
+}
+
+.presPreview{
+    float: left;
+}
+
+.presInfoDiv{
+    float: left;
+}
+
+.presFrame> div{
+    margin: 10px;
+}
+
+.toolBtnDiv{
+    float: right;
+}
+
+div> a{
+    background-color: #2f71e3;
+    color: #ebebeb;
+    padding: 10px;
+    border: 1px;
+    border-radius: 10px;
+    font-size: small;
+    float: right;
+    margin-left: 10px;
+    margin-top: 20px;
+}
+

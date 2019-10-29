@@ -26,8 +26,15 @@ router.delete("/:userID", async  function(req, res, next) {
 });
 
 // Recieves a user object and creates an account in the db from it
-router.post("/", async  function(req, res, next) {
 
+router.post("/auth", async  function(req, res, next) {
+    db.getUserByUsername(req.body.username).then(user => {
+        if (user) {
+            res.status(200).send(user)
+        } else {
+            res.status(404).send("userID non-existing");
+        }
+    }).catch(err => res.status(500).send(err));
 });
 
 module.exports = router;
