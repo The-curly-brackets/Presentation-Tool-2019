@@ -1,4 +1,5 @@
 const pg = require("pg");
+const bcrypt = require('bcrypt');
 
 const db = function (dbConnectionString) {
 
@@ -24,8 +25,21 @@ const db = function (dbConnectionString) {
         return await runQuery('SELECT * FROM users WHERE id = $1', [userID]);
     };
 
+    const getUserByNameAndPassword = async function (username, password) {
+        let payload = null;
+        return await runQuery('SELECT * FROM users WHERE username = $1', [username])
+            .then(user => {
+                payload = user;
+                return bcrypt.compare(password, user.password);
+            }).then(resp => {
+                payload.valid = resp;
+                return payload;
+            });
+    };
+
     return {
-        getUserByID: getUserByID
+        getUserByID: getUserByID,
+        getUserByNameAndPassword: getUserByNameAndPassword
     }
 };
 
