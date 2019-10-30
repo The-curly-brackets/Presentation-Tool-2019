@@ -1,4 +1,4 @@
-// TODO: Hide it in a env variable.
+// TODO: Hide it in a env variable shared with users.js.
 const secret = "frenchfriestastegood!";
 const jwt = require('jsonwebtoken');
 

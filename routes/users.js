@@ -3,7 +3,7 @@ const authProtect = require('../modules/auth');
 const tokenProtect = require('../modules/token');
 const router = express.Router();
 
-// TODO: Hide it in a env variable.
+// TODO: Hide it in a env variable shared with token.js.
 const secret = "frenchfriestastegood!";
 const jwt = require('jsonwebtoken');
 
@@ -15,8 +15,6 @@ router.get("/:userID", tokenProtect); // This endPoint is 'login' protected
 router.get("/:userID", async function (req, res, next) {
     db.getUserByID(req.params.userID).then(user => {
         if (user) {
-            // TODO: Check if userID of the token corresponds to the one in param. If so, add private presentations
-            // TODO: Add public presentations ?
             res.status(200).send(user)
         } else {
             res.status(404).send("userID non-existing");
