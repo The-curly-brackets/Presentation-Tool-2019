@@ -1,5 +1,11 @@
-// TODO: Hide it in a env variable shared with users.js.
-const secret = "frenchfriestastegood!";
+let secretSash;
+try {
+    secretSash = require("../modules/badWolf");
+} catch(err) {
+    //not local.
+}
+
+const secret = process.env.secret || secretSash.secret;
 const jwt = require('jsonwebtoken');
 
 const checkToken = function (req, res, next) {
