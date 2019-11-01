@@ -26,7 +26,7 @@ createAccountBtn.addEventListener("click", async function (evt){
         if(resp.status > 200){
             throw(data);
         }
-        console.log(data);
+      
         sessionStorage.setItem("logindata", JSON.stringify(data));
         window.location.href = "../html/overview.html";
     }

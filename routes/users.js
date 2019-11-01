@@ -16,6 +16,11 @@ const db = require("../modules/db")(db_credentials);
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
+const badWolf = require('../modules/badWolf');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+
+
 // Get the users details for now returns the whole object stored in the database
 router.get("/:userID", tokenProtect); // This endPoint is 'login' protected
 router.get("/:userID", async function (req, res, next) {
@@ -53,7 +58,7 @@ router.post("/", async function (req, res, next) {
 });
 
 router.post("/login", authProtect);
-router.post("/login", async function (req, res, next) {
+route.post("/login", async function (req, res, next) {
     let tok = jwt.sign({userID: req.userID}, secret, {expiresIn: "12h"});
     res.status(200).json({userID: req.userID, token: tok});
 });

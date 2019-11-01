@@ -26,6 +26,7 @@ loginBtn.addEventListener("click", async evt => {
         if(resp.status > 200){
             throw(data);
         }
+      
         txtPswOut.innerHTML = "";
         sessionStorage.setItem("logindata", JSON.stringify(data));
         window.location.href = "../html/overview.html";

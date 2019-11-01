@@ -19,7 +19,7 @@ const db = function (dbConnectionString) {
                 client.end();
                 return data;
             });
-    }
+    };
 
     const getUserByUsername = async function (username){
         return await runQuery("SELECT * FROM users WHERE username = $1", [username]);
@@ -28,7 +28,7 @@ const db = function (dbConnectionString) {
     const getUserByID = async function (userID) {
         return await runQuery('SELECT * FROM users WHERE id = $1', [userID]);
     };
-
+  
     const getUserByNameAndPassword = async function (username, password) {
         let payload = null;
         return await runQuery('SELECT * FROM users WHERE username = $1', [username])
