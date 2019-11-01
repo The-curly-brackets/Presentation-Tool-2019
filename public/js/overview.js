@@ -1,4 +1,10 @@
 const presListCont = document.getElementById("presListCont");
+const signoutBtn = document.getElementById("signoutBtn");
+
+signoutBtn.addEventListener('click', evt => {
+    sessionStorage.clear();
+    window.location.href = "../html/login.html";
+})
 
 function presListItem(preName, preDate, prePreview){
     

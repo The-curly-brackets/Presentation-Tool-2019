@@ -1,6 +1,5 @@
-const nameInp = document.getElementById("nameInp");
-const emailInp = document.getElementById("emailInp");
 const userNameInp = document.getElementById("createUsernameInp");
+const emailInp = document.getElementById("emailInp");
 const passwordInp = document.getElementById("createPasswordInp");
 const createAccountBtn = document.getElementById("createAccountBtn");
 
@@ -9,9 +8,8 @@ createAccountBtn.addEventListener("click", async function (evt){
     let url = "http://localhost:8080/users/auth";
 
     let updata =  {
-        name: nameInp.value,
-        email: emailInp.value,
         username: userNameInp.value,
+        email: emailInp.value,
         password: passwordInp.value
     }
 
@@ -25,10 +23,12 @@ createAccountBtn.addEventListener("click", async function (evt){
         let resp = await fetch(url, cfg);
         let data = await resp.json();
         
-        if(resp.status >= 200){
+        if(resp.status > 200){
             throw(data);
         };
+        
         sessionStorage.setItem("logindata", JSON.stringify(data));
+        window.location.href = "../html/overview.html";
     }
     catch (err) {
         console.log(err);
