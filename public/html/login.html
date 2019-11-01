@@ -1,0 +1,49 @@
+<html>
+    <head>
+        <title>Pitch'n</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="../css/toolMain.css">
+        <link rel="stylesheet" type="text/css" href="../css/login.css">
+    </head>
+    <body>
+
+       <div class="center">
+           <div id="wrapDiv">
+                <div class = "sideBySideDiv" id="startInfoDiv">
+                    <h1>Pitch'n</h1>
+                    <p>This is a powerful online presentation tool. You can create presentations using themes that will give the presentation a spesific look and feel. When you are happy with your presentation, or just want an honest opinion, you can share your presentation.</p>
+                    <button id="ppresBtn" class="blueBtn">Public presentations</button>
+                </div>
+                <div class="sideBySideDiv" id="logInDiv">
+                    <h2>Sign in</h2>
+                    <input id="userNameInp" placeholder="Username">
+                    <br><br>
+                    <input id="passwordInp" placeholder="Password" type="password">
+                    <br><br>
+                    <button id="loginBtn" class="blueBtn">Log in</button>
+                    <br><br>
+                    <a href="createaccount.html">Create account</a>
+                    <br><br>
+                    <span id="txtPswOut" style="color: red"></span>
+                    <!-- If we have time: <a href="">Forgot your password?</a> -->
+                </div>
+           </div>        
+       </div>
+
+        <template>
+            <div id="publicPresentations"> 
+                <div id="allPublicPresCont">
+                    <h1>View some public presentations</h1>
+                    <div id="publicPresCont">
+                        <img src="" width="180" height="100">
+                        <p style="font-weight: bold">Presentation name</p>
+                        <p>By: username</p>
+                    </div>
+                </div>
+            </div>
+            <footer>Pitch'n 2019</footer>
+        </template>
+        
+    </body>
+    <script src="../js/login.js"></script>
+</html>

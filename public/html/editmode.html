@@ -1,0 +1,312 @@
+<html>
+    <head>
+        <title>Pitch'n Edit</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="../css/toolMain.css">
+        <style>
+
+            body{
+                background-color: #ebebeb;
+            }
+
+            /* ------------------------------- */
+
+            #toolBarDiv{
+                max-width: 100%;
+                min-height: 80px;
+                background-color: white;
+                padding: 5px;
+            }
+            
+            .toolBarCont{
+                float: left;
+                margin-left: 5px;
+                padding: 10px;
+            }
+
+            /* ------------------------------- */
+            
+            #slideTools{
+                margin-top: 10px;
+                font-size: small;
+                background-color: #ebebeb;
+                height: 42px;
+            }
+
+            #slideTools> a {
+                font-size: x-large;
+                color:black;
+                text-decoration: none;
+                padding: 10px 10px;
+            }
+
+            /* ------------- */
+
+            #items{
+                margin-top: 10px;
+                font-size: small;
+                background-color: #ebebeb;
+                height: 42px;
+            }
+
+            #items> button{
+                font-size: small;
+                background-color: white;
+                border: 1px solid black;
+                border-radius: 5px;
+                padding: 10px 10px;
+            }
+
+            #items> input {
+                font-size: small;
+                width: 180px;
+            }
+
+            /* ------------- */
+            
+            #textEditTools{
+                margin-top: 10px;
+                font-size: small;
+                background-color: #ebebeb;
+                height: 42px;
+            }
+            
+            #textEditTools> select{
+                margin-right: 10px;
+            }
+
+            #textEditTools> button.nbi{
+                font-size: small;
+                border: none;
+                border-bottom: 1px solid black;
+                background-color: #ebebeb;
+                width: 30px;
+                padding: 10px;
+            }
+
+            #textEditTools> button.lcr{
+                font-size: small;
+                border: none;
+                background-color: #ebebeb;
+                width: 30px;
+                padding: 5px;
+            }
+            
+            #textEditTools> label{
+                margin-left: 20px;
+            }
+
+            #textEditTools> input{
+                background-color: #ebebeb;
+                margin-right: 20px;
+            }
+
+            /* ------------- */
+
+            #typeOfSlides{
+                margin-top: 10px;
+                font-size: small;
+                background-color: #ebebeb;
+                height: 52px;
+                padding: 5px;
+            }
+
+            #typeOfSlides> div{
+                background-color: white;
+                text-align: center;
+                float: left;
+                margin-left: 5px;
+                margin-right: 5px;
+                width: 75px;
+                height: 52px;
+                font-size: large
+            }
+
+            /* ------------- */
+
+            #setSlidebackgroundDiv{
+                padding-top: 5px;
+                margin-top: 10px;
+                font-size: small;
+                background-color: #ebebeb;
+                height: 47px;
+            }
+
+            #setSlidebackgroundDiv> label{
+                
+                font-size: small;
+            }
+
+            #setSlidebackgroundDiv> input{
+                background-color: #ebebeb;
+            }
+
+            #backgroundImgInp{
+                width: 180px;
+            }
+
+            /* ------------- */
+
+            #navBtnsCont{
+                float: right;
+                padding-top: 10px;
+                margin-top: 10px;
+                font-size: small;
+                background-color: #ebebeb;
+                height: 42px;
+            }
+
+            #navBtnsCont> button{
+                font-size: small;
+                background-color: black;
+                color: white;
+                border: 1px solid black;
+                border-radius: 5px;
+                padding: 10px 10px;
+            }      
+
+            /* ------------------------------- */
+
+            #underToolBarDiv {
+                width: 100%;
+                float: left;
+            }
+
+            /* ------------- */
+
+            #allSlidesPreviewCont{
+                float: left;
+                margin: 10px;
+                max-width: 152px;
+                height: 720px;
+                overflow: scroll;
+            }
+
+            .slidePreview{
+                width: 150px;
+                height: 100px;
+                background-color: white;
+                border: 1px solid black;
+                margin-bottom: 20px;
+            }
+
+            /* ------------- */
+
+            #editSlideCont{
+                float: left;
+                width: 1280px;
+                height: 720px;
+                margin: 10px;
+                background-color: white;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div id="toolBarDiv">
+            
+            <div id="slideTools" class="toolBarCont">
+                <a href="#">+</a>
+            </div>
+
+            <div id="items" class="toolBarCont">
+                <button>Text Field</button>
+                <button>List</button>
+                <input type="file">
+            </div>
+
+            <div id="textEditTools" class="toolBarCont">
+                <select id="fontFamSelect">
+                    <option>Calibri</option>
+                    <option>Helvetica</option>
+                    <option>Times New Roman</option>
+                </select>
+
+                <select id="fontSizeSelect">
+                    <option>12 pt</option>
+                    <option>14 pt</option>
+                    <option>18 pt</option>
+                    <option>24 pt</option>
+                    <option>36 pt</option>
+                    <option>48 pt</option>
+                </select>
+
+                <button class="nbi" style="text-decoration: underline">U</button>
+                <button class="nbi" style="font-weight: bold">B</button>
+                <button class="nbi" style="font-style:italic">I</button>
+
+                <label for="textColorInp">Text Color</label>
+                <input id="textColorInp" type="color" style="width: 50px">
+
+                <button class="lcr" style="border-left: 1px solid black;">L</button>
+                <button class="lcr" style="border-bottom: 1px solid black;">C</button>
+                <button class="lcr" style="border-right: 1px solid black;">R</button>
+            </div>
+
+            <div id="typeOfSlides" class="toolBarCont">
+                <div>Title</div>
+                <div>Text and Image</div>
+                <div>List</div>
+            </div>
+
+            <div id="setSlidebackgroundDiv" class="toolBarCont">
+                    <label for="backgroundColorInp">Background Color</label>
+                    <input id="backgroundColorInp" type="color" style="width: 50px">
+                    <br>
+                    <label for="backgroundImgInp">Image</label>
+                    <input id="backgroundImgInp" type="file">
+            </div>
+
+            <div id="navBtnsCont" class="toolBarCont"> 
+                <button id="saveBtn" style="background-color: #2f71e3; border-color: #2f71e3">Save</button>
+                <button id="backBtn">Back</button>
+            </div>
+            
+        </div>
+
+        <div id="underToolBarDiv">
+
+            <div id="allSlidesPreviewCont">
+                <!-- Here goes all the slidepreviews, JavaScript -->   
+            </div>
+
+            <div id="editSlideCont">
+                <!-- Here goes the code to edit a slide, JavaScript -->
+            </div>
+
+        </div>
+    </body>
+    <script>
+
+        const slidePreviewCont = document.getElementById("allSlidesPreviewCont");
+        const editSlideCont = document.getElementById("editSlideCont");
+
+        for(let i = 0; i < 20; i++){
+            let slidePreviewDiv = document.createElement("div");
+            slidePreviewDiv.className = "slidePreview";
+            slidePreviewCont.appendChild(slidePreviewDiv);
+        }
+
+        let bodyHeight = document.body.clientHeight;
+
+        slidePreviewCont.style.height = bodyHeight - 80 - 30; // This sets the height for the div with the slides previews. The heghit is bodyheight-toolbarheight-padding.
+
+        // ------------- Sets the height and width for the edit slide div-container ---------------
+
+        let slideHeight = bodyHeight - 80 - 30;
+        let slideWidth = (slideHeight/9) * 16;
+
+        let slideMaxWidth = document.body.clientWidth - 200;
+        
+        if(slideWidth > slideMaxWidth){
+            slideWidth = slideMaxWidth;
+        }
+
+        slideHeight = (slideWidth/16)*9;
+
+        editSlideCont.style.height = slideHeight;
+        editSlideCont.style.width = slideWidth;
+
+
+    </script>
+</html>

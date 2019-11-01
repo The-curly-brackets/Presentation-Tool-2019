@@ -1,0 +1,36 @@
+body{
+    background-color:#ebebeb;
+    color: #3e3e3e;
+}
+
+#wrapDiv{
+    max-width: 1200px;
+    min-height: 360px;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10%;
+}
+
+.sideBySideDiv {
+    background-color: white;
+    padding: 40px;
+    margin: 10px;
+    min-height: 260px;
+}
+
+#startInfoDiv {
+    max-width: 600px;
+    float: left;
+}
+
+#logInDiv{
+    width: 400px;
+    float: left;
+    text-align: center;
+}
+
+a {
+    text-decoration: none;
+    color: rgb(141, 141, 141);
+}
