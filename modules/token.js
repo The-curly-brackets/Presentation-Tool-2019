@@ -1,7 +1,7 @@
 let secretSash;
 try {
     secretSash = require("../modules/badWolf");
-} catch(err) {
+} catch (err) {
     //not local.
 }
 
@@ -11,15 +11,14 @@ const jwt = require('jsonwebtoken');
 const checkToken = function (req, res, next) {
     let token = req.headers['authorization'];
 
-    if(token){
-        try{
+    if (token) {
+        try {
             logindata = jwt.verify(token, secret);
             next();
-        }
-        catch(err){
+        } catch (err) {
             res.status(403).json({msg: "Not a valid token"});
         }
-    }else{
+    } else {
         res.status(403).json({msg: "Not token"});
     }
 };

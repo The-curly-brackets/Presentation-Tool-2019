@@ -21,7 +21,7 @@ const db = function (dbConnectionString) {
             });
     }
 
-    const getUserByUsername = async function (username){
+    const getUserByUsername = async function (username) {
         return await runQuery("SELECT * FROM users WHERE username = $1", [username]);
     };
 
@@ -41,7 +41,7 @@ const db = function (dbConnectionString) {
             });
     };
 
-    const makeUserAccount = async function (username, email, pswhash){
+    const makeUserAccount = async function (username, email, pswhash) {
         return await runQuery('INSERT INTO users (id, username, email, password) VALUES(DEFAULT, $1, $2, $3) RETURNING *', [username, email, pswhash]);
     };
 

@@ -4,15 +4,15 @@ const signoutBtn = document.getElementById("signoutBtn");
 signoutBtn.addEventListener('click', evt => {
     sessionStorage.clear();
     window.location.href = "../html/login.html";
-})
+});
 
-function presListItem(preName, preDate, prePreview){
-    
+function presListItem(preName, preDate, prePreview) {
+
     let preObj = {
         name: preName,
         date: preDate,
         preview: prePreview
-    }
+    };
 
     let presFrame = document.createElement("div");
     presFrame.className = "presFrame";
@@ -49,10 +49,10 @@ function presListItem(preName, preDate, prePreview){
     presFrame.appendChild(presPreviewFrame);
     presFrame.appendChild(div);
     presFrame.appendChild(toolBtnDiv);
-    
+
     presListCont.appendChild(presFrame);
 }
 
-for(let i = 0; i<10; i++){
+for (let i = 0; i < 10; i++) {
     presListItem("My Presentation", "29.10.19", "");
 }

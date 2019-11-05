@@ -6,7 +6,7 @@ const router = express.Router();
 let secretSash;
 try {
     secretSash = require("../modules/badWolf");
-} catch(err) {
+} catch (err) {
     //not local.
 }
 
@@ -42,11 +42,11 @@ router.delete("/:userID", async function (req, res, next) {
 router.post("/", async function (req, res, next) {
     let pswhash = bcrypt.hashSync(req.body.password, 10);
     db.makeUserAccount(req.body.username, req.body.email, pswhash).then(newAccount => {
-        if(newAccount){
+        if (newAccount) {
             let payload = {userid: newAccount.id};
             let tok = jwt.sign(payload, secret, {expiresIn: "12h"});
-            res.status(200).send({token:tok});
-        }else {
+            res.status(200).send({token: tok});
+        } else {
             res.status(404).send("Not able to create account");
         }
     }).catch(err => res.status(500).send(err));

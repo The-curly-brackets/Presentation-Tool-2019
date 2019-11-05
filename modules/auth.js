@@ -20,7 +20,7 @@ const authenticate = function (req, res, next) {
 
             next();
         });
-    } catch(err) {
+    } catch (err) {
         res.status(500).send(err);
     }
 };
