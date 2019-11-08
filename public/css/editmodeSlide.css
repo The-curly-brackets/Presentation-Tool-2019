@@ -1,0 +1,99 @@
+.editModeTxtField{
+    border: 1px solid black;
+    width: 500px;
+    height: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+/* CSS for titleSlide */
+
+.titleSlideContainerDiv {
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.titleFrame {
+    border: 1px solid black;
+    margin-bottom: 10px;
+    font-size: 48pt;
+    font: bold;
+    padding: 20px 60px 20px 60px;
+}
+
+.byFrame {
+    border: 1px solid black;
+    font-size: x-large;
+    padding: 20px;
+}
+
+/* CSS for textAndImageSlide */
+
+.txtAndImgContainerDiv {
+    display: grid;
+    grid-template-areas: 
+        'headline headline'
+        'imgFrame textField';
+    grid-gap: 40px;
+    padding: 40px;
+    grid-template-rows: auto 400px;
+    grid-template-columns: 1fr 1fr;
+}
+
+.headlineContainer{
+    grid-area: headline;
+    border: 1px solid black;
+    font-size: 42pt;
+    font: bold;
+    text-align: center;
+    padding: 20px 60px 20px 60px;
+}
+
+.imgContainer {
+    grid-area: imgFrame;
+    border: 1px solid black;
+}
+
+.txtContainer {
+    grid-area: textField;
+    font-size: x-large;
+    border: 1px solid black;
+}
+
+/* CSS for listSlide */
+
+.listContainerDiv {
+    display: grid;
+    grid-template-areas: 
+        'liSlideHeadline liSlideHeadline'
+        'liSlideTxt1 liSlideTxt2';
+    grid-gap: 40px;
+    padding: 40px;
+    grid-template-rows: auto 400px;
+}
+
+.liHeadlineContainer{
+    grid-area: liSlideHeadline;
+    border: 1px solid black;
+    font-size: 42pt;
+    font: bold;
+    text-align: center;
+    padding: 20px 60px 20px 60px;
+}
+
+.liTextField1 {
+    grid-area: liSlideTxt1;
+    font-size: x-large;
+    border: 1px solid black;
+}
+
+.liTextField2 {
+    grid-area: liSlideTxt2;
+    font-size: x-large;
+    border: 1px solid black;
+}

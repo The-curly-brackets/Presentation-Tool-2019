@@ -32,10 +32,25 @@ const db = function (dbConnectionString) {
         return await runQuery('INSERT INTO users (id, username, email, password) VALUES(DEFAULT, $1, $2, $3) RETURNING *', [username, email, pswhash]);
     }
 
+    const makeNewPresentation = async function(presentation, visibility){
+        return await runQuery('INSERT INTO presentation (id, presentation, visibility) VALUES(DEFAULT, $1, $2) RETURNING *', [presentation, visibility])
+    }
+
+    const getPresentationById = async function(presentationId){
+        return await runQuery('SELECT * FROM presentation WHERE id = $1', [presentationId]);
+    }
+
+    const updatePresentation = async function(presentationID, presentationObj){
+        return await runQuery('UPDATE presentation SET presentation = $2 WHERE id = $1 RETURNING *', [presentationID, presentationObj]);
+    }
+
     return {
         getUserByUsername: getUserByUsername,
         getUserByID: getUserByID,
-        makeUserAccount: makeUserAccount
+        makeUserAccount: makeUserAccount,
+        makeNewPresentation: makeNewPresentation,
+        getPresentationById: getPresentationById,
+        updatePresentation: updatePresentation
     }
 };
 
