@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const usersRouter = require('./routes/users');
+const presentationRouter = require('./routes/presentation');
 
 const app = express();
 const DEFAULT_PORT = 8080;
@@ -11,6 +12,7 @@ app.set('port', (process.env.PORT || DEFAULT_PORT));
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use('/users', usersRouter);
+app.use('/presentation', presentationRouter);
 
 
 app.listen(app.get('port'), function () {

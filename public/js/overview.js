@@ -7,6 +7,21 @@ signoutBtn.addEventListener('click', evt => {
 });
 
 function presListItem(preName, preDate, prePreview) {
+    let url = "http://localhost:8080/users/balblabla";
+    let token = null;
+    try {
+        token = sessionStorage.getItem('token');
+    } catch {
+        // not locally
+    }
+
+    let cfg = {
+        'method': "POST",
+        "headers": {"Authorization": token}
+    };
+
+    fetch(url, cfg);
+
 
     let preObj = {
         name: preName,

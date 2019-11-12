@@ -19,7 +19,7 @@ const checkToken = function (req, res, next) {
             res.status(403).json({msg: "Not a valid token"});
         }
     } else {
-        res.status(403).json({msg: "Not token"});
+        res.status(403).json({msg: "No token"});
     }
 };
 

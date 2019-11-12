@@ -17,7 +17,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
 // Get the users details for now returns the whole object stored in the database
-router.get("/:userID", tokenProtect); // This endPoint is 'login' protected
+// router.get("/:userID", tokenProtect); // This endPoint is 'login' protected
 router.get("/:userID", async function (req, res, next) {
     db.getUserByID(req.params.userID).then(user => {
         if (user) {
