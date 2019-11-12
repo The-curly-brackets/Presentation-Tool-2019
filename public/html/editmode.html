@@ -82,14 +82,14 @@
 
         <template id="titleSlide">
             <div class="titleSlideContainerDiv">
-                <div class="titleFrame" contenteditable="true"></div>
+                <div class="title titleFrame" contenteditable="true"></div>
                 <div class="byFrame" contenteditable="true"></div>
             </div>
         </template>
 
         <template id="txtAndImgTemplate">
             <div class="txtAndImgContainerDiv">
-                <div class="headlineContainer" contenteditable="true"></div>
+                <div class="title headlineContainer" contenteditable="true"></div>
                 <div class="imgContainer"><img></div>
                 <div class="txtContainer" contenteditable="true"></div>
             </div>
@@ -97,47 +97,12 @@
 
         <template id="listSlideTemplate">
             <div class="listContainerDiv">
-                <div class="liHeadlineContainer" contenteditable="true"></div>
+                <div class="title liHeadlineContainer" contenteditable="true"></div>
                 <div class="liTextField1" contenteditable="true"><ul><li></li></ul></div>
                 <div class="liTextField2" contenteditable="true"><ul><li></li></ul></div>
             </div>
         </template>
 
     </body>
-    <script>
-
-        const slidePreviewCont = document.getElementById("allSlidesPreviewCont");
-        const editSlideCont = document.getElementById("editSlideCont");
-
-        for(let i = 0; i < 1; i++){
-            let slidePreviewDiv = document.createElement("div");
-            slidePreviewDiv.className = "slidePreview";
-            slidePreviewCont.appendChild(slidePreviewDiv);
-        }
-
-   
-        // ------------- Sets the height and width for the edit slide div-container ---------------
-
-        let bodyHeight = document.body.clientHeight;
-
-        slidePreviewCont.style.height = bodyHeight - 80 - 30; // This sets the height for the div with the slides previews. The heghit is bodyheight-toolbarheight-padding.
-
-        let slideHeight = bodyHeight - 80 - 30;
-        let slideWidth = (slideHeight/9) * 16;
-
-        let slideMaxWidth = document.body.clientWidth - 200;
-        
-        if(slideWidth > slideMaxWidth){
-            slideWidth = slideMaxWidth;
-        }
-
-        slideHeight = (slideWidth/16)*9;
-
-        editSlideCont.style.height = slideHeight;
-        editSlideCont.style.width = slideWidth;
-
-        // -----------------------------------------------------------------------------------------
-
-    </script>
     <script src="../js/editmode.js"></script>
 </html>
