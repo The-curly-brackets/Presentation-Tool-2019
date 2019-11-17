@@ -1,11 +1,22 @@
 const userNameInp = document.getElementById("createUsernameInp");
 const emailInp = document.getElementById("emailInp");
 const passwordInp = document.getElementById("createPasswordInp");
+const confirmPasswordInp = document.getElementById("confirmPasswordInp");
 const createAccountBtn = document.getElementById("createAccountBtn");
+const txtOut = document.getElementById("txtOut");
 
-createAccountBtn.addEventListener("click", async function (evt){
-    
-    let url = "http://localhost:8080/users/auth";
+createAccountBtn.addEventListener("click", evt => {
+    if(passwordInp.value !== confirmPasswordInp.value) {
+        txtOut.innerHTML = "The passwords does not match";
+        txtOut.style.color = "red";
+        txtOut.style.visibility = "visible";
+        return;
+    }
+    createAccount();
+});
+
+async function createAccount (){
+    let url = "http://localhost:8080/users/newAccount";
 
     let updata =  {
         username: userNameInp.value,
@@ -22,15 +33,15 @@ createAccountBtn.addEventListener("click", async function (evt){
     try {
         let resp = await fetch(url, cfg);
         let data = await resp.json();
-        
+            
         if(resp.status > 200){
             throw(data);
         };
-        
+            
         sessionStorage.setItem("logindata", JSON.stringify(data));
         window.location.href = "../html/overview.html";
     }
     catch (err) {
         console.log(err);
     }
-});
+}

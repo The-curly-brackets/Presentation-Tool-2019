@@ -240,6 +240,7 @@ function makeList() {
 }
 
 function createListSlide() {
+    editSlideCont.innerHTML = "";
     let slide = new Slide("list");
     slide.addBulletList();
     presentation.slides.push(slide.getSlide());
@@ -259,6 +260,7 @@ function createListSlide() {
 }
 
 function createTxtAndImgSlide() {
+    editSlideCont.innerHTML = "";
     let slide = new Slide("txtAndImg");
     slide.addText();
     slide.addImg();
@@ -279,6 +281,7 @@ function createTxtAndImgSlide() {
 }
 
 function createTitleSlide() {
+    editSlideCont.innerHTML = "";
     let slide = new Slide("title");
     presentation.slides.push(slide.getSlide());
 
