@@ -1,0 +1,6 @@
+/* --- CSS for dark theme ---------------------- */
+.darkTheme{
+    background-color: #141414;
+    color: #ffffff;
+    font-family: 'Playfair Display', serif;
+}

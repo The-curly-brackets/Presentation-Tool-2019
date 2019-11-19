@@ -1,0 +1,8 @@
+/* --- CSS for classic theme ---------------------- */
+.classicTheme{
+    background-color: #832724;
+    background-image: url("https://www.transparenttextures.com/patterns/argyle.png");
+    font-family: 'Fondamento', cursive;
+    font:bold;
+    color: white;
+}
