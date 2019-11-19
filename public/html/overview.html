@@ -10,13 +10,43 @@
             <ul>
                 <li class="newPresBtn"><button id="newPresBtn">New presentation</button></li>
                 <li><a href="#" id="signoutBtn">Sign out</a></li>
-                <li><a href="#" id="editaccountBtn">Edit accout</a></li>
+                <li><a href="#" id="editaccountBtn">Edit account</a></li>
             </ul>
         </div>
         <div class="mainContent">
             <h1>My Presentations</h1>
             <div id="presListCont"></div>
         </div>
+
+        <!-- Template for presentations list -->
+        <template id="presTemplate">
+            <div class="presFrame">
+                <div class="presPreview"></div>
+                <div class="presInfoDiv">
+                    <p class="presName"></p>
+                    <p class="presDate"></p>
+                </div>
+                <div class="toolBtnDiv">
+                    <a>Edit</a>
+                    <a>View</a>
+                    <a>Share</a>
+                </div>
+            </div>
+        </template>
+
+         <!-- The Modal -->
+         <div id="newPresModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <p>Chose a theme for you presentation</p>
+                <div id="basicTheme" class="themeFrame"></div>
+                <div id="modernTheme" class="themeFrame"></div>
+                <div id="gothicTheme" class="themeFrame"></div>
+                <button id="createPresBtn" class="blueBtn">Create presentation</button>
+            </div>
+        </div>
+
     </body>
     <script src="../js/overview.js"></script>
 </html>

@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <title>Edit account</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="../css/toolMain.css">
+        <link rel="stylesheet" type="text/css" href="../css/editaccount.css">
+    </head>
+    <body>
+        <div>
+            <ul>
+                <li class="newPresBtn"><button id="newPresBtn">New presentation</button></li>
+                <li><a href="#" id="signoutBtn">Sign out</a></li>
+                <li><a href="#" id="overviewBtn">Overview</a></li>
+            </ul>
+        </div>
+        <div class="mainCont">
+            <h1>Edit Your account</h1>
+            <input id="changeEmailInp">
+            <br><br>
+            <input id="changeUsernameInp">
+            <br><br>
+            <input id="changePasswordInp" type="password" placeholder="Change password">
+            <br><br>
+            <input id="confirmPasswordInp" type="password" placeholder="Confirm password">
+            <br><br>
+            <button id="deleteAccountBtn" class="redBtn">Delete account</button>
+            <button id="saveChangesBtn" class="blueBtn">Save changes</button>
+            <p id="txtOut" style="visibility: hidden;">Server output</p>
+        </div>
+
+        <!-- The Modal -->
+        <div id="deleteModal" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Are you shure you want to delete your account?</p>
+            <input id="modalPsw" type="password" placeholder="Password">
+            <button id="modalDeleteBtn" class="redBtn">Delete accounte</button>
+            </div>
+        
+        </div>
+    </body>
+    <script src="../js/editaccount.js"></script>
+</html>

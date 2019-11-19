@@ -1,28 +1,26 @@
-.editModeTxtField{
-    border: 1px solid black;
-    width: 500px;
-    height: 300px;
-    margin-left: auto;
-    margin-right: auto;
+/* --- CSS for the slide containers ---------------------- */
+
+.titleSlideContainer {
     text-align: center;
+    position: relative;
+    margin-top: 18%;
+    padding: 0px 10% 0px 10%;
 }
 
-/* CSS for titleSlide */
+.slideContainer {
+    display: grid;
+    grid-template-areas: 
+        'headline headline'
+        'left right';
+    grid-gap: 40px;
+    padding: 40px;
+    grid-template-rows: auto 400px;
+    grid-template-columns: 1fr 1fr;
+}
+
+/* --- CSS for elements in the title slide -------------- */
 
 .title {
-
-}
-
-.titleSlideContainerDiv {
-    text-align: center;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-}
-
-.titleFrame {
     border: 1px solid black;
     margin-bottom: 10px;
     font-size: 48pt;
@@ -36,68 +34,22 @@
     padding: 20px;
 }
 
-/* CSS for textAndImageSlide */
+/* --- CSS for elements in the other slides ------------- */
 
-.txtAndImgContainerDiv {
-    display: grid;
-    grid-template-areas: 
-        'headline headline'
-        'imgFrame textField';
-    grid-gap: 40px;
-    padding: 40px;
-    grid-template-rows: auto 400px;
-    grid-template-columns: 1fr 1fr;
-}
-
-.headlineContainer{
+.slideContainer>.title {
+    text-align: center;
     grid-area: headline;
     border: 1px solid black;
-    font-size: 42pt;
-    font: bold;
-    text-align: center;
-    padding: 20px 60px 20px 60px;
 }
 
-.imgContainer {
-    grid-area: imgFrame;
-    border: 1px solid black;
-}
-
-.txtContainer {
-    grid-area: textField;
+.leftFrame {
+    grid-area: left;
     font-size: x-large;
     border: 1px solid black;
 }
 
-/* CSS for listSlide */
-
-.listContainerDiv {
-    display: grid;
-    grid-template-areas: 
-        'liSlideHeadline liSlideHeadline'
-        'liSlideTxt1 liSlideTxt2';
-    grid-gap: 40px;
-    padding: 40px;
-    grid-template-rows: auto 400px;
-}
-
-.liHeadlineContainer{
-    grid-area: liSlideHeadline;
-    border: 1px solid black;
-    font-size: 42pt;
-    font: bold;
-    text-align: center;
-    padding: 20px 60px 20px 60px;
-}
-
-.liTextField1 {
-    grid-area: liSlideTxt1;
-    font-size: x-large;
-    border: 1px solid black;
-}
-
-.liTextField2 {
-    grid-area: liSlideTxt2;
+.rightFrame {
+    grid-area: right;
     font-size: x-large;
     border: 1px solid black;
 }
