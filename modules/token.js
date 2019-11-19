@@ -23,4 +23,12 @@ const checkToken = function (req, res, next) {
     }
 };
 
-module.exports = checkToken;
+function getUserIDFromToken(token) {
+    logindata = jwt.verify(token, secretSash.secret);
+
+    return logindata.userID;
+}
+module.exports = {
+    checkToken:checkToken,
+    getUserIDFromToken: getUserIDFromToken
+};
