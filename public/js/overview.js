@@ -74,6 +74,17 @@ function listPresentations (preName, preDate, prePreview){
     name.innerHTML = preName;
     date.innerHTML = preDate;
     
+    let editbtn = presTemplate.content.querySelectorAll("a")[0];
+    let viewbtn = presTemplate.content.querySelectorAll("a")[1];
+    let sharebtn = presTemplate.content.querySelectorAll("a")[2];
+    
     let div = presTemplate.content.cloneNode(true);
     presListCont.appendChild(div);
 }
+
+document.body.addEventListener("click", evt => {
+    if(evt.target.innerHTML == "View"){
+        window.location.href = "viewmode.html"
+    }
+});
+    

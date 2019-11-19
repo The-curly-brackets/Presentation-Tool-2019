@@ -1,5 +1,12 @@
 const newSlideBtn = document.getElementById("newSlideBtn");
-const txtFiledBtn = document.getElementById("txtFiledBtn");
+const numberListBtn = document.getElementById("numberListBtn");
+const bulletListBtn = document.getElementById("bulletListBtn");
+
+const imgFileInp = document.getElementById('imgFileInp')
+const imgUpInp = document.getElementById("imgUpInp").addEventListener("click", evt => imgFileInp.click());
+
+const backgroundImgInp = document.getElementById('backgroundImgInp')
+const backgroundImgBtn = document.getElementById("backgroundImgBtn").addEventListener("click", evt => backgroundImgInp.click());
 
 const titleSlideBtn = document.getElementById("titleSlideBtn");
 const txtAndImageSlideBtn = document.getElementById("txtAndImageSlideBtn");
@@ -15,6 +22,7 @@ const listSlideTemplate = document.getElementById("listSlideTemplate");
 const slidePreviewCont = document.getElementById("allSlidesPreviewCont");
 const editSlideCont = document.getElementById("editSlideCont");
 
+let token = JSON.parse(sessionStorage.getItem("logindata")).token;
 
 // --- Classes ---------------------------------------------------
 
@@ -106,8 +114,10 @@ class Slide {
 // ---------------------------------------------------------------------
 
 let lastClickedElm;
-let currentSlide = 0;
+let currentSlide = 1;
+let lastClickedSlide; 
 let presentation = {id: 28, name: "", date: "", theme: "", slides: [], visibility: 0};
+
 // initialize();
 
 // Fetches the last modified presentation from localStorage and DB
@@ -121,7 +131,10 @@ async function initialize() {
 
     let cfg = {
         method: "GET",
-        headers: {"Content-Type": "application/json"}
+        headers: {
+            "Content-Type": "application/json",
+            "authorization": token
+        }
     };
     let dbPresentation = null;
     let localPresentation = null;
@@ -139,6 +152,7 @@ async function initialize() {
         if (presentation.slides.length === 0) {
             presentation.slides.push(new Slide("title"));
         }
+        slidePreviews();
     } catch (err) {
         console.log(err)
     }
@@ -150,14 +164,29 @@ async function initialize() {
     }
 }
 
-setup();
-function setup() {
-    for(let i = 0; i < 1; i++){
+function slidePreviews () {
+    slidePreviewCont.innerHTML = "";
+    for(let i = 1; i <= presentation.slides.length; i++){ 
         let slidePreviewDiv = document.createElement("div");
         slidePreviewDiv.className = "slidePreview";
+        slidePreviewDiv.innerHTML = i;
+        slidePreviewDiv.addEventListener("click", navigateSlide)
         slidePreviewCont.appendChild(slidePreviewDiv);
     }
+}
 
+function navigateSlide(evt){
+    if(lastClickedSlide){
+        lastClickedSlide.style.border = "1px solid black";
+    }
+    currentSlide = evt.target.innerHTML;
+    evt.target.style.border = "1px solid #2f71e3";
+    lastClickedSlide = evt.target;
+}
+
+setup();
+
+function setup() {
 
     // ------------- Sets the height and width for the edit slide div-container ---------------
 
@@ -165,7 +194,7 @@ function setup() {
 
     slidePreviewCont.style.height = bodyHeight - 80 - 30; // This sets the height for the div with the slides previews. The heghit is bodyheight-toolbarheight-padding.
 
-    let slideHeight = bodyHeight - 80 - 30;
+    let slideHeight = bodyHeight - 150 - 30;
     let slideWidth = (slideHeight/9) * 16;
 
     let slideMaxWidth = document.body.clientWidth - 200;
@@ -192,7 +221,10 @@ saveBtn.addEventListener('click', async evt => {
 
     let cfg = {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
+        headers: {
+            "Content-Type": "application/json",
+            "authorization": token
+        },
         body: JSON.stringify(updata)
     };
 
@@ -210,6 +242,7 @@ newSlideBtn.addEventListener('click', evt => {
     editSlideCont.innerHTML = "";
     createTxtAndImgSlide();
     currentSlide++;
+    slidePreviews();
 });
 
 backBtn.addEventListener('click', evt => {
@@ -228,16 +261,16 @@ titleSlideBtn.addEventListener('click', evt => {
     createTitleSlide();
 });
 
-txtFiledBtn.addEventListener('click', evt => {
-    createTextField();
+numberListBtn.addEventListener('click', evt => {
+    
+});
+
+bulletListBtn.addEventListener('click', evt => {
+
 });
 
 
 // --- Functions ------------------------------------------------------
-
-function makeList() {
-    lastClickedElm.innerHTML = `<ul><li>Your text here ...</li></ul>`;
-}
 
 function createListSlide() {
     editSlideCont.innerHTML = "";

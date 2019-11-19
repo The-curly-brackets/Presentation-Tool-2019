@@ -29,21 +29,32 @@ router.post("/login", async function(req, res, next){
 
 
 // Get the users details for now returns the whole object stored in the database
-router.get("/:userID", async function (req, res, next) {
-    let userID = req.params.userID.split(":");
-    db.getUserByID(userID[1]).then(user => {
-        if (user) {
-            res.status(200).send(user)
-        } else {
-            res.status(404).send("userID non-existing");
+router.get("/", async function (req, res, next) {
+    let token = req.headers['authorization'];
+    if(token){
+        try{
+            logindata = jwt.verify(token, badWolf.seceret);
+            let userID = logindata.userid;
+
+            db.getUserByID(userID).then(user => {
+                if (user) {
+                    res.status(200).send(user)
+                } else {
+                    res.status(404).send("userID non-existing");
+                }
+            }).catch(err => res.status(500).send(err));
         }
-    }).catch(err => res.status(500).send(err));
+        catch(err){
+            res.status(403).json({msg: "Not a valid token"});
+        }
+    }
+    
 });
 
 // Updates an existing users username, email or password
-router.put("/:userID", async function(req, res, next) {
+router.put("/", async function(req, res, next) {
     let token = req.headers['authorization'];
-
+    
     if (token){
         try{
             logindata = jwt.verify(token, badWolf.seceret);
@@ -99,7 +110,7 @@ router.put("/:userID", async function(req, res, next) {
 });
 
 // Deletes an existing user
-router.delete("/:userID", async  function(req, res, next) {
+router.delete("/", async  function(req, res, next) {
     let token = req.headers['authorization'];
     if (token){
         try {

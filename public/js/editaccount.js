@@ -14,7 +14,6 @@ const modalPsw = document.getElementById("modalPsw");
 const modalDeleteBtn = document.getElementById("modalDeleteBtn");
 
 let token = JSON.parse(sessionStorage.getItem("logindata")).token;
-let userID = 48; // Enten hente ID-en fra logindata, eller hente id på server siden fra token???
 let newAccountInfo = {};
 getUserInfo();
 
@@ -46,7 +45,7 @@ function hidetxtOut(){
 
 async function getUserInfo(){
 
-    let url = `http://localhost:8080/users/:${userID}`
+    let url = `http://localhost:8080/users/`
     
     let cfg = {
         method: "GET",
@@ -78,7 +77,7 @@ overviewBtn.addEventListener("click", evt => window.location.href = "overview.ht
 
 saveChangesBtn.addEventListener("click", async evt => {
     
-    let url = `http://localhost:8080/users/:${userID}`;
+    let url = `http://localhost:8080/users/`;
 
     if(changePasswordInp.value === confirmPasswordInp.value){
         txtOut.style.visibility = "hidden";
@@ -148,7 +147,7 @@ window.onclick = function(event) {
 
 modalDeleteBtn.addEventListener("click", async evt => {
     if(modalPsw.value){
-        let url = `http://localhost:8080/users/:${userID}`;
+        let url = `http://localhost:8080/users/`;
 
         let cfg = {
             method: "DELETE",

@@ -11,6 +11,17 @@ router.post("/newPresentation", async function(req, res, next){
     
 });
 
+router.get("/:presID", async function(req, res, next){
+    db.getPresentationById(req.params.presID).then(presentation => {
+        
+        if(presentation){
+            res.status(200).json({pres: presentation});
+        }else{
+            res.status(400).json({msg: "error"})
+        }
+    }).catch(err => res.status(500).send(err));
+})
+
 router.post("/getPresentationByID", async function(req, res, nex){
     db.getPresentationById("10").then(presentation => {
         

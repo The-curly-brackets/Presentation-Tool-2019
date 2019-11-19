@@ -170,17 +170,20 @@ body{
 #allSlidesPreviewCont{
     float: left;
     margin: 10px;
-    max-width: 152px;
+    max-width: 162px;
     height: 720px;
     overflow: scroll;
 }
 
 .slidePreview{
-    width: 150px;
-    height: 100px;
+    width: 160px;
+    height: 90px;
     background-color: white;
     border: 1px solid black;
     margin-bottom: 20px;
+    font-size: xx-large;
+    text-align: center;
+    
 }
 
 /* ------------- */
