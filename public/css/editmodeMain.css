@@ -1,0 +1,197 @@
+body{
+    background-color: #ebebeb;
+}
+
+/* ------------------------------- */
+
+#toolBarDiv{
+    max-width: 100%;
+    min-height: 80px;
+    background-color: white;
+    padding: 5px;
+}
+
+.toolBarCont{
+    float: left;
+    margin-left: 5px;
+    padding: 10px;
+}
+
+/* ------------------------------- */
+
+#slideTools{
+    margin-top: 10px;
+    font-size: small;
+    background-color: #ebebeb;
+    height: 42px;
+}
+
+#slideTools> a {
+    font-size: x-large;
+    color:black;
+    text-decoration: none;
+    padding: 10px 10px;
+}
+
+/* ------------- */
+
+#items{
+    margin-top: 10px;
+    font-size: small;
+    background-color: #ebebeb;
+    height: 42px;
+}
+
+#items> button{
+    font-size: small;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 10px 10px;
+}
+
+#items> input {
+    font-size: small;
+    width: 180px;
+}
+
+/* ------------- */
+
+#textEditTools{
+    margin-top: 10px;
+    font-size: small;
+    background-color: #ebebeb;
+    height: 42px;
+}
+
+#textEditTools> select{
+    margin-right: 10px;
+}
+
+#textEditTools> button.nbi{
+    font-size: small;
+    border: none;
+    border-bottom: 1px solid black;
+    background-color: #ebebeb;
+    width: 30px;
+    padding: 10px;
+}
+
+#textEditTools> button.lcr{
+    font-size: small;
+    border: none;
+    background-color: #ebebeb;
+    width: 30px;
+    padding: 5px;
+}
+
+#textEditTools> label{
+    margin-left: 20px;
+}
+
+#textEditTools> input{
+    background-color: #ebebeb;
+    margin-right: 20px;
+}
+
+/* ------------- */
+
+#typeOfSlides{
+    margin-top: 10px;
+    font-size: small;
+    background-color: #ebebeb;
+    height: 52px;
+    padding: 5px;
+}
+
+#typeOfSlides> div{
+    background-color: white;
+    text-align: center;
+    float: left;
+    margin-left: 5px;
+    margin-right: 5px;
+    width: 75px;
+    height: 52px;
+    font-size: large
+}
+
+/* ------------- */
+
+#setSlidebackgroundDiv{
+    padding-top: 5px;
+    margin-top: 10px;
+    font-size: small;
+    background-color: #ebebeb;
+    height: 47px;
+}
+
+#setSlidebackgroundDiv> label{
+    
+    font-size: small;
+}
+
+#setSlidebackgroundDiv> input{
+    background-color: #ebebeb;
+}
+
+#backgroundImgInp{
+    width: 180px;
+}
+
+/* ------------- */
+
+#navBtnsCont{
+    float: right;
+    padding-top: 10px;
+    margin-top: 10px;
+    font-size: small;
+    background-color: #ebebeb;
+    height: 42px;
+}
+
+#navBtnsCont> button{
+    font-size: small;
+    background-color: black;
+    color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 10px 10px;
+}      
+
+/* ------------------------------- */
+
+#underToolBarDiv {
+    width: 100%;
+    float: left;
+}
+
+/* ------------- */
+
+#allSlidesPreviewCont{
+    float: left;
+    margin: 10px;
+    max-width: 162px;
+    height: 720px;
+    overflow: scroll;
+}
+
+.slidePreview{
+    width: 160px;
+    height: 90px;
+    background-color: white;
+    border: 1px solid black;
+    margin-bottom: 20px;
+    font-size: xx-large;
+    text-align: center;
+    
+}
+
+/* ------------- */
+
+#editSlideCont{
+    float: left;
+    width: 1280px;
+    height: 720px;
+    margin: 10px;
+    background-color: white;
+}

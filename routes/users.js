@@ -18,24 +18,99 @@ const bcrypt = require('bcrypt');
 
 // Get the users details for now returns the whole object stored in the database
 // router.get("/:userID", tokenProtect); // This endPoint is 'login' protected
-router.get("/:userID", async function (req, res, next) {
-    db.getUserByID(req.params.userID).then(user => {
-        if (user) {
-            res.status(200).send(user)
-        } else {
-            res.status(404).send("userID non-existing");
+router.get("/", async function (req, res, next) {
+    let token = req.headers['authorization'];
+
+    if (token) {
+        try {
+            let userID = tokenProtect.getUserIDFromToken(token);
+
+            db.getUserByID(userID).then(user => {
+                if (user) {
+                    res.status(200).send(user)
+                } else {
+                    res.status(404).send("userID non-existing");
+                }
+            });
+        } catch (err) {
+            res.status(403).json({msg: "Not a valid token"});
         }
-    }).catch(err => res.status(500).send(err));
+    } else {
+        res.status(403).json({msg: "No token"});
+    }
 });
 
-// Updates an existing user
-router.put("/:userID", async function (req, res, next) {
+// Updates an existing users username, email or password
+router.put("/", async function (req, res, next) {
+    let token = req.headers['authorization'];
 
+    if (token) {
+        try {
+            let userID = tokenProtect.getUserIDFromToken(token);
+
+            if (req.body.username) {
+                db.getUserByUsername(req.body.username).then(userExist => {
+
+                    if (!userExist) {
+                        db.updateUsername(userID, req.body.username).then(user => {
+                            if (user) {
+                                res.status(200).send(user);
+                            }
+                        }).catch(err => res.status(500).send(err));
+                    }
+
+                    if (userExist.id !== req.body.userid) {
+                        res.status(404).json({msg: "Username is alredy taken"});
+                    } else {
+                        console.log("your username");
+                    }
+
+                });
+            }
+
+            if (req.body.email) {
+                db.updateUserEmail(userID, req.body.email).then(user => {
+                    if (user) {
+                        res.status(200).send(user);
+                    } else {
+                        res.status(404).json({msg: "user dosn't exsist"})
+                    }
+                }).catch(err => res.status(500).send(err));
+            }
+
+            if (req.body.password) {
+                let pswhash = bcrypt.hashSync(req.body.password, 10);
+                db.updateUserPassword(userID, pswhash).then(user => {
+                    if (user) {
+                        res.status(200).send(user);
+                    } else {
+                        res.status(404).json({msg: "user dosn't exsist"})
+                    }
+                }).catch(err => res.status(500).send(err));
+            }
+
+        } catch (err) {
+            res.status(403).json({msg: "Not a valid token"});
+        }
+    } else {
+        res.status(403).json({msg: "No token"});
+    }
 });
 
 // Deletes an existing user
-router.delete("/:userID", async function (req, res, next) {
+router.delete("/", async function (req, res, next) {
+    let token = req.headers['authorization'];
+    if (token) {
+        try {
+            let userID = tokenProtect.getUserIDFromToken(token);
 
+            db.deleteUserAccount(userID).then(user => {
+                res.status(200).json({msg: "Account is deleted"})
+            }).catch(err => res.status(500).send(err));
+        } catch (err) {
+            console.log(err);
+        }
+    }
 });
 
 // Receives a user object and creates an account in the db from it

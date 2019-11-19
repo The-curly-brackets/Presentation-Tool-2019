@@ -1,0 +1,60 @@
+body {
+    background-color: #ebebeb;
+    color: #3e3e3e;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #3e3e3e;
+}
+
+ul>li {
+    float: right;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: black;
+}
+
+.newPresBtn {
+    float: left;
+}
+
+#newPresBtn {
+    background-color: #3e3e3e;
+    color: white;
+    padding: 10px;
+    border: none;
+    font-size: large;
+}
+
+#newPresBtn:hover{
+    background-color: black;
+}
+
+.mainCont{
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    text-align: center;
+    background-color: white;
+    padding-top: 40px;
+    padding-bottom: 60px;
+}
+
+input{
+    width: 400px;
+}
+

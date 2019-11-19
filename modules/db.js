@@ -61,11 +61,24 @@ const db = function (dbConnectionString) {
         return await runQuery('DELETE FROM presentation WHERE presentationId = $1', [presentationID]);
     };
 
-    const createPresentation = async function (userID) {
-        return await runQuery("INSERT INTO presentation (presentation, visibility) VALUES ('{}', '1') RETURNING id").then(presentationID => {
+    const createPresentation = async function (userID, presentation) {
+        return await runQuery("INSERT INTO presentation (presentation, visibility) VALUES ($1, '1') RETURNING id", [presentation]).then(presentationID => {
             return runQuery('INSERT INTO "user_isAuthor_presentation" ("userId", "presentationId") VALUES ($1, $2) RETURNING "presentationId"', [userID, presentationID.id])
         });
     };
+
+    const updateUsername = async function(userID, username){
+        return await runQuery('UPDATE users SET username = $2 WHERE id = $1 RETURNING *', [userID, username]);
+    };
+
+    const updateUserEmail = async function(userID, email){
+        return await runQuery('UPDATE users SET email = $2 WHERE id = $1 RETURNING *', [userID, email]);
+    };
+
+    const updateUserPassword = async function(userID, pswhash){
+        return await runQuery('UPDATE users SET password = $2 WHERE id = $1 RETURNING *', [userID, pswhash]);
+    };
+
     return {
         getUserByID: getUserByID,
         getUserByNameAndPassword: getUserByNameAndPassword,
@@ -75,8 +88,12 @@ const db = function (dbConnectionString) {
         checkUserIsAuthor: checkUserIsAuthor,
         updateExistingPresentation: updateExistingPresentation,
         deleteExistingPresentation: deleteExistingPresentation,
-        createPresentation: createPresentation
+        createPresentation: createPresentation,
+        updateUsername: updateUsername,
+        updateUserEmail: updateUserEmail,
+        updateUserPassword: updateUserPassword
     }
+
 };
 
 module.exports = db;

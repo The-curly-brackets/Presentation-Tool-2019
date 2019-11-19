@@ -1,0 +1,44 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>View mode</title>
+        <link rel="stylesheet" type="text/css" href="../css/toolMain.css">
+        <link rel="stylesheet" type="text/css" href="../css/viewmode.css">
+        <link rel="stylesheet" type="text/css" href="../css/viewpresentation.css">
+    </head>
+    <body>
+        <div id="navBar">
+            <button id="backBtn" class="left">Back</button>
+            <button id="previusBtn">Previus</button>
+            <button id="nextBtn">Next</button>
+            <button id="fullscreenBtn" class="right">Fullscreen</button>
+        </div>   
+        
+        <div id="slideFrame"></div>
+
+        <template id="titleSlide">
+            <div class="titleSlideContainer">
+                <div class="title"></div>
+                <div class="byFrame"></div>
+            </div>
+        </template>
+
+        <template id="txtAndImgTemplate">
+            <div class="slideContainer">
+                <div class="title"></div>
+                <div class="leftFrame"><img></div>
+                <div class="rightFrame"></div>
+            </div>
+        </template>
+
+        <template id="listSlideTemplate">
+            <div class="slideContainer">
+                <div class="title"></div>
+                <div class="leftFrame"></div>
+                <div class="rightFrame"></div>
+            </div>
+        </template>
+
+    </body>
+    <script src="../js/viewmode.js"></script>
+</html>
