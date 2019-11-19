@@ -29,6 +29,10 @@ input{
     border-bottom: 1px solid rgb(141, 141, 141);
 }
 
+.active {
+  border: 1px solid #2f71e3;
+}
+
 /* The Modal (background) */
 .modal {
     display: none; /* Hidden by default */
