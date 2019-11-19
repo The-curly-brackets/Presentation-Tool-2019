@@ -16,32 +16,31 @@ createAccountBtn.addEventListener("click", evt => {
 });
 
 async function createAccount (){
-    let url = "http://localhost:8080/users/newAccount";
+    let url = "http://localhost:8080/users/";
 
     let updata =  {
         username: userNameInp.value,
         email: emailInp.value,
         password: passwordInp.value
-    }
+    };
 
     let cfg = {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(updata)
-    }
+    };
 
     try {
         let resp = await fetch(url, cfg);
         let data = await resp.json();
-            
-        if(resp.status > 200){
+
+        if (resp.status > 200) {
             throw(data);
-        };
-            
+        }
+        console.log(data);
         sessionStorage.setItem("logindata", JSON.stringify(data));
         window.location.href = "../html/overview.html";
-    }
-    catch (err) {
+    } catch (err) {
         console.log(err);
     }
 }

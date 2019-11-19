@@ -1,4 +1,5 @@
 const pg = require("pg");
+const bcrypt = require('bcrypt');
 
 const db = function (dbConnectionString) {
 
@@ -20,58 +21,79 @@ const db = function (dbConnectionString) {
             });
     }
 
-    const getUserByUsername = async function (username){
+    const getUserByUsername = async function (username) {
         return await runQuery("SELECT * FROM users WHERE username = $1", [username]);
-    }
+    };
 
     const getUserByID = async function (userID) {
         return await runQuery('SELECT * FROM users WHERE id = $1', [userID]);
     };
 
-    const makeUserAccount = async function (username, email, pswhash){
+    const getUserByNameAndPassword = async function (username, password) {
+        let payload = null;
+        return await runQuery('SELECT * FROM users WHERE username = $1', [username])
+            .then(user => {
+                payload = user;
+                return bcrypt.compare(password, user.password);
+            }).then(resp => {
+                payload.valid = resp;
+                return payload;
+            });
+    };
+
+    const makeUserAccount = async function (username, email, pswhash) {
         return await runQuery('INSERT INTO users (id, username, email, password) VALUES(DEFAULT, $1, $2, $3) RETURNING *', [username, email, pswhash]);
-    }
+    };
+
+    const getPresentationById = async function (presentationID) {
+        return await runQuery('SELECT * FROM presentation WHERE id = $1', [presentationID]);
+    };
+
+    const checkUserIsAuthor = async function (userID, presentationID) {
+        return await runQuery('SELECT * FROM user_isAuthor_presentation WHERE userId = $1 AND presentationId = $2', [userID, presentationID]);
+    };
+
+    const updateExistingPresentation = async function (presentation, presentationID) {
+        return await runQuery('UPDATE presentation SET presentation = $1 WHERE presentationId = $2', [presentation, presentationID]);
+    };
+
+    const deleteExistingPresentation = async function (presentationID) {
+        return await runQuery('DELETE FROM presentation WHERE presentationId = $1', [presentationID]);
+    };
+
+    const createPresentation = async function (userID, presentation) {
+        return await runQuery("INSERT INTO presentation (presentation, visibility) VALUES ($1, '1') RETURNING id", [presentation]).then(presentationID => {
+            return runQuery('INSERT INTO "user_isAuthor_presentation" ("userId", "presentationId") VALUES ($1, $2) RETURNING "presentationId"', [userID, presentationID.id])
+        });
+    };
 
     const updateUsername = async function(userID, username){
         return await runQuery('UPDATE users SET username = $2 WHERE id = $1 RETURNING *', [userID, username]);
-    }
+    };
 
     const updateUserEmail = async function(userID, email){
         return await runQuery('UPDATE users SET email = $2 WHERE id = $1 RETURNING *', [userID, email]);
-    }
+    };
 
     const updateUserPassword = async function(userID, pswhash){
         return await runQuery('UPDATE users SET password = $2 WHERE id = $1 RETURNING *', [userID, pswhash]);
-    }
-
-    const deleteUserAccount = async function(userID){
-        return await runQuery('DELETE FROM users WHERE id = $1', [userID]);
-    }
-
-    const makeNewPresentation = async function(presentation, visibility){
-        return await runQuery('INSERT INTO presentation (id, presentation, visibility) VALUES(DEFAULT, $1, $2) RETURNING *', [presentation, visibility])
-    }
-
-    const getPresentationById = async function(presentationId){
-        return await runQuery('SELECT * FROM presentation WHERE id = $1', [presentationId]);
-    }
-
-    const updatePresentation = async function(presentationID, presentationObj){
-        return await runQuery('UPDATE presentation SET presentation = $2 WHERE id = $1 RETURNING *', [presentationID, presentationObj]);
-    }
+    };
 
     return {
-        getUserByUsername: getUserByUsername,
         getUserByID: getUserByID,
-        makeUserAccount: makeUserAccount,
-        makeNewPresentation: makeNewPresentation,
+        getUserByNameAndPassword: getUserByNameAndPassword,
+        getUserByUsername: getUserByUsername,
         getPresentationById: getPresentationById,
-        updatePresentation: updatePresentation,
+        makeUserAccount: makeUserAccount,
+        checkUserIsAuthor: checkUserIsAuthor,
+        updateExistingPresentation: updateExistingPresentation,
+        deleteExistingPresentation: deleteExistingPresentation,
+        createPresentation: createPresentation,
         updateUsername: updateUsername,
         updateUserEmail: updateUserEmail,
-        updateUserPassword: updateUserPassword,
-        deleteUserAccount: deleteUserAccount
+        updateUserPassword: updateUserPassword
     }
+
 };
 
 module.exports = db;

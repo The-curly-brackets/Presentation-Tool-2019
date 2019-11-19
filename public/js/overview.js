@@ -6,7 +6,23 @@ const createPresBtn = document.getElementById("createPresBtn");
 
 const newPresModal = document.getElementById("newPresModal");
 const closeModal = document.getElementsByClassName("close")[0];
+const basicTheme = document.getElementById("basicTheme").addEventListener("click", selectTheme);
+const modernTheme = document.getElementById("modernTheme").addEventListener("click", selectTheme);
+const traditionalTheme = document.getElementById("traditionalTheme").addEventListener("click", selectTheme);
 
+let lastTheme = basicTheme;
+let theme = "basic";
+
+function selectTheme(evt){
+
+    if(lastTheme){
+        lastTheme.style.border = "1px solid black";
+    }
+
+    theme = evt.target.innerHTML;
+    evt.target.style.border = "1px solid #2f71e3";
+    lastTheme = evt.target;
+}
 
 listPresentations("My Presentation", "16.11.19", "");
 
@@ -30,12 +46,12 @@ window.onclick = function(event) {
 
 createPresBtn.addEventListener('click', async evt => {
 
-    let url = "http://localhost:8080/presentations/newPresentation";
+    let url = "http://localhost:8080/presentations/";
 
     let updata =  {
         name: "",
         date: "",
-        theme: "",
+        theme: theme,
         slides: []
     }
 
@@ -51,9 +67,9 @@ createPresBtn.addEventListener('click', async evt => {
     try {
         let resp = await fetch(url, cfg);
         let data = await resp.json();
-        
-        localStorage.setItem("presentation", JSON.stringify(data));
-        window.location.href = "../html/editmode.html";
+        Object.assign(updata, data);
+        localStorage.setItem("presentation", JSON.stringify(updata));
+        window.location.href = "editmode.html";
     }
     catch (err) {
         console.log(err);
@@ -87,4 +103,3 @@ document.body.addEventListener("click", evt => {
         window.location.href = "viewmode.html"
     }
 });
-    

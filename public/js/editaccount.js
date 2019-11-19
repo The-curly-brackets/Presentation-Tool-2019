@@ -51,7 +51,7 @@ async function getUserInfo(){
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            "authorization": token
+            "Authorization": token
         },
     }
 
@@ -59,6 +59,7 @@ async function getUserInfo(){
         let resp = await fetch(url, cfg);
         let data = await resp.json();
 
+        console.log(data);
         changeEmailInp.value = data.email;
         changeUsernameInp.value = data.username;
     }
