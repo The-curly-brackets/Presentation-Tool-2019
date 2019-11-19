@@ -118,7 +118,7 @@ let currentSlide = 0;
 let lastClickedSlide; 
 let presentation;
 
-startup();
+//startup();
 
 function startup (){
     presentation = JSON.parse(localStorage.getItem("presentation"));
@@ -129,7 +129,7 @@ function startup (){
     slidePreviewCont.childNodes[0].click();
 }
 
-// initialize();
+initialize();
 
 // Fetches the last modified presentation from localStorage and DB
 
@@ -147,31 +147,16 @@ async function initialize() {
             "authorization": token
         }
     };
-    let dbPresentation = null;
-    let localPresentation = null;
 
     try {
         let resp = await fetch(url, cfg);
-        dbPresentation = await resp.json();
+        let data = await resp.json();
+        presentation = data.presentation;
     } catch (err) {
         console.log(err);
     }
-
-    try {
-        localPresentation = JSON.parse(localStorage.getItem("presentation"));
-
-        if (presentation.slides.length === 0) {
-            presentation.slides.push(new Slide("title"));
-        }
+    if (presentation.slides.length > 0) {
         slidePreviews();
-    } catch (err) {
-        console.log(err)
-    }
-
-    if (dbPresentation.lastEdited <= localPresentation.lastEdited) {
-        presentation = dbPresentation;
-    } else {
-        presentation = localPresentation;
     }
 }
 
@@ -228,20 +213,17 @@ function setup() {
 
 saveBtn.addEventListener('click', async evt => {
     // TODO: Factorize it with other queries and add an independent function
-    let url = "http://localhost:8080/presentations/updatePresentation";
-
-    let updata = {
-        presID: presentation.id,
-        pres: presentation
-    };
+    let urlParams = new URLSearchParams(window.location.search);
+    let id = urlParams.get('id');
+    let url = "http://localhost:8080/presentations/" + id;
 
     let cfg = {
-        method: "POST",
+        method: "PUT",
         headers: {
             "Content-Type": "application/json",
             "authorization": token
         },
-        body: JSON.stringify(updata)
+        body: JSON.stringify(presentation)
     };
 
     try {
