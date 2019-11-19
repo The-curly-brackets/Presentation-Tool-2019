@@ -13,7 +13,11 @@ const db = function (dbConnectionString) {
 
         return client.query(query, params)
             .then(res => {
-                return res.rows[0];
+                if (res.rows.length > 1) {
+                    return res.rows;
+                } else {
+                    return res.rows[0];
+                }
             })
             .then((data) => {
                 client.end();
@@ -50,11 +54,11 @@ const db = function (dbConnectionString) {
     };
 
     const checkUserIsAuthor = async function (userID, presentationID) {
-        return await runQuery('SELECT * FROM user_isAuthor_presentation WHERE userId = $1 AND presentationId = $2', [userID, presentationID]);
+        return await runQuery('SELECT * FROM "user_isAuthor_presentation" WHERE "user_isAuthor_presentation"."userId" = $1 AND "user_isAuthor_presentation"."presentationId" = $2', [userID, presentationID]);
     };
 
     const updateExistingPresentation = async function (presentation, presentationID) {
-        return await runQuery('UPDATE presentation SET presentation = $1 WHERE presentationId = $2', [presentation, presentationID]);
+        return await runQuery('UPDATE presentation SET presentation = $1 WHERE id = $2 RETURNING id', [presentation, presentationID]);
     };
 
     const deleteExistingPresentation = async function (presentationID) {
@@ -62,7 +66,7 @@ const db = function (dbConnectionString) {
     };
 
     const createPresentation = async function (userID, presentation) {
-        return await runQuery("INSERT INTO presentation (presentation, visibility) VALUES ($1, '1') RETURNING id", [presentation]).then(presentationID => {
+        return await runQuery("INSERT INTO presentation (presentation, visibility, name, date) VALUES (CAST($1 AS json), 1, $2, $3) RETURNING id", [presentation, presentation.name, presentation.date]).then(presentationID => {
             return runQuery('INSERT INTO "user_isAuthor_presentation" ("userId", "presentationId") VALUES ($1, $2) RETURNING "presentationId"', [userID, presentationID.id])
         });
     };
@@ -79,6 +83,10 @@ const db = function (dbConnectionString) {
         return await runQuery('UPDATE users SET password = $2 WHERE id = $1 RETURNING *', [userID, pswhash]);
     };
 
+    const getAllPresentationFromUser = async function(userId) {
+        return await runQuery('SELECT id, name, date FROM presentation INNER JOIN "user_isAuthor_presentation" ON presentation.id = "user_isAuthor_presentation"."presentationId" WHERE "user_isAuthor_presentation"."userId" = $1', [userId])
+    };
+
     return {
         getUserByID: getUserByID,
         getUserByNameAndPassword: getUserByNameAndPassword,
@@ -91,7 +99,8 @@ const db = function (dbConnectionString) {
         createPresentation: createPresentation,
         updateUsername: updateUsername,
         updateUserEmail: updateUserEmail,
-        updateUserPassword: updateUserPassword
+        updateUserPassword: updateUserPassword,
+        getAllPresentationFromUser: getAllPresentationFromUser
     }
 
 };
