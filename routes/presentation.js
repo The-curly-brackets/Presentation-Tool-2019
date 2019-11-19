@@ -36,7 +36,7 @@ router.post("/", async function (req, res, next) {
         let userID = getUserIDFromToken(token);
 
         db.createPresentation(userID).then(presentationID => {
-            res.status(200).send(`Successfully created empty presentation ${presentationID}`)
+            res.status(200).send(`Successfully created empty presentation ${presentationID.presentationId}`)
         }).catch(err => res.status(500).send(err));
     }});
 

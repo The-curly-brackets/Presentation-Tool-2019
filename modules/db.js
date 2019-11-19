@@ -63,7 +63,7 @@ const db = function (dbConnectionString) {
 
     const createPresentation = async function (userID) {
         return await runQuery("INSERT INTO presentation (presentation, visibility) VALUES ('{}', '1') RETURNING id").then(presentationID => {
-            runQuery("INSERT INTO user_isAuthor_presentation (userId, presentationId) VALUES ('$1', '$2') RETURNING presentationId", [userID, presentationID])
+            return runQuery('INSERT INTO "user_isAuthor_presentation" ("userId", "presentationId") VALUES ($1, $2) RETURNING "presentationId"', [userID, presentationID.id])
         });
     };
     return {
