@@ -46,6 +46,7 @@ li a:hover {
     margin-left: auto;
     margin-right: auto;
     text-align: center;
+    position: relative;
 }
 
 h1{
@@ -63,7 +64,8 @@ h1{
 }
 
 .presPreview{
-    float: left;
+    position: absolute;
+    left: 0;
     background-color: white;
     border: 1px solid black;
     width: 141px;
@@ -71,7 +73,8 @@ h1{
 }
 
 .presInfoDiv{
-    float: left;
+    position: absolute;
+    left: 150px;
 }
 
 .presFrame> div{
@@ -79,7 +82,8 @@ h1{
 }
 
 .toolBtnDiv{
-    float: right;
+    position: absolute;
+    right: 0;
 }
 
 div> a{
