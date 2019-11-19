@@ -1,7 +1,3 @@
-body{
-    background-color: #ebebeb;
-}
-
 /* Code for bar with new presentation, edit account and sign out */
 
 ul {
@@ -68,6 +64,10 @@ h1{
 
 .presPreview{
     float: left;
+    background-color: white;
+    border: 1px solid black;
+    width: 141px;
+    height: 80px;
 }
 
 .presInfoDiv{
@@ -94,3 +94,20 @@ div> a{
     margin-top: 20px;
 }
 
+div.themeFrame {
+    border: 1px solid black;
+    width: 160px;
+    height: 90px;
+    background-color: white;
+    float: left;
+    margin-right: 20px;
+}
+
+.modal-content>button {
+    float: left;
+    margin-top: 20px;
+}
+
+.modal-content {
+    height: 200px;
+}
