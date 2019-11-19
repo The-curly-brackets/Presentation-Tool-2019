@@ -114,20 +114,31 @@ class Slide {
 // ---------------------------------------------------------------------
 
 let lastClickedElm;
-let currentSlide = 1;
+let currentSlide = 0;
 let lastClickedSlide; 
-let presentation = {id: 28, name: "", date: "", theme: "", slides: [], visibility: 0};
+let presentation;
+
+startup();
+
+function startup (){
+    presentation = JSON.parse(localStorage.getItem("presentation"));
+    if (presentation.slides.length === 0) {
+        presentation.slides.push(new Slide("title"));
+    }
+    slidePreviews();
+    slidePreviewCont.childNodes[0].click();
+}
 
 // initialize();
 
 // Fetches the last modified presentation from localStorage and DB
+
 async function initialize() {
     // GET request to fetch presentation in db
     let urlParams = new URLSearchParams(window.location.search);
     let id = urlParams.get('id');
 
     let url = `http://localhost:8080/presentations/${id}`;
-
 
     let cfg = {
         method: "GET",
@@ -172,16 +183,20 @@ function slidePreviews () {
         slidePreviewDiv.innerHTML = i;
         slidePreviewDiv.addEventListener("click", navigateSlide)
         slidePreviewCont.appendChild(slidePreviewDiv);
+        lastClickedSlide = slidePreviewDiv;
     }
+    lastClickedSlide.style.border = "1px solid #2f71e3";
+    loadSlide();
 }
 
 function navigateSlide(evt){
     if(lastClickedSlide){
         lastClickedSlide.style.border = "1px solid black";
     }
-    currentSlide = evt.target.innerHTML;
+    currentSlide = evt.target.innerHTML - 1;
     evt.target.style.border = "1px solid #2f71e3";
     lastClickedSlide = evt.target;
+    loadSlide();
 }
 
 setup();
@@ -210,6 +225,7 @@ function setup() {
 }
 
 // --- EventListener ---------------------------------------------------
+
 saveBtn.addEventListener('click', async evt => {
     // TODO: Factorize it with other queries and add an independent function
     let url = "http://localhost:8080/presentations/updatePresentation";
@@ -239,9 +255,9 @@ saveBtn.addEventListener('click', async evt => {
 });
 
 newSlideBtn.addEventListener('click', evt => {
-    editSlideCont.innerHTML = "";
-    createTxtAndImgSlide();
-    currentSlide++;
+    presentation.slides.push(new Slide("txtAndImg"));
+    currentSlide = presentation.slides.length - 1;
+    loadSlide();
     slidePreviews();
 });
 
@@ -250,90 +266,78 @@ backBtn.addEventListener('click', evt => {
 });
 
 listSlideBtn.addEventListener('click', evt => {
-    createListSlide();
+    presentation.slides[currentSlide].slide.type = "listSlide";
+    loadSlide();
 });
 
 txtAndImageSlideBtn.addEventListener('click', evt => {
-    createTxtAndImgSlide();
+    presentation.slides[currentSlide].slide.type = "txtAndImg";
+    loadSlide();
 });
 
 titleSlideBtn.addEventListener('click', evt => {
-    createTitleSlide();
+    presentation.slides[currentSlide].slide.type = "title";
+    loadSlide();
 });
 
 numberListBtn.addEventListener('click', evt => {
-    
+    if(lastClickedElm){
+        lastClickedElm.innerHTML = lastClickedElm.innerHTML + "<ol><li>list</li></ol>";
+    }   
 });
 
 bulletListBtn.addEventListener('click', evt => {
-
+    if(lastClickedElm){
+        lastClickedElm.innerHTML = lastClickedElm.innerHTML + "<ul><li>list</li></ul>";
+    }  
 });
 
 
 // --- Functions ------------------------------------------------------
 
-function createListSlide() {
+function loadSlide(){
     editSlideCont.innerHTML = "";
-    let slide = new Slide("list");
-    slide.addBulletList();
-    presentation.slides.push(slide.getSlide());
+    let slide = presentation.slides[currentSlide].slide;
+    let divs;
+    let div;
+    
+    if (slide.type == "title"){
+        
+        divs = titleTemplate.content.querySelectorAll("div");
+        divs[1].innerHTML = slide.headline.text;
+        divs[2].innerHTML = slide.byLine.text;
+        div = titleTemplate.content.cloneNode(true);
 
-    let divs = listSlideTemplate.content.querySelectorAll("div");
-    let ul = listSlideTemplate.content.querySelectorAll("li");
+    } else if (slide.type == "txtAndImg") {
 
-    divs[1].innerHTML = slide.getSlide().headline.text;
-    ul[0].innerHTML = slide.getSlide().textBoxes[0].text[0];
-    ul[1].innerHTML = slide.getSlide().textBoxes[1].text[0];
+        divs = txtAndImgTemplate.content.querySelectorAll("div");
+        divs[1].innerHTML = slide.headline.text;
+        divs[2].innerHTML = `<img src="${slide.img.src}">`;
+        divs[3].innerHTML = slide.textBoxes[0].text;
+        div = txtAndImgTemplate.content.cloneNode(true);
 
-    let div = listSlideTemplate.content.cloneNode(true);
-    for (let i = 0; i < div.firstElementChild.children.length; ++i) {
-        div.firstElementChild.children[i].addEventListener('input', localSave);
+    } else if (slide.type == "listSlide") {
+
+        divs = listSlideTemplate.content.querySelectorAll("div");
+        divs[1].innerHTML = slide.headline.text;
+        divs[2].innerHTML = slide.textBoxes[0].text;
+        divs[3].innerHTML = slide.textBoxes[1].text;
+        div = listSlideTemplate.content.cloneNode(true);
+
     }
-    editSlideCont.appendChild(div);
-}
-
-function createTxtAndImgSlide() {
-    editSlideCont.innerHTML = "";
-    let slide = new Slide("txtAndImg");
-    slide.addText();
-    slide.addImg();
-    presentation.slides.push(slide.getSlide());
-
-    let divs = txtAndImgTemplate.content.querySelectorAll("div");
-    let img = txtAndImgTemplate.content.querySelector("img");
-
-    divs[1].innerHTML = slide.getSlide().headline.text;
-    divs[3].innerHTML = slide.getSlide().textBoxes[0].text;
-    img.src = slide.getSlide().img.src;
-
-    let div = txtAndImgTemplate.content.cloneNode(true);
+    
     for (let i = 0; i < div.firstElementChild.children.length; ++i) {
-        div.firstElementChild.children[i].addEventListener('input', localSave);
-    }
-    editSlideCont.appendChild(div);
-}
-
-function createTitleSlide() {
-    editSlideCont.innerHTML = "";
-    let slide = new Slide("title");
-    presentation.slides.push(slide.getSlide());
-
-    let divs = titleTemplate.content.querySelectorAll("div");
-    divs[1].innerHTML = slide.getSlide().headline.text;
-    divs[2].innerHTML = slide.getSlide().byLine.text;
-
-    let div = titleTemplate.content.cloneNode(true);
-    for (let i = 0; i < div.firstElementChild.children.length; ++i) {
+        div.firstElementChild.children[i].addEventListener('click', evt => lastClickedElm = evt.target);
         div.firstElementChild.children[i].addEventListener('input', localSave);
     }
 
     editSlideCont.appendChild(div);
 }
+
 
 function localSave(evt) {
     let currentDiv = evt.target;
     let containerDiv = currentDiv.parentNode;
-    console.log(currentDiv);
     // Get the informations on the div
     // Save them in the corresponding slide in local storage
 
@@ -342,20 +346,26 @@ function localSave(evt) {
         if (className) {
             className = className.split(" ")[0];
         }
-        console.log(className);
 
         switch (className) {
             case "title": {
-                console.log(presentation.slides[currentSlide]);
-                presentation.slides[currentSlide].headline.text = containerDiv.childNodes[i].innerHTML;
+                presentation.slides[currentSlide].slide.headline.text = containerDiv.childNodes[i].innerHTML;
                 break;
             }
             case "byFrame" : {
-                presentation.slides[currentSlide].byLine.text = containerDiv.childNodes[i].innerHTML;
+                presentation.slides[currentSlide].slide.byLine.text = containerDiv.childNodes[i].innerHTML;
                 break;
             }
             case "imgContainer": {
-                presentation.slides[currentSlide].img.src = containerDiv.childNodes[i].childNodes[0].src;
+                //presentation.slides[currentSlide].slide.img.src = containerDiv.childNodes[i].childNodes[i].src;
+                break;
+            }
+            case "txtboxOne": {
+                presentation.slides[currentSlide].slide.textBoxes[0].text = containerDiv.childNodes[i].innerHTML;
+                break;
+            }
+            case "txtboxTwo": {
+                presentation.slides[currentSlide].slide.textBoxes[1].text = containerDiv.childNodes[i].innerHTML;
                 break;
             }
             default: {}

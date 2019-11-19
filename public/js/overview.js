@@ -14,11 +14,11 @@ let lastTheme = basicTheme;
 let theme = "basic";
 
 function selectTheme(evt){
-
+    
     if(lastTheme){
         lastTheme.style.border = "1px solid black";
     }
-
+    
     theme = evt.target.innerHTML;
     evt.target.style.border = "1px solid #2f71e3";
     lastTheme = evt.target;
@@ -69,6 +69,7 @@ createPresBtn.addEventListener('click', async evt => {
         let data = await resp.json();
         Object.assign(updata, data);
         localStorage.setItem("presentation", JSON.stringify(updata));
+
         window.location.href = "editmode.html";
     }
     catch (err) {
