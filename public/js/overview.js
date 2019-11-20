@@ -15,9 +15,9 @@ const traditionalTheme = document.getElementById("traditionalTheme").addEventLis
 let lastTheme = basicTheme;
 let theme = "basic";
 
-function selectTheme(evt){
+function selectTheme(evt) {
 
-    if(lastTheme){
+    if (lastTheme) {
         lastTheme.style.border = "1px solid black";
     }
 
@@ -36,24 +36,24 @@ newPresBtn.addEventListener('click', evt => {
     newPresModal.style.display = "block";
 });
 
-closeModal.onclick = function() {
+closeModal.onclick = function () {
     newPresModal.style.display = "none";
 }
 
-window.onclick = function(event) {
+window.onclick = function (event) {
     if (event.target == newPresModal) {
         newPresModal.style.display = "none";
     }
-}
+};
 
 createPresBtn.addEventListener('click', async evt => {
 
     let url = "http://localhost:8080/presentations/";
     let name = presNameInp.value;
     let date = new Date();
-    date = date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
+    date = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
 
-    let updata =  {
+    let updata = {
         name: name,
         date: date,
         theme: theme,
@@ -75,12 +75,12 @@ createPresBtn.addEventListener('click', async evt => {
 
         Object.assign(updata, data);
         localStorage.setItem("presentation", JSON.stringify(updata));
-        window.location.href = "editmode.html";
-    }
-    catch (err) {
+
+        window.location.href = "editmode.html?id=" + data.presentationId;
+    } catch (err) {
         console.log(err);
     }
-    
+
 });
 
 signoutBtn.addEventListener('click', evt => {
@@ -88,7 +88,7 @@ signoutBtn.addEventListener('click', evt => {
     window.location.href = "../html/login.html";
 });
 
-async function listPresentations (preName, preDate, prePreview){
+async function listPresentations(preName, preDate, prePreview) {
     let url = "http://localhost:8080/presentations/overview";
     let cfg = {
         method: "GET",
@@ -102,15 +102,12 @@ async function listPresentations (preName, preDate, prePreview){
         let resp = await fetch(url, cfg);
         let data = await resp.json();
 
-        console.log(data);
-
         if (!Array.isArray(data)) {
             data = [data];
         }
 
         const presTemplate = document.getElementById("presTemplate");
         for (let i = 0; i < data.length; ++i) {
-            console.log(data[i]);
             let name = presTemplate.content.querySelectorAll("p")[0];
             let date = presTemplate.content.querySelectorAll("p")[1];
 
@@ -136,10 +133,7 @@ async function listPresentations (preName, preDate, prePreview){
 
             presListCont.appendChild(div);
         }
-    }
-    catch (err) {
+    } catch (err) {
         console.log(err);
     }
-
-
 }
