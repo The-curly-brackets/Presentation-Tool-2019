@@ -118,7 +118,7 @@ let currentSlide = 0;
 let lastClickedSlide; 
 let presentation;
 
-startup();
+//startup();
 
 function startup (){
     presentation = JSON.parse(localStorage.getItem("presentation"));
@@ -129,7 +129,7 @@ function startup (){
     slidePreviewCont.childNodes[0].click();
 }
 
-// initialize();
+initialize();
 
 // Fetches the last modified presentation from localStorage and DB
 
@@ -214,12 +214,9 @@ function setup() {
 
 saveBtn.addEventListener('click', async evt => {
     // TODO: Factorize it with other queries and add an independent function
-    let url = "http://localhost:8080/presentations/updatePresentation";
-
-    let updata = {
-        presID: presentation.id,
-        pres: presentation
-    };
+    let urlParams = new URLSearchParams(window.location.search);
+    let id = urlParams.get('id');
+    let url = "http://localhost:8080/presentations/" + id;
 
     let cfg = {
         method: "POST",
@@ -227,7 +224,7 @@ saveBtn.addEventListener('click', async evt => {
             "Content-Type": "application/json",
             "authorization": token
         },
-        body: JSON.stringify(updata)
+        body: JSON.stringify(presentation)
     };
 
     try {
