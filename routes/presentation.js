@@ -42,7 +42,6 @@ router.post("/", async function (req, res, next) {
         let userID = tokenProtect.getUserIDFromToken(token);
 
         db.createPresentation(userID, req.body).then(presentationId => {
-            console.log(presentationId);
             res.status(200).send(presentationId);
         }).catch(err => res.status(500).send(err));
     }
@@ -76,12 +75,12 @@ router.put("/:presentationID", async function (req, res, next) {
 
     if (token) {
         let userID = tokenProtect.getUserIDFromToken(token);
-        let presentationID = req.params.presentationID;
-        let presentation = req.body.presentation;
+        let presentationID = parseInt(req.params.presentationID);
+        let presentation = req.body;
 
         db.checkUserIsAuthor(userID, presentationID).then(isAuthor => {
             if (isAuthor) {
-                db.updateExistingPresentation(presentationID, presentation).then(succesfull => {
+                db.updateExistingPresentation(presentation, presentationID).then(succesfull => {
                     if (succesfull) {
                         res.status(200).send(`Updated ${presentationID} succesfully`);
                     } else {

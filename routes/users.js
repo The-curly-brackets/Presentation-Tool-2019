@@ -14,7 +14,7 @@ const secret = process.env.secret || secretSash.secret;
 const db_credentials = process.env.DATABASE_URL || "postgres://jksoyjotdnrhsk:33d18816c28a98b69b2eb4022834ab1a5a273468828feace7172dc1e038c57f8@ec2-46-137-188-105.eu-west-1.compute.amazonaws.com:5432/d30m6bu4nsdneh";
 const db = require("../modules/db")(db_credentials);
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
+const hash = require("../modules/hash");
 
 // Get the users details for now returns the whole object stored in the database
 // router.get("/:userID", tokenProtect); // This endPoint is 'login' protected
@@ -79,7 +79,7 @@ router.put("/", async function (req, res, next) {
             }
 
             if (req.body.password) {
-                let pswhash = bcrypt.hashSync(req.body.password, 10);
+                let pswhash = hash.saltHashPassword(req.body.password);
                 db.updateUserPassword(userID, pswhash).then(user => {
                     if (user) {
                         res.status(200).send(user);
@@ -113,9 +113,15 @@ router.delete("/", async function (req, res, next) {
     }
 });
 
+router.post("/login", authProtect);
+router.post("/login", async function (req, res, next) {
+    let tok = jwt.sign({userID: req.userID}, secret, {expiresIn: "12h"});
+    res.status(200).json({userID: req.userID, token: tok});
+});
+
 // Receives a user object and creates an account in the db from it
 router.post("/", async function (req, res, next) {
-    let pswhash = bcrypt.hashSync(req.body.password, 10);
+    let pswhash = JSON.stringify(hash.saltHashPassword(req.body.password));
     db.makeUserAccount(req.body.username, req.body.email, pswhash).then(newAccount => {
         if (newAccount) {
             let payload = {userid: newAccount.id};
@@ -125,12 +131,6 @@ router.post("/", async function (req, res, next) {
             res.status(404).send("Not able to create account");
         }
     }).catch(err => res.status(500).send(err));
-});
-
-router.post("/login", authProtect);
-router.post("/login", async function (req, res, next) {
-    let tok = jwt.sign({userID: req.userID}, secret, {expiresIn: "12h"});
-    res.status(200).json({userID: req.userID, token: tok});
 });
 
 module.exports = router;
