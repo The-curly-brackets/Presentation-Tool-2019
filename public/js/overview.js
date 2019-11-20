@@ -8,22 +8,14 @@ const presNameInp = document.getElementById("presNameInp");
 const newPresModal = document.getElementById("newPresModal");
 const closeModal = document.getElementsByClassName("close")[0];
 const basicTheme = document.getElementById("basicTheme").addEventListener("click", selectTheme);
-const modernTheme = document.getElementById("modernTheme").addEventListener("click", selectTheme);
-const traditionalTheme = document.getElementById("traditionalTheme").addEventListener("click", selectTheme);
+const classicTheme = document.getElementById("classicTheme").addEventListener("click", selectTheme);
+const darkTheme = document.getElementById("darkTheme").addEventListener("click", selectTheme);
 
 
-let lastTheme = basicTheme;
-let theme = "basic";
+let theme = "";
 
 function selectTheme(evt) {
-
-    if (lastTheme) {
-        lastTheme.style.border = "1px solid black";
-    }
-
-    theme = evt.target.innerHTML;
-    evt.target.style.border = "1px solid #2f71e3";
-    lastTheme = evt.target;
+    theme = (this.id);
 }
 
 let token = JSON.parse(sessionStorage.getItem("logindata")).token;
