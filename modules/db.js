@@ -1,5 +1,5 @@
 const pg = require("pg");
-const bcrypt = require('bcrypt');
+const hash = require("./hash");
 
 const db = function (dbConnectionString) {
 
@@ -34,14 +34,11 @@ const db = function (dbConnectionString) {
     };
 
     const getUserByNameAndPassword = async function (username, password) {
-        let payload = null;
         return await runQuery('SELECT * FROM users WHERE username = $1', [username])
             .then(user => {
-                payload = user;
-                return bcrypt.compare(password, user.password);
-            }).then(resp => {
-                payload.valid = resp;
-                return payload;
+                let psw = JSON.parse(user.password);
+                user.valid = hash.hash(password, psw.salt).passwordHash === psw.passwordHash;
+                return user;
             });
     };
 
@@ -54,11 +51,11 @@ const db = function (dbConnectionString) {
     };
 
     const checkUserIsAuthor = async function (userID, presentationID) {
-        return await runQuery('SELECT * FROM "user_isAuthor_presentation" WHERE "user_isAuthor_presentation"."userId" = $1 AND "user_isAuthor_presentation"."presentationId" = $2', [userID, presentationID]);
+        return await runQuery('SELECT * FROM user_isAuthor_presentation WHERE userId = $1 AND presentationId = $2', [userID, presentationID]);
     };
 
     const updateExistingPresentation = async function (presentation, presentationID) {
-        return await runQuery('UPDATE presentation SET presentation = $1 WHERE id = $2 RETURNING id', [presentation, presentationID]);
+        return await runQuery('UPDATE presentation SET presentation = $1 WHERE presentationId = $2', [presentation, presentationID]);
     };
 
     const deleteExistingPresentation = async function (presentationID) {

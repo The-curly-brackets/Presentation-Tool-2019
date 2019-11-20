@@ -118,7 +118,7 @@ let currentSlide = 0;
 let lastClickedSlide; 
 let presentation;
 
-//startup();
+startup();
 
 function startup (){
     presentation = JSON.parse(localStorage.getItem("presentation"));
@@ -129,7 +129,7 @@ function startup (){
     slidePreviewCont.childNodes[0].click();
 }
 
-initialize();
+// initialize();
 
 // Fetches the last modified presentation from localStorage and DB
 
@@ -147,17 +147,44 @@ async function initialize() {
             "authorization": token
         }
     };
+    let dbPresentation = null;
+    let localPresentation = null;
 
     try {
         let resp = await fetch(url, cfg);
+<<<<<<< HEAD
         let data = await resp.json();
         presentation = data.presentation;
+
+        if (presentation.slides.length > 0) {
+            slidePreviews();
+        }
     } catch (err) {
         console.log(err);
     }
-    if (presentation.slides.length > 0) {
-        slidePreviews();
+=======
+        dbPresentation = await resp.json();
+    } catch (err) {
+        console.log(err);
     }
+
+    try {
+        localPresentation = JSON.parse(localStorage.getItem("presentation"));
+
+        if (presentation.slides.length === 0) {
+            presentation.slides.push(new Slide("title"));
+        }
+        slidePreviews();
+    } catch (err) {
+        console.log(err)
+    }
+
+    if (dbPresentation.lastEdited <= localPresentation.lastEdited) {
+        presentation = dbPresentation;
+    } else {
+        presentation = localPresentation;
+    }
+>>>>>>> parent of 505d678... save presentation on the DB Woohoo
 }
 
 function slidePreviews () {
@@ -213,17 +240,20 @@ function setup() {
 
 saveBtn.addEventListener('click', async evt => {
     // TODO: Factorize it with other queries and add an independent function
-    let urlParams = new URLSearchParams(window.location.search);
-    let id = urlParams.get('id');
-    let url = "http://localhost:8080/presentations/" + id;
+    let url = "http://localhost:8080/presentations/updatePresentation";
+
+    let updata = {
+        presID: presentation.id,
+        pres: presentation
+    };
 
     let cfg = {
-        method: "PUT",
+        method: "POST",
         headers: {
             "Content-Type": "application/json",
             "authorization": token
         },
-        body: JSON.stringify(presentation)
+        body: JSON.stringify(updata)
     };
 
     try {
