@@ -147,12 +147,9 @@ async function initialize() {
             "authorization": token
         }
     };
-    let dbPresentation = null;
-    let localPresentation = null;
 
     try {
         let resp = await fetch(url, cfg);
-<<<<<<< HEAD
         let data = await resp.json();
         presentation = data.presentation;
 
@@ -162,29 +159,6 @@ async function initialize() {
     } catch (err) {
         console.log(err);
     }
-=======
-        dbPresentation = await resp.json();
-    } catch (err) {
-        console.log(err);
-    }
-
-    try {
-        localPresentation = JSON.parse(localStorage.getItem("presentation"));
-
-        if (presentation.slides.length === 0) {
-            presentation.slides.push(new Slide("title"));
-        }
-        slidePreviews();
-    } catch (err) {
-        console.log(err)
-    }
-
-    if (dbPresentation.lastEdited <= localPresentation.lastEdited) {
-        presentation = dbPresentation;
-    } else {
-        presentation = localPresentation;
-    }
->>>>>>> parent of 505d678... save presentation on the DB Woohoo
 }
 
 function slidePreviews () {
