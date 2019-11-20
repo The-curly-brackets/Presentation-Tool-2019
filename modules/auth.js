@@ -13,6 +13,7 @@ const authenticate = function (req, res, next) {
     let [username, password] = credentials.split(':');
     try {
         db.getUserByNameAndPassword(username, password).then(user => {
+            console.log(user);
             if (!user.valid) {
                 return res.status(401).json({message: 'Invalid Authentication Credentials'});
             }

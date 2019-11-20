@@ -152,11 +152,12 @@ async function initialize() {
         let resp = await fetch(url, cfg);
         let data = await resp.json();
         presentation = data.presentation;
+
+        if (presentation.slides.length > 0) {
+            slidePreviews();
+        }
     } catch (err) {
         console.log(err);
-    }
-    if (presentation.slides.length > 0) {
-        slidePreviews();
     }
 }
 
