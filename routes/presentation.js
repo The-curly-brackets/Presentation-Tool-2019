@@ -105,6 +105,8 @@ router.delete("/:presentationID", async function (req, res, next) {
         let userID = tokenProtect.getUserIDFromToken(token);
         let presentationID = req.params.presentationID;
 
+        console.log(userID);
+        console.log(presentationID);
         db.checkUserIsAuthor(userID, presentationID).then(isAuthor => {
             if (isAuthor) {
                 db.deleteExistingPresentation(presentationID).then(succesfull => {
@@ -121,6 +123,9 @@ router.delete("/:presentationID", async function (req, res, next) {
     } else {
         res.status(403).send({msg: "No token"});
     }
+});
+router.put("/visibility/:presentationID", async function (req, res, next) {
+
 });
 
 module.exports = router;

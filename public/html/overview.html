@@ -11,6 +11,7 @@
                 <li class="newPresBtn"><button id="newPresBtn">New presentation</button></li>
                 <li><a href="#" id="signoutBtn">Sign out</a></li>
                 <li><a href="#" id="editaccountBtn">Edit account</a></li>
+                <li><a href="#" id="publicPresentationBtn"> Public presentations</a> </li>
             </ul>
         </div>
         <div class="mainContent">
@@ -27,9 +28,11 @@
                     <p class="presDate"></p>
                 </div>
                 <div class="toolBtnDiv">
+                    <a style="background-color: #3e3e3e">Delete</a>
                     <a>Edit</a>
                     <a>View</a>
                     <a>Share</a>
+
                 </div>
             </div>
         </template>
@@ -46,6 +49,17 @@
                 <div id="modernTheme" class="themeFrame">Modern</div>
                 <div id="traditionalTheme" class="themeFrame">Traditional</div>
                 <button id="createPresBtn" class="blueBtn">Create presentation</button>
+            </div>
+        </div>
+
+        <!-- The Modal -->
+        <div id="delPresModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content delModal">
+                <span class="close">&times;</span>
+                <p>Are you sure you want to delete? </p>
+                <button id="deletePresBtn" class="blueBtn">Yes</button>
+                <button id="cancelPresBtn" class="blueBtn">No</button>
             </div>
         </div>
 

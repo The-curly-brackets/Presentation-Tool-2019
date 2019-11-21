@@ -59,9 +59,11 @@ const db = function (dbConnectionString) {
     };
 
     const deleteExistingPresentation = async function (presentationID) {
-        return await runQuery('DELETE FROM presentation WHERE presentationId = $1', [presentationID]);
+        return await runQuery('DELETE FROM "user_isAuthor_presentation" WHERE "user_isAuthor_presentation"."presentationId" = $1 RETURNING *', [presentationID]).then(succsess => {
+            console.log(succsess);
+            return runQuery('DELETE FROM presentation WHERE id=$1', [presentationID])
+        });
     };
-
     const createPresentation = async function (userID, presentation) {
         return await runQuery("INSERT INTO presentation (presentation, visibility, name, date) VALUES (CAST($1 AS json), 1, $2, $3) RETURNING id", [presentation, presentation.name, presentation.date]).then(presentationID => {
             return runQuery('INSERT INTO "user_isAuthor_presentation" ("userId", "presentationId") VALUES ($1, $2) RETURNING "presentationId"', [userID, presentationID.id])
