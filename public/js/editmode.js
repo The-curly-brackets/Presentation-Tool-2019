@@ -24,6 +24,8 @@ const editSlideCont = document.getElementById("editSlideCont");
 
 let token = JSON.parse(sessionStorage.getItem("logindata")).token;
 
+
+
 // --- Classes ---------------------------------------------------
 
 class Slide {
@@ -281,11 +283,12 @@ bulletListBtn.addEventListener('click', evt => {
 function loadSlide(){
     editSlideCont.innerHTML = "";
     let slide = presentation.slides[currentSlide].slide;
+    editSlideCont.classList.add(presentation.theme);
+    console.log(presentation);
     let divs;
     let div;
-    
     if (slide.type == "title"){
-        
+
         divs = titleTemplate.content.querySelectorAll("div");
         divs[1].innerHTML = slide.headline.text;
         divs[2].innerHTML = slide.byLine.text;
