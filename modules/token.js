@@ -26,8 +26,9 @@ const checkToken = function (req, res, next) {
 function getUserIDFromToken(token) {
     logindata = jwt.verify(token, secretSash.secret);
 
-    return logindata.userID;
+    return logindata.userID || logindata.userid;
 }
+
 module.exports = {
     checkToken:checkToken,
     getUserIDFromToken: getUserIDFromToken

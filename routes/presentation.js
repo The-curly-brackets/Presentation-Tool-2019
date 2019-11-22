@@ -40,8 +40,9 @@ router.post("/", async function (req, res, next) {
 
     if (token) {
         let userID = tokenProtect.getUserIDFromToken(token);
-
+        console.log(req.body);
         db.createPresentation(userID, req.body).then(presentationId => {
+            
             res.status(200).send(presentationId);
         }).catch(err => res.status(500).send(err));
     }
@@ -57,13 +58,13 @@ router.get("/edit/:presentationID", async function (req, res, next) {
 
         db.checkUserIsAuthor(userID, req.params.presentationID).then(isAuthor => {
             if (isAuthor) {
-                res.status(200).send("You are allowed to edit");
+                res.status(200).send({msg: "You are allowed to edit"});
             } else {
-                res.status(403).send("You are not author of this presentation")
+                res.status(403).send({msg: "You are not author of this presentation"});
             }
-        }).catch(err => res.status(500).send(err))
+        }).catch(err => res.status(500).send(err));
     } else {
-        res.status(403).send("No token")
+        res.status(403).send({msg: "No token"});
     }
 });
 
@@ -82,17 +83,17 @@ router.put("/:presentationID", async function (req, res, next) {
             if (isAuthor) {
                 db.updateExistingPresentation(presentation, presentationID).then(succesfull => {
                     if (succesfull) {
-                        res.status(200).send(`Updated ${presentationID} succesfully`);
+                        res.status(200).send({msg: `Updated ${presentationID} succesfully`});
                     } else {
-                        res.status(500).send(`Could not update ${presentationID}`)
+                        res.status(500).send({msg: `Could not update ${presentationID}`});
                     }
                 })
             } else {
-                res.status(403).send("You are not author of this presentation")
+                res.status(403).send({msg: "You are not author of this presentation"});
             }
-        }).catch(err => res.status(500).send(err))
+        }).catch(err => res.status(500).send(err));
     } else {
-        res.status(403).send("No token")
+        res.status(403).send({msg: "No token"})
     }
 });
 
@@ -105,22 +106,27 @@ router.delete("/:presentationID", async function (req, res, next) {
         let userID = tokenProtect.getUserIDFromToken(token);
         let presentationID = req.params.presentationID;
 
+        console.log(userID);
+        console.log(presentationID);
         db.checkUserIsAuthor(userID, presentationID).then(isAuthor => {
             if (isAuthor) {
                 db.deleteExistingPresentation(presentationID).then(succesfull => {
                     if (succesfull) {
-                        res.status(200).send(`Deleted ${presentationID} succesfully`);
+                        res.status(200).send({msg: `Deleted ${presentationID} succesfully`});
                     } else {
-                        res.status(500).send(`Could not delete ${presentationID}`)
+                        res.status(500).send({msg: `Could not delete ${presentationID}`});
                     }
                 })
             } else {
-                res.status(403).send("You are not author of this presentation")
+                res.status(403).send({msg: "You are not author of this presentation"});
             }
-        }).catch(err => res.status(500).send(err))
+        }).catch(err => res.status(500).send(err));
     } else {
-        res.status(403).send("No token")
+        res.status(403).send({msg: "No token"});
     }
+});
+router.put("/visibility/:presentationID", async function (req, res, next) {
+
 });
 
 module.exports = router;

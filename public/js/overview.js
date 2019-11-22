@@ -3,7 +3,10 @@ const presListCont = document.getElementById("presListCont");
 const signoutBtn = document.getElementById("signoutBtn");
 const editaccountBtn = document.getElementById("editaccountBtn");
 const createPresBtn = document.getElementById("createPresBtn");
+const publicPresentationBtn = document.getElementById("publicPresentationBtn");
 const presNameInp = document.getElementById("presNameInp");
+const delPresModal = document.getElementById("delPresModal");
+const deletePresBtn = document.getElementById("deletePresBtn");
 
 const newPresModal = document.getElementById("newPresModal");
 const closeModal = document.getElementsByClassName("close")[0];
@@ -12,7 +15,9 @@ const classicTheme = document.getElementById("classicTheme").addEventListener("c
 const darkTheme = document.getElementById("darkTheme").addEventListener("click", selectTheme);
 
 
-let theme = "";
+let lastTheme = basicTheme;
+let theme = "basic";
+let presID;
 
 function selectTheme(evt) {
     theme = (this.id);
@@ -33,8 +38,9 @@ closeModal.onclick = function () {
 }
 
 window.onclick = function (event) {
-    if (event.target == newPresModal) {
+    if (event.target == newPresModal || event.target == delPresModal) {
         newPresModal.style.display = "none";
+        delPresModal.style.display = "none";
     }
 };
 
@@ -67,7 +73,6 @@ createPresBtn.addEventListener('click', async evt => {
 
         Object.assign(updata, data);
         localStorage.setItem("presentation", JSON.stringify(updata));
-
         window.location.href = "editmode.html?id=" + data.presentationId;
     } catch (err) {
         console.log(err);
@@ -80,7 +85,13 @@ signoutBtn.addEventListener('click', evt => {
     window.location.href = "../html/login.html";
 });
 
-async function listPresentations(preName, preDate, prePreview) {
+publicPresentationBtn.addEventListener('click', evt => {
+    sessionStorage.clear();
+    window.location.href = "../html/publicpresentations.html";
+});
+
+async function listPresentations() {
+    presListCont.innerHTML = "";
     let url = "http://localhost:8080/presentations/overview";
     let cfg = {
         method: "GET",
@@ -108,20 +119,38 @@ async function listPresentations(preName, preDate, prePreview) {
 
             let div = presTemplate.content.cloneNode(true);
 
-            let editbtn = div.firstElementChild.children[2].children[0];
+            let deleteBtn = div.firstElementChild.children[2].children[0];
+
+
+            deleteBtn.addEventListener("click", evt => {
+                presID = data[i].id;
+                delPresModal.style.display = "block";
+            });
+
+            let cancelPresBtn = document.getElementById("cancelPresBtn");
+            cancelPresBtn.addEventListener("click", evt => {
+                delPresModal.style.display = "none";
+            });
+            let closeDelModal = delPresModal.querySelector("span");
+            closeDelModal.onclick = function () {
+                delPresModal.style.display = "none";
+            };
+
+            let editbtn = div.firstElementChild.children[2].children[1];
             editbtn.addEventListener('click', function (evt) {
                 window.location.href = "editmode.html?id=" + data[i].id;
             });
 
-            let viewbtn = div.firstElementChild.children[2].children[1];
+            let viewbtn = div.firstElementChild.children[2].children[2];
             viewbtn.addEventListener('click', function (evt) {
                 window.location.href = "viewmode.html?id=" + data[i].id;
             });
 
-            let sharebtn = div.firstElementChild.children[2].children[2];
+            let sharebtn = div.firstElementChild.children[2].children[3];
             sharebtn.addEventListener('click', function (evt) {
                 //TODO
             });
+
 
             presListCont.appendChild(div);
         }
@@ -129,3 +158,25 @@ async function listPresentations(preName, preDate, prePreview) {
         console.log(err);
     }
 }
+deletePresBtn.addEventListener('click', async evt => {
+    let id = presID;
+    let url = "http://localhost:8080/presentations/" + id;
+
+    let cfg = {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            "authorization": token
+        }
+    };
+
+    try {
+        let resp = await fetch(url, cfg);
+        let data = await resp.json();
+        delPresModal.style.display ="none";
+        listPresentations();
+        console.log(data);
+    } catch (err) {
+        console.log(err);
+    }
+});

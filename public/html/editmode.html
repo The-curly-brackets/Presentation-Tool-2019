@@ -11,8 +11,12 @@
     <body>
         <div id="toolBarDiv">
             
-            <div id="slideTools" class="toolBarCont">
+            <div class="toolBarCont slideTools">
                 <a id="newSlideBtn">+</a>
+            </div>
+
+            <div class="toolBarCont slideTools">
+                <a id="deleteSlideBtn">-</a>
             </div>
 
             <div id="items" class="toolBarCont">
@@ -24,30 +28,30 @@
 
             <div id="textEditTools" class="toolBarCont">
                 <select id="fontFamSelect">
-                    <option>Calibri</option>
-                    <option>Helvetica</option>
-                    <option>Times New Roman</option>
+                    <option value="0">Helvetica</option>
+                    <option value="1">Calibri</option>
+                    <option value="2">Courier</option>
                 </select>
 
                 <select id="fontSizeSelect">
-                    <option>12 pt</option>
-                    <option>14 pt</option>
-                    <option>18 pt</option>
-                    <option>24 pt</option>
-                    <option>36 pt</option>
-                    <option>48 pt</option>
+                    <option value="12">12 pt</option>
+                    <option value="14">14 pt</option>
+                    <option value="18">18 pt</option>
+                    <option value="24">24 pt</option>
+                    <option value="36">36 pt</option>
+                    <option value="48">48 pt</option>
                 </select>
 
-                <button class="nbi" style="text-decoration: underline">U</button>
-                <button class="nbi" style="font-weight: bold">B</button>
-                <button class="nbi" style="font-style:italic">I</button>
+                <button id="underlineBtn" class="nbi" style="text-decoration: underline">U</button>
+                <button id="boldBtn" class="nbi" style="font-weight: bold">B</button>
+                <button id="italicBtn" class="nbi" style="font-style:italic">I</button>
 
                 <label for="textColorInp">Text Color</label>
-                <input id="textColorInp" type="color" style="width: 50px">
+                <input id="textColorInp" type="color" style="width: 50px" value="#ff0000">
 
-                <button class="lcr" style="border-left: 1px solid black;">L</button>
-                <button class="lcr" style="border-bottom: 1px solid black;">C</button>
-                <button class="lcr" style="border-right: 1px solid black;">R</button>
+                <button id="alBtn" class="lcr" style="border-left: 1px solid black;">L</button>
+                <button id="acBtn" class="lcr" style="border-bottom: 1px solid black;">C</button>
+                <button id="arBtn" class="lcr" style="border-right: 1px solid black;">R</button>
             </div>
 
             <div id="typeOfSlides" class="toolBarCont">
