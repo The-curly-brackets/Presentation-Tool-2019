@@ -21,7 +21,7 @@ const txtAndImgTemplate = document.getElementById("txtAndImgTemplate");
 const listSlideTemplate = document.getElementById("listSlideTemplate");
 
 const slidePreviewCont = document.getElementById("allSlidesPreviewCont");
-const editSlideCont = document.getElementById("editSlideCont");
+let editSlideCont = document.getElementById("editSlideCont");
 
 const fontFamSelect = document.getElementById("fontFamSelect");
 const fontSizeSelect = document.getElementById("fontSizeSelect");
@@ -135,7 +135,7 @@ class Slide {
 
 let lastClickedElm;
 let currentSlide = 0;
-let lastClickedSlide; 
+let lastClickedSlide;
 let presentation;
 let imgInBase64;
 
@@ -175,31 +175,57 @@ async function initialize() {
     }
 }
 
-function slidePreviews () {
-    slidePreviewCont.innerHTML = "";
-    for(let i = 1; i <= presentation.slides.length; i++){ 
-        let slidePreviewDiv = document.createElement("div");
-        slidePreviewDiv.className = "slidePreview";
-        slidePreviewDiv.innerHTML = i;
-        slidePreviewDiv.addEventListener("click", navigateSlide)
-        slidePreviewCont.appendChild(slidePreviewDiv);
-        lastClickedSlide = slidePreviewDiv;
+function allDescendantsToPreview(node, slideId) {
+    for (let i = 0; i < node.childNodes.length; i++) {
+        let child = node.childNodes[i];
+        allDescendantsToPreview(child, slideId);
+        if (child.isContentEditable) {
+            child.setAttribute('contenteditable', "false");
+        }
+        child.slideId = slideId;
     }
-    lastClickedSlide.style.border = "1px solid #2f71e3";
+}
+
+function slidePreviews() {
+    slidePreviewCont.innerHTML = "";
+
+    for (let i = 0; i < presentation.slides.length; i++) {
+        currentSlide = i;
+        loadSlide();
+
+        let clone = editSlideCont.cloneNode(true);
+        let slidePreviewDiv = document.createElement("div");
+
+        clone.innerHTML = editSlideCont.innerHTML;
+        slidePreviewDiv.classList.add("editSlidePreviewCont");
+        clone.classList.add("slidePreview");
+
+        clone.childNodes[1].classList.add("slidePreviewContent");
+        clone.childNodes[1].classList.remove("allTypeContainer");
+        clone.style.border = "1px solid black";
+        allDescendantsToPreview(clone, i);
+        clone.addEventListener("click", navigateSlide);
+        clone.slideId = i;
+
+        slidePreviewDiv.appendChild(clone);
+        slidePreviewCont.appendChild(slidePreviewDiv);
+    }
+
+    currentSlide = 0;
     loadSlide();
 }
 
-function navigateSlide(evt){
+function navigateSlide(evt) {
     if(lastClickedSlide){
         lastClickedSlide.style.border = "1px solid black";
     }
-    currentSlide = evt.target.innerHTML - 1;
-    evt.target.style.border = "1px solid #2f71e3";
-    lastClickedSlide = evt.target;
+    currentSlide = evt.currentTarget.slideId;
+    evt.currentTarget.style.border = "1px solid #2f71e3";
+    lastClickedSlide = evt.currentTarget;
     loadSlide();
 }
 
-setup();
+//setup();
 
 function setup() {
 
@@ -208,20 +234,6 @@ function setup() {
     let bodyHeight = document.body.clientHeight;
 
     slidePreviewCont.style.height = bodyHeight - 80 - 30; // This sets the height for the div with the slides previews. The heghit is bodyheight-toolbarheight-padding.
-
-    let slideHeight = bodyHeight - 150 - 30;
-    let slideWidth = (slideHeight/9) * 16;
-
-    let slideMaxWidth = document.body.clientWidth - 200;
-
-    if(slideWidth > slideMaxWidth){
-        slideWidth = slideMaxWidth;
-    }
-
-    slideHeight = (slideWidth/16)*9;
-
-    editSlideCont.style.height = slideHeight;
-    editSlideCont.style.width = slideWidth;
 }
 
 // --- EventListener ---------------------------------------------------
@@ -278,15 +290,15 @@ titleSlideBtn.addEventListener('click', evt => {
 });
 
 numberListBtn.addEventListener('click', evt => {
-    if(lastClickedElm){
+    if (lastClickedElm) {
         lastClickedElm.innerHTML = lastClickedElm.innerHTML + "<ol><li>list</li></ol>";
-    }   
+    }
 });
 
 bulletListBtn.addEventListener('click', evt => {
-    if(lastClickedElm){
+    if (lastClickedElm) {
         lastClickedElm.innerHTML = lastClickedElm.innerHTML + "<ul><li>list</li></ul>";
-    }  
+    }
 });
 
 fontFamSelect.addEventListener('change', styleSlideSave);
@@ -330,18 +342,15 @@ imgFileInp.onchange = function(evt) {
 
 // --- Functions ------------------------------------------------------
 
-function loadSlide(){
+function loadSlide() {
     editSlideCont.innerHTML = "";
     let slide = presentation.slides[currentSlide].slide;
     editSlideCont.classList.add(presentation.theme);
     console.log(presentation);
     let divs;
     let div;
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
-    if (slide.type == "title"){
+    if (slide.type === "title"){
         divs = titleTemplate.content.querySelectorAll("div");
         divs[1].innerHTML = slide.headline.text;
         divs[2].innerHTML = slide.byLine.text;
@@ -364,7 +373,7 @@ function loadSlide(){
 
         div = titleTemplate.content.cloneNode(true);
 
-    } else if (slide.type == "txtAndImg") {
+    } else if (slide.type === "txtAndImg") {
 
         divs = txtAndImgTemplate.content.querySelectorAll("div");
         divs[1].innerHTML = slide.headline.text;
@@ -422,7 +431,7 @@ function loadSlide(){
 
         div = listSlideTemplate.content.cloneNode(true);
     }
-    
+
     for (let i = 0; i < div.firstElementChild.children.length; ++i) {
         div.firstElementChild.children[i].addEventListener('click', evt => {
             lastClickedElm = evt.target;
@@ -645,7 +654,8 @@ function localSave(evt) {
                 presentation.slides[currentSlide].slide.textBoxes[1].text = containerDiv.childNodes[i].innerHTML;
                 break;
             }
-            default: {}
+            default: {
+            }
         }
     }
 

@@ -40,7 +40,7 @@ router.post("/", async function (req, res, next) {
 
     if (token) {
         let userID = tokenProtect.getUserIDFromToken(token);
-        console.log(req.body);
+
         db.createPresentation(userID, req.body).then(presentationId => {
             
             res.status(200).send(presentationId);
@@ -79,6 +79,7 @@ router.put("/:presentationID", async function (req, res, next) {
         let presentationID = parseInt(req.params.presentationID);
         let presentation = req.body;
 
+
         db.checkUserIsAuthor(userID, presentationID).then(isAuthor => {
             if (isAuthor) {
                 db.updateExistingPresentation(presentation, presentationID).then(succesfull => {
@@ -106,8 +107,6 @@ router.delete("/:presentationID", async function (req, res, next) {
         let userID = tokenProtect.getUserIDFromToken(token);
         let presentationID = req.params.presentationID;
 
-        console.log(userID);
-        console.log(presentationID);
         db.checkUserIsAuthor(userID, presentationID).then(isAuthor => {
             if (isAuthor) {
                 db.deleteExistingPresentation(presentationID).then(succesfull => {

@@ -4,7 +4,7 @@ const db = require("./db")(db_credentials);
 const authenticate = function (req, res, next) {
     // check for basic auth header
     if (!req.headers.authorization || req.headers.authorization.indexOf('Basic ') === -1) {
-        return res.status(401).json({message: 'Missing Authorization Header'});
+        return res.status(401).json({msg: 'Missing Authorization Header'});
     }
 
     // verify auth credentials
@@ -14,7 +14,7 @@ const authenticate = function (req, res, next) {
     try {
         db.getUserByNameAndPassword(username, password).then(user => {
             if (!user.valid) {
-                return res.status(401).json({message: 'Invalid Authentication Credentials'});
+                return res.status(401).json({msg: 'Invalid Authentication Credentials'});
             }
             req.userID = user.id;
 
