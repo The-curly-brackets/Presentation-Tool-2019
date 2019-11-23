@@ -83,7 +83,7 @@ const db = function (dbConnectionString) {
     };
 
     const getAllPresentationFromUser = async function(userId) {
-        return await runQuery('SELECT id, name, date FROM presentation INNER JOIN "user_isAuthor_presentation" ON presentation.id = "user_isAuthor_presentation"."presentationId" WHERE "user_isAuthor_presentation"."userId" = $1', [userId])
+        return await runQuery('SELECT id, name, date, presentation FROM presentation INNER JOIN "user_isAuthor_presentation" ON presentation.id = "user_isAuthor_presentation"."presentationId" WHERE "user_isAuthor_presentation"."userId" = $1', [userId])
     };
 
     const deleteUserAccount = async function(userID){

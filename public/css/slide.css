@@ -21,7 +21,7 @@
         'left right';
     grid-gap: 5%;
     padding: 5%;
-    grid-template-rows: 8vw 28vw;
+    grid-template-rows: 8vw 25vw;
     grid-template-columns: 1fr 1fr;
 }
 
