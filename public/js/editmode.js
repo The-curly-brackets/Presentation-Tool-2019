@@ -79,56 +79,6 @@ class Slide {
             theme: ""
         }
     }
-
-    getSlide() {
-        return this.slide;
-    }
-
-    addBulletList() {
-        this.slide.textBoxes.push({
-            type: "ul",
-            fontSize: "",
-            fontColor: "",
-            fontType: "",
-            text: "",
-            align: "",
-            bold: false,
-            italic: false,
-            underline: false
-        });
-    }
-
-    addText() {
-        this.slide.textBoxes.push({
-            type: "text",
-            fontSize: "",
-            fontColor: "",
-            fontType: "",
-            text: "",
-            align: "",
-            bold: false,
-            italic: false,
-            underline: false
-        });
-    }
-
-    addNumberList() {
-        this.slide.textBoxes.push({
-            type: "numbList",
-            fontSize: "",
-            fontColor: "",
-            fontType: "",
-            text: "",
-            align: "",
-            bold: false,
-            italic: false,
-            underline: false
-        });
-    }
-
-    addImg(imgSrc) {
-        this.slide.imgField = imgSrc;
-    }
 }
 
 // ---------------------------------------------------------------------
@@ -223,17 +173,6 @@ function navigateSlide(evt) {
     evt.currentTarget.style.border = "1px solid #2f71e3";
     lastClickedSlide = evt.currentTarget;
     loadSlide();
-}
-
-//setup();
-
-function setup() {
-
-    // ------------- Sets the height and width for the edit slide div-container ---------------
-
-    let bodyHeight = document.body.clientHeight;
-
-    slidePreviewCont.style.height = bodyHeight - 80 - 30; // This sets the height for the div with the slides previews. The heghit is bodyheight-toolbarheight-padding.
 }
 
 // --- EventListener ---------------------------------------------------
@@ -346,90 +285,16 @@ function loadSlide() {
     editSlideCont.innerHTML = "";
     let slide = presentation.slides[currentSlide].slide;
     editSlideCont.classList.add(presentation.theme);
-    console.log(presentation);
-    let divs;
     let div;
 
+    console.log(slide);
+
     if (slide.type === "title"){
-        divs = titleTemplate.content.querySelectorAll("div");
-        divs[1].innerHTML = slide.headline.text;
-        divs[2].innerHTML = slide.byLine.text;
-
-        divs[1].style.fontFamily = slide.headline.fontType;
-        divs[1].style.fontSize = slide.headline.fontSize;
-        divs[1].style.fontWeight = slide.headline.bold;
-        divs[1].style.fontStyle = slide.headline.italic;
-        divs[1].style.textDecoration = slide.headline.underline;
-        divs[1].style.color = slide.headline.fontColor;
-        divs[1].style.textAlign = slide.headline.align;
-
-        divs[2].style.fontFamily = slide.byLine.fontType;
-        divs[2].style.fontSize = slide.byLine.fontSize;
-        divs[2].style.fontWeight = slide.byLine.bold;
-        divs[2].style.fontStyle = slide.byLine.italic;
-        divs[2].style.textDecoration = slide.byLine.underline;
-        divs[2].style.color = slide.byLine.fontColor;
-        divs[2].style.textAlign = slide.byLine.align;
-
-        div = titleTemplate.content.cloneNode(true);
-
+        div = loadSlideOnTemplateAndClone(titleTemplate, slide);
     } else if (slide.type === "txtAndImg") {
-
-        divs = txtAndImgTemplate.content.querySelectorAll("div");
-        divs[1].innerHTML = slide.headline.text;
-        divs[2].innerHTML = `<img src="${slide.img.src}">`;
-        divs[3].innerHTML = slide.textBoxes[0].text;
-
-        divs[1].style.fontFamily = slide.headline.fontType;
-        divs[1].style.fontSize = slide.headline.fontSize;
-        divs[1].style.fontWeight = slide.headline.bold;
-        divs[1].style.fontStyle = slide.headline.italic;
-        divs[1].style.textDecoration = slide.headline.underline;
-        divs[1].style.color = slide.headline.fontColor;
-        divs[1].style.textAlign = slide.headline.align;
-
-        divs[3].style.fontFamily = slide.textBoxes[0].fontType;
-        divs[3].style.fontSize = slide.textBoxes[0].fontSize;
-        divs[3].style.fontWeight = slide.textBoxes[0].bold;
-        divs[3].style.fontStyle = slide.textBoxes[0].italic;
-        divs[3].style.textDecoration = slide.textBoxes[0].underline;
-        divs[3].style.color = slide.textBoxes[0].fontColor;
-        divs[3].style.textAlign = slide.textBoxes[0].align;
-
-        div = txtAndImgTemplate.content.cloneNode(true);
-
-    } else if (slide.type == "listSlide") {
-
-        divs = listSlideTemplate.content.querySelectorAll("div");
-        divs[1].innerHTML = slide.headline.text;
-        divs[2].innerHTML = slide.textBoxes[0].text;
-        divs[3].innerHTML = slide.textBoxes[1].text;
-
-        divs[1].style.fontFamily = slide.headline.fontType;
-        divs[1].style.fontSize = slide.headline.fontSize;
-        divs[1].style.fontWeight = slide.headline.bold;
-        divs[1].style.fontStyle = slide.headline.italic;
-        divs[1].style.textDecoration = slide.headline.underline;
-        divs[1].style.color = slide.headline.fontColor;
-        divs[1].style.textAlign = slide.headline.align;
-
-        divs[2].style.fontFamily = slide.textBoxes[0].fontType;
-        divs[2].style.fontSize = slide.textBoxes[0].fontSize;
-        divs[2].style.fontWeight = slide.textBoxes[0].bold;
-        divs[2].style.fontStyle = slide.textBoxes[0].italic;
-        divs[2].style.textDecoration = slide.textBoxes[0].underline;
-        divs[2].style.color = slide.textBoxes[0].fontColor;
-        divs[2].style.textAlign = slide.textBoxes[0].align;
-
-        divs[3].style.fontFamily = slide.textBoxes[1].fontType;
-        divs[3].style.fontSize = slide.textBoxes[1].fontSize;
-        divs[3].style.fontWeight = slide.textBoxes[1].bold;
-        divs[3].style.fontStyle = slide.textBoxes[1].italic;
-        divs[3].style.textDecoration = slide.textBoxes[1].underline;
-        divs[3].style.color = slide.textBoxes[1].fontColor;
-        divs[3].style.textAlign = slide.textBoxes[1].align;
-
-        div = listSlideTemplate.content.cloneNode(true);
+        div = loadSlideOnTemplateAndClone(txtAndImgTemplate, slide);
+    } else if (slide.type === "listSlide") {
+        div = loadSlideOnTemplateAndClone(listSlideTemplate, slide);
     }
 
     for (let i = 0; i < div.firstElementChild.children.length; ++i) {
@@ -443,7 +308,36 @@ function loadSlide() {
     editSlideCont.appendChild(div);
 }
 
+function loadSlideOnTemplateAndClone(template, slide) {
+    let divs = template.content.querySelectorAll("div");
 
+    divs[1].innerHTML = slide.headline.text;
+    divs[2].innerHTML = slide.byLine.text;
+    divs[4].innerHTML = slide.textBoxes[1].text;
+
+    if (slide.type === "txtAndImg") {
+        divs[3].innerHTML = `<img src="${slide.img.src}">`;
+    } else {
+        divs[3].innerHTML = slide.textBoxes[0].text;
+    }
+
+    applyStyle(divs[1].style, slide.headline);
+    applyStyle(divs[2].style, slide.byLine);
+    applyStyle(divs[3].style, slide.textBoxes[0]);
+    applyStyle(divs[4].style, slide.textBoxes[1]);
+
+    return template.content.cloneNode(true);
+}
+
+function applyStyle(dest, src) {
+    dest.fontFamily = src.fontType;
+    dest.fontSize = src.fontSize;
+    dest.fontWeight = src.bold;
+    dest.fontStyle = src.italic;
+    dest.textDecoration = src.underline;
+    dest.color = src.fontColor;
+    dest.textAlign = src.align;
+}
 
 function selectValues (){
     // This select the option in fontSizeSelcet that has the same value as the element that was selectet 

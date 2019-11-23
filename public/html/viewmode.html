@@ -5,37 +5,43 @@
         <link rel="stylesheet" type="text/css" href="../css/toolMain.css">
         <link rel="stylesheet" type="text/css" href="../css/viewmode.css">
         <link rel="stylesheet" type="text/css" href="../css/viewpresentation.css">
+        <link rel="stylesheet" type="text/css" href="../css/themes.css">
     </head>
     <body>
         <div id="navBar">
             <button id="backBtn" class="left">Back</button>
-            <button id="previusBtn">Previus</button>
+            <button id="previousBtn">Previous</button>
             <button id="nextBtn">Next</button>
+            <button id="editBtn" class="right">Edit Mode</button>
             <button id="fullscreenBtn" class="right">Fullscreen</button>
         </div>   
-        
+
         <div id="slideFrame"></div>
 
         <template id="titleSlide">
-            <div class="titleSlideContainer">
-                <div class="title"></div>
+            <div class="titleSlideContainer allTypeContainer">
+                <div class="title" ></div>
                 <div class="byFrame"></div>
+                <div class="leftFrame" style="display: none;"></div>
+                <div class="rightFrame" style="display: none;"></div>
             </div>
         </template>
 
         <template id="txtAndImgTemplate">
-            <div class="slideContainer">
+            <div class="slideContainer allTypeContainer">
                 <div class="title"></div>
-                <div class="leftFrame"><img></div>
-                <div class="rightFrame"></div>
+                <div class="byFrame" style="display: none;"></div>
+                <div class="leftFrame"></div>
+                <div class="txtboxOne rightFrame"></div>
             </div>
         </template>
 
         <template id="listSlideTemplate">
-            <div class="slideContainer">
+            <div class="slideContainer allTypeContainer">
                 <div class="title"></div>
-                <div class="leftFrame"></div>
-                <div class="rightFrame"></div>
+                <div class="byFrame" style="display: none;"></div>
+                <div class="txtboxOne leftFrame"><ul><li></li></ul></div>
+                <div class="txtboxTwo rightFrame"><ul><li></li></ul></div>
             </div>
         </template>
 

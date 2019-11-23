@@ -63,6 +63,8 @@
 
 .leftFrame > img {
     width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 .rightFrame {
@@ -72,25 +74,3 @@
     border: 1px solid black;
 }
 
-/* --- CSS for basic theme ---------------------- */
-
-.basicTheme{
-    font-family: "Times New Roman", Times, serif;
-    color: black;
-}
-
-/* --- CSS for classic theme ---------------------- */
-.classicTheme{
-    background-color: #832724 !important;
-    background-image: url("https://www.transparenttextures.com/patterns/argyle.png");
-    font-family: 'Fondamento', cursive;
-    font:bold;
-    color: white;
-}
-
-/* --- CSS for dark theme ---------------------- */
-.darkTheme{
-    background-color: #141414 !important;
-    color: #ffffff;
-    font-family: 'Playfair Display', serif;
-}
