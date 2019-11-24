@@ -36,8 +36,12 @@ const db = function (dbConnectionString) {
     const getUserByNameAndPassword = async function (username, password) {
         return await runQuery('SELECT * FROM users WHERE username = $1', [username])
             .then(user => {
-                let psw = JSON.parse(user.password);
-                user.valid = hash.hash(password, psw.salt).passwordHash === psw.passwordHash;
+                if (user){
+                    let psw = JSON.parse(user.password);
+                    user.valid = hash.hash(password, psw.salt).passwordHash === psw.passwordHash;
+                }else{
+                    user = {valid: false}
+                }
                 return user;
             });
     };
@@ -68,7 +72,6 @@ const db = function (dbConnectionString) {
 
     const deleteExistingPresentation = async function (presentationID) {
         return await runQuery('DELETE FROM "user_isAuthor_presentation" WHERE "user_isAuthor_presentation"."presentationId" = $1 RETURNING *', [presentationID]).then(succsess => {
-            console.log(succsess);
             return runQuery('DELETE FROM presentation WHERE id=$1', [presentationID])
         });
     };

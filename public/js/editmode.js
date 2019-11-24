@@ -6,8 +6,9 @@ const imgFileInp = document.getElementById('imgFileInp');
 const imgUpInp = document.getElementById("imgUpInp").addEventListener("click", evt => imgFileInp.click());
 
 const backgroundColorInp = document.getElementById("backgroundColorInp");
-const backgroundImgInp = document.getElementById('backgroundImgInp')
+const backgroundImgInp = document.getElementById('backgroundImgInp');
 const backgroundImgBtn = document.getElementById("backgroundImgBtn").addEventListener("click", evt => backgroundImgInp.click());
+const removeBackgroundImg = document.getElementById("removeBackgroundImg");
 
 const titleSlideBtn = document.getElementById("titleSlideBtn");
 const txtAndImageSlideBtn = document.getElementById("txtAndImageSlideBtn");
@@ -43,40 +44,69 @@ const deleteSlideBtn = document.getElementById("deleteSlideBtn");
 let token = JSON.parse(sessionStorage.getItem("logindata")).token;
 
 
-
 // --- Classes ---------------------------------------------------
 
 class Slide {
-    constructor(typeOfSlide) {
+    constructor(typeOfSlide, presentationTheme) {
+        this.fontFam = "helvetica";
+        this.fontcolor = "#000000";
+        
+        if(presentationTheme == "classicTheme"){
+            this.fontFam = "Fondamento";
+            this.bColor = "#832724";
+            this.fontcolor = "#ffffff";
+        }else if(presentationTheme == "darkTheme"){
+            this.fontcolor = "#ffffff";
+            this.bColor = "#000000";
+        }
+
         this.slide = {
             type: typeOfSlide,
-            textBoxes: [{text: ["Your text here ..."]}, {text: ["Your text here ..."]}],
             img: {
                 src: ""
             },
             headline: {
-                fontSize: "",
-                fontColor: "",
-                fontType: "",
+                fontSize: "48pt",
+                fontColor: this.fontcolor,
+                fontType: this.fontFam,
                 text: "Your title here ...",
-                align: "",
+                align: "center",
                 bold: false,
                 italic: false,
                 underline: false
             },
             byLine: {
-                fontSize: "",
-                fontColor: "",
-                fontType: "",
+                fontSize: "18pt",
+                fontColor: this.fontcolor,
+                fontType: this.fontFam,
                 text: "By: Your Name",
-                align: "",
+                align: "center",
                 bold: false,
                 italic: false,
                 underline: false
             },
-            backgroundColor: "",
+            backgroundColor: this.bColor,
             backgroundImg: "",
-            theme: ""
+            theme: "",
+            textBoxes: [{
+                fontSize: "18pt",
+                fontColor: this.fontcolor,
+                fontType: this.fontFam,
+                text: "Your text here ...",
+                align: "left",
+                bold: false,
+                italic: false,
+                underline: false
+            }, {
+                fontSize: "18pt",
+                fontColor: this.fontcolor,
+                fontType: this.fontFam,
+                text: "Your text here ...",
+                align: "left",
+                bold: false,
+                italic: false,
+                underline: false
+            }]
         }
     }
 
@@ -164,10 +194,9 @@ async function initialize() {
         presentation = data.presentation;
        
         if (presentation.slides.length === 0) {
-            presentation.slides.push(new Slide("title"));   
+            presentation.slides.push(new Slide("title", presentation.theme));   
         }
-        console.log(presentation.slides[0].slide.headline);
-        
+        console.log(presentation);
         slidePreviews();
         slidePreviewCont.childNodes[0].click();
     } catch (err) {
@@ -264,7 +293,7 @@ saveBtn.addEventListener('click', async evt => {
 });
 
 newSlideBtn.addEventListener('click', evt => {
-    presentation.slides.push(new Slide("txtAndImg"));
+    presentation.slides.push(new Slide("txtAndImg", presentation.theme));
     currentSlide = presentation.slides.length - 1;
     loadSlide();
     slidePreviews();
@@ -316,7 +345,6 @@ deleteSlideBtn.addEventListener('click', evt => {
 
 imgFileInp.onchange = function(evt) {
     let theFile = imgFileInp.files[0];
-    //console.log(theFile)
 
     //check type
     if (theFile.type != "image/png" && theFile.type != "image/jpeg") {
@@ -340,13 +368,42 @@ imgFileInp.onchange = function(evt) {
     reader.readAsDataURL(theFile);
 }
 
+backgroundImgInp.onchange = function(evt) {
+    let theFile = backgroundImgInp.files[0];
+
+    //check type
+    if (theFile.type != "image/png" && theFile.type != "image/jpeg") {
+        console.log("error: wrong filetype");
+        return;
+    }
+    
+    //check size
+    if (theFile.size > 200000) {
+        console.log("error: file too large");
+        return;
+    }
+
+    let reader = new FileReader();
+    reader.onloadend = function() {
+        imgInBase64 = reader.result;
+        presentation.slides[currentSlide].slide.backgroundImg = imgInBase64;
+        loadSlide();
+    }
+
+    reader.readAsDataURL(theFile);
+}
+
+removeBackgroundImg.addEventListener("click", evt => {
+    presentation.slides[currentSlide].slide.backgroundImg = "";
+    loadSlide();
+})
+
 // --- Functions ------------------------------------------------------
 
 function loadSlide() {
     editSlideCont.innerHTML = "";
     let slide = presentation.slides[currentSlide].slide;
     editSlideCont.classList.add(presentation.theme);
-    console.log(presentation);
     let divs;
     let div;
 
@@ -440,13 +497,18 @@ function loadSlide() {
         div.firstElementChild.children[i].addEventListener('input', localSave);
     }
     editSlideCont.style.backgroundColor = slide.backgroundColor;
+    
+    editSlideCont.style.backgroundImage = `url('${slide.backgroundImg}')`;
+    editSlideCont.style.backgroundSize = "cover";
     editSlideCont.appendChild(div);
 }
 
 
 
 function selectValues (){
-    // This select the option in fontSizeSelcet that has the same value as the element that was selectet 
+    // This select the option in fontSizeSelcet that has the same value as the element that was selectet
+    
+    console.log(lastClickedElm);
     
     let options = fontSizeSelect.options;
     let i = 0;
@@ -468,6 +530,8 @@ function selectValues (){
         } else if (lastClickedElm.style.fontFamily == "calibri" && option.value == 1){
             fontFamSelect.selectedIndex = i;
         } else if(lastClickedElm.style.fontFamily == "courier" && option.value == 2){
+            fontFamSelect.selectedIndex = i;
+        }else if(lastClickedElm.style.fontFamily == "Fondamento" && option.value == 3){
             fontFamSelect.selectedIndex = i;
         }else {
             i++;
@@ -555,6 +619,10 @@ function styleSlideSave (evt){
                 }
                 case "2": {
                     lastClickedElm.style.fontFamily = "courier";
+                    break;
+                }
+                case "3": {
+                    lastClickedElm.style.fontFamily = "Fondamento";
                     break;
                 }
                 default: {}
