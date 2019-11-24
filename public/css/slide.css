@@ -61,3 +61,27 @@
     border: 1px solid black;
 }
 
+/* --- CSS for basic theme ---------------------- */
+
+.basicTheme{
+    font-family: Helvetica, Arial, sans-serif;
+    color: black;
+}
+
+/* --- CSS for classic theme ---------------------- */
+.classicTheme{
+    /*
+    background-color: #832724;
+    background-image: url("https://www.transparenttextures.com/patterns/argyle.png");
+    */
+    font-family: 'Fondamento', cursive;
+    font:bold;
+    color: white;
+}
+
+/* --- CSS for dark theme ---------------------- */
+.darkTheme{
+    /*background-color: #141414;*/
+    color: #ffffff;
+    font-family: Helvetica, Arial, sans-serif;
+}

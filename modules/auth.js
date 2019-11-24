@@ -18,7 +18,6 @@ const authenticate = function (req, res, next) {
                 return res.status(401).json({msg: 'Invalid Authentication Credentials'});
             }
             req.userID = user.id;
-
             next();
         });
     } catch (err) {

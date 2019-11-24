@@ -42,7 +42,6 @@ const db = function (dbConnectionString) {
                 } else {
                     user = {valid: false};
                 }
-
                 return user;
             });
     };
@@ -55,6 +54,10 @@ const db = function (dbConnectionString) {
         return await runQuery('SELECT * FROM presentation WHERE id = $1', [presentationID]);
     };
 
+    const getPresentationVisibility = async function(presentationID){
+        return await runQuery("SELECT visibility FROM presentation WHERE id = $1", [presentationID]);
+    };
+
     const checkUserIsAuthor = async function (userID, presentationID) {
         return await runQuery('SELECT * FROM "user_isAuthor_presentation" WHERE "user_isAuthor_presentation"."userId" = $1 AND "user_isAuthor_presentation"."presentationId" = $2', [userID, presentationID]);
     };
@@ -63,9 +66,12 @@ const db = function (dbConnectionString) {
         return await runQuery('UPDATE presentation SET presentation = $1 WHERE id = $2 RETURNING id', [presentation, presentationID]);
     };
 
+    const updateExistingPresentationVisibility = async function (visibility, presentationID) {
+        return await runQuery('UPDATE presentation SET visibility = $1 WHERE id = $2 RETURNING id', [visibility, presentationID]);
+    };
+
     const deleteExistingPresentation = async function (presentationID) {
         return await runQuery('DELETE FROM "user_isAuthor_presentation" WHERE "user_isAuthor_presentation"."presentationId" = $1 RETURNING *', [presentationID]).then(succsess => {
-            console.log(succsess);
             return runQuery('DELETE FROM presentation WHERE id=$1', [presentationID])
         });
     };
@@ -88,7 +94,7 @@ const db = function (dbConnectionString) {
     };
 
     const getAllPresentationFromUser = async function(userId) {
-        return await runQuery('SELECT id, name, date, presentation FROM presentation INNER JOIN "user_isAuthor_presentation" ON presentation.id = "user_isAuthor_presentation"."presentationId" WHERE "user_isAuthor_presentation"."userId" = $1', [userId])
+        return await runQuery('SELECT id, name, date, presentation, visibility FROM presentation INNER JOIN "user_isAuthor_presentation" ON presentation.id = "user_isAuthor_presentation"."presentationId" WHERE "user_isAuthor_presentation"."userId" = $1', [userId])
     };
 
     const deleteUserAccount = async function(userID){
@@ -111,6 +117,8 @@ const db = function (dbConnectionString) {
         updateUserEmail: updateUserEmail,
         updateUserPassword: updateUserPassword,
         getAllPresentationFromUser: getAllPresentationFromUser,
+        updateExistingPresentationVisibility: updateExistingPresentationVisibility,
+        getPresentationVisibility: getPresentationVisibility,
         deleteUserAccount: deleteUserAccount
     }
 

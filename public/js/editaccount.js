@@ -78,60 +78,92 @@ signoutBtn.addEventListener('click', evt => {
 overviewBtn.addEventListener("click", evt => window.location.href = "overview.html");
 
 saveChangesBtn.addEventListener("click", async evt => {
+    let regx = /^[^\s]+@[^\s]+\.[A-Za-z]{2,5}$/;
+    let match = regx.test(changeEmailInp.value);
     
-    let url = `http://localhost:8080/users/`;
-
-    if(changePasswordInp.value === confirmPasswordInp.value){
-        txtOut.style.visibility = "hidden";
-
-        if(changePasswordInp.value){
-            newAccountInfo.password = changePasswordInp.value;
-        }
-
-        let cfg = {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                "authorization": token
-            },
-            body: JSON.stringify(newAccountInfo)
-        }
-
-        try { 
-            let resp = await fetch(url, cfg);
-            let data = await resp.json();
-
-            console.log(resp.status);
-
-            if (resp.status == 200){
-                txtOut.innerHTML = "Saved changes";
-                txtOut.style.visibility = "visible";
-                txtOut.style.color = "green";
-            }else if(resp.status == 404){
-                txtOut.innerHTML = data.msg;
-                txtOut.style.visibility = "visible";
-                txtOut.style.color = "red";
-            }else if(resp.status == 500){
-                txtOut.innerHTML = "Not able to save changes";
-                txtOut.style.visibility = "visible";
-                txtOut.style.color = "red";
-            }
-            
-            if(resp.status > 200){
-                throw(data);
-            };
-        }
-        catch (err) {
-            console.log(err);
-        }
-
-    }else{
-        txtOut.style.color = "red";
-        txtOut.innerHTML = "Password's does not match.";
+    if(!changeEmailInp.value || !changeUsernameInp.value){
+        txtOut.innerHTML = "All the fields need to be filled out";
         txtOut.style.visibility = "visible";
+        return;
     }
     
+    if(!match){
+        txtOut.innerHTML = "Not a valid email";
+        txtOut.style.visibility = "visible";
+        return;
+    }
+    
+    if(changeUsernameInp.value.length < 4){
+        txtOut.innerHTML = "The username must be four characters or more";
+        txtOut.style.visibility = "visible";
+        return;
+    }
+
+    if(changePasswordInp.value.length < 4 && changePasswordInp.value){
+        txtOut.innerHTML = "The password must be four characters or more";
+        txtOut.style.visibility = "visible";
+        return;
+    }
+    
+    if(changePasswordInp.value !== confirmPasswordInp.value) {
+        txtOut.innerHTML = "The passwords does not match";
+        txtOut.style.visibility = "visible";
+        return;
+    }
+    
+    saveChanges()
+    
 });
+
+async function saveChanges(){
+    let url = `http://localhost:8080/users/`;
+
+    txtOut.style.visibility = "hidden";
+
+    if(changePasswordInp.value){
+        newAccountInfo.password = changePasswordInp.value;
+    }
+
+    let cfg = {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "authorization": token
+        },
+        body: JSON.stringify(newAccountInfo)
+    }
+
+    try { 
+        let resp = await fetch(url, cfg);
+        let data = await resp.json();
+
+        console.log(resp.status);
+
+        if (resp.status == 200){
+            txtOut.innerHTML = "Saved changes";
+            txtOut.style.visibility = "visible";
+            txtOut.style.color = "green";
+        }else if(resp.status == 404){
+            txtOut.innerHTML = data.msg;
+            txtOut.style.visibility = "visible";
+            txtOut.style.color = "red";
+        }else if(resp.status == 500){
+            txtOut.innerHTML = "Not able to save changes";
+            txtOut.style.visibility = "visible";
+            txtOut.style.color = "red";
+        }
+            
+        if(resp.status > 200){
+            throw(data);
+        };
+        }
+
+    catch (err) {
+        console.log(err);
+    }
+
+    
+}
 
 deleteAccountBtn.addEventListener("click", evt => {
     deleteModal.style.display = "block";

@@ -34,6 +34,7 @@
                         <option value="0">Helvetica</option>
                         <option value="1">Calibri</option>
                         <option value="2">Courier</option>
+                        <option value="3">Fondamento</option>
                     </select>
 
                     <select id="fontSizeSelect">
@@ -54,7 +55,6 @@
                     <button id="acBtn" class="button"><i id="acBtn" class="material-icons">format_align_center</i></button>
                     <button id="arBtn" class="button"><i id="arBtn" class="material-icons">format_align_right</i></button>
                     
-
                     <button class="button space"><label for="textColorInp">Text Color</label></button>
                     <input id="textColorInp"  type="color" style="width: 50px" value="#ff0000">
 
@@ -64,8 +64,13 @@
                     <button id="backgroundImgBtn" class="button"><label for="backgroundImgBtn">Background image</label></button>
                     <input id="backgroundImgInp"  type="file" style="width: 50px">
 
+                    <button id="removeBackgroundImg" class="button">Remove</button>
+
                     <button id="saveBtn" class="button moreSpace" style="background-color: #5f4eff;">Save</button>
                     <button id="backBtn" class="button">Back</button>
+
+
+                    
                 </div>
             </div>
         </div>
@@ -78,7 +83,6 @@
             <div id="editSlideCont">
                 <!-- Here goes the code to edit a slide, JavaScript -->
             </div>
-
         </div>
 
         <template id="titleSlide">
