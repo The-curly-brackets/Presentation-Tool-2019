@@ -17,6 +17,7 @@ const txtAndImageSlideBtn = document.getElementById("txtAndImageSlideBtn");
 const listSlideBtn = document.getElementById("listSlideBtn");
 
 const backBtn = document.getElementById("backBtn");
+const viewBtn = document.getElementById("viewBtn");
 const saveBtn = document.getElementById("saveBtn");
 
 const titleTemplate = document.getElementById("titleSlide");
@@ -244,6 +245,12 @@ newSlideBtn.addEventListener('click', evt => {
 
 backBtn.addEventListener('click', evt => {
     window.location.href = "../html/overview.html";
+});
+
+viewBtn.addEventListener('click', evt => {
+    let urlParams = new URLSearchParams(window.location.search);
+    let id = urlParams.get('id');
+    window.location.href = "../html/viewmode.html?id=" + id;
 });
 
 listSlideBtn.addEventListener('click', evt => {
