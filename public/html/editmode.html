@@ -4,7 +4,8 @@
         <meta charset="UTF-8">
         <link rel="stylesheet" type="text/css" href="../css/toolMain.css">
         <link rel="stylesheet" type="text/css" href="../css/editmodeMain.css">
-        <link rel="stylesheet" type="text/css" href="../css/editmodeSlide.css">
+        <link rel="stylesheet" type="text/css" href="../css/slide.css">
+        <link rel="stylesheet" type="text/css" href="../css/themes.css">
         <link href="https://fonts.googleapis.com/css?family=Playfair+Display&display=swap" rel="stylesheet"> 
         <link href="https://fonts.googleapis.com/css?family=Fondamento&display=swap" rel="stylesheet"> 
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -63,8 +64,12 @@
                     <button id="backgroundImgBtn" class="button"><label for="backgroundImgBtn">Background image</label></button>
                     <input id="backgroundImgInp"  type="file" style="width: 50px">
 
+                    <button id="removeBackgroundImg" class="button">Remove</button>
+
                     <button id="saveBtn" class="button moreSpace" style="background-color: #5f4eff;">Save</button>
                     <button id="backBtn" class="button">Back</button>
+
+
                     
                 </div>
             </div>
@@ -84,12 +89,15 @@
             <div class="titleSlideContainer allTypeContainer">
                 <div class="title" contenteditable="true"></div>
                 <div class="byFrame" contenteditable="true"></div>
+                <div class="leftFrame" style="display: none;"></div>
+                <div class="rightFrame" style="display: none;"></div>
             </div>
         </template>
 
         <template id="txtAndImgTemplate">
             <div class="slideContainer allTypeContainer">
                 <div class="title" contenteditable="true"></div>
+                <div class="byFrame" style="display: none;"></div>
                 <div class="leftFrame" contenteditable="true"></div>
                 <div class="txtboxOne rightFrame" contenteditable="true"></div>
             </div>
@@ -98,11 +106,12 @@
         <template id="listSlideTemplate">
             <div class="slideContainer allTypeContainer">
                 <div class="title" contenteditable="true"></div>
+                <div class="byFrame" style="display: none;"></div>
                 <div class="txtboxOne leftFrame" contenteditable="true"><ul><li></li></ul></div>
                 <div class="txtboxTwo rightFrame" contenteditable="true"><ul><li></li></ul></div>
             </div>
         </template>
 
     </body>
-    <script src="../js/editmode.js"></script>
+    <script type="module" src="../js/editmode.js"></script>
 </html>

@@ -1,3 +1,5 @@
+import {loadSlideOnTemplateAndClone} from "./slideUtil.js";
+
 const newPresBtn = document.getElementById("newPresBtn");
 const presListCont = document.getElementById("presListCont");
 const signoutBtn = document.getElementById("signoutBtn");
@@ -36,7 +38,7 @@ newPresBtn.addEventListener('click', evt => {
 
 closeModal.onclick = function () {
     newPresModal.style.display = "none";
-}
+};
 
 window.onclick = function (event) {
     if (event.target == newPresModal || event.target == delPresModal || event.target == shareModal) {
@@ -114,9 +116,29 @@ async function listPresentations() {
 
             name.innerHTML = data[i].name;
             date.innerHTML = data[i].date;
-
             let div = presTemplate.content.cloneNode(true);
 
+            if (data[i].presentation.slides.length > 0) {
+                let slide = data[i].presentation.slides[0].slide;
+
+
+                //preview
+                const presPreview = div.firstElementChild.children[0];
+                presPreview.classList.add(data[i].presentation.theme);
+                const titleTemplate = document.getElementById("titleSlide");
+                const txtAndImgTemplate = document.getElementById("txtAndImgTemplate");
+                const listSlideTemplate = document.getElementById("listSlideTemplate");
+
+                let previewDiv;
+                if (slide.type === "title") {
+                    previewDiv = loadSlideOnTemplateAndClone(titleTemplate, slide);
+                } else if (slide.type === "txtAndImg") {
+                    previewDiv = loadSlideOnTemplateAndClone(txtAndImgTemplate, slide);
+                } else if (slide.type === "listSlide") {
+                    previewDiv = loadSlideOnTemplateAndClone(listSlideTemplate, slide);
+                }
+                presPreview.appendChild(previewDiv);
+            }
             let deleteBtn = div.firstElementChild.children[2].children[0];
 
 
@@ -197,8 +219,7 @@ async function listPresentations() {
 }
 
 deletePresBtn.addEventListener('click', async evt => {
-    let id = presID;
-    let url = "http://localhost:8080/presentations/" + id;
+    let url = "http://localhost:8080/presentations/" + presID;
 
     let cfg = {
         method: "DELETE",
@@ -212,8 +233,7 @@ deletePresBtn.addEventListener('click', async evt => {
         let resp = await fetch(url, cfg);
         let data = await resp.json();
         delPresModal.style.display ="none";
-        listPresentations();
-        console.log(data);
+        await listPresentations();
     } catch (err) {
         console.log(err);
     }

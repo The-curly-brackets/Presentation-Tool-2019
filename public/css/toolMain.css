@@ -12,9 +12,9 @@ body{
 .button {
   background-color: white;
   font-size: small;
+    border: 1px solid black;
   border-radius: 5px;
   padding: 10px 10px;
-  border: none;
   display: inline-block;
   line-height: 1;
   text-transform: none;
@@ -22,6 +22,11 @@ body{
   word-wrap: normal;
   white-space: nowrap;
   direction: ltr;
+}
+.buttonBlue{
+    background-color: #2f71e3;
+    color:white;
+    border:none;
 }
 
 .button:hover{

@@ -36,11 +36,11 @@ const db = function (dbConnectionString) {
     const getUserByNameAndPassword = async function (username, password) {
         return await runQuery('SELECT * FROM users WHERE username = $1', [username])
             .then(user => {
-                if (user){
+                if (user) {
                     let psw = JSON.parse(user.password);
                     user.valid = hash.hash(password, psw.salt).passwordHash === psw.passwordHash;
-                }else{
-                    user = {valid: false}
+                } else {
+                    user = {valid: false};
                 }
                 return user;
             });
@@ -94,7 +94,7 @@ const db = function (dbConnectionString) {
     };
 
     const getAllPresentationFromUser = async function(userId) {
-        return await runQuery('SELECT id, name, date, visibility FROM presentation INNER JOIN "user_isAuthor_presentation" ON presentation.id = "user_isAuthor_presentation"."presentationId" WHERE "user_isAuthor_presentation"."userId" = $1', [userId])
+        return await runQuery('SELECT id, name, date, presentation, visibility FROM presentation INNER JOIN "user_isAuthor_presentation" ON presentation.id = "user_isAuthor_presentation"."presentationId" WHERE "user_isAuthor_presentation"."userId" = $1', [userId])
     };
 
     const deleteUserAccount = async function(userID){

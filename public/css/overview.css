@@ -61,25 +61,31 @@ h1{
 /* CSS for the presentations list */
 
 .presFrame{
+    position: relative;
     margin-top: 10px;
     background-color: white;
     max-width: 1100px;
-    min-height: 100px;
+    min-height: 150px;
     text-align: left;
 }
 
 .presPreview{
     position: absolute;
     left: 0;
+    top: 9px;
+    width: 1000px;
+    height: 560px;
     background-color: white;
-    border: 1px solid black;
-    width: 141px;
-    height: 80px;
+    border: 5px solid black;
+
+    transform-origin: left top;
+    transform: scale(0.2, 0.2);
 }
 
 .presInfoDiv{
     position: absolute;
-    left: 150px;
+    left: 250px;
+    top: 20px;
 }
 
 .presFrame> div{
@@ -89,6 +95,7 @@ h1{
 .toolBtnDiv{
     position: absolute;
     right: 0;
+    top: 30px;
 }
 
 div> a{

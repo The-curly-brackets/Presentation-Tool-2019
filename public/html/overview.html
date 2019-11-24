@@ -3,9 +3,10 @@
         <title>Pitch'n</title>
         <meta charset="UTF-8">
         <link rel="stylesheet" type="text/css" href="../css/toolMain.css">
+        <link rel="stylesheet" type="text/css" href="../css/themes.css">
         <link rel="stylesheet" type="text/css" href="../css/overview.css">
+        <link rel="stylesheet" type="text/css" href="../css/slide.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-
     </head>
     <body>
         <div>
@@ -74,6 +75,34 @@
             </div>
         </div>
 
+        <!-- Templates for the previews -->
+        <template id="titleSlide">
+            <div class="titleSlideContainer allTypeContainer">
+                <div class="title" ></div>
+                <div class="byFrame"></div>
+                <div class="leftFrame" style="display: none;"></div>
+                <div class="rightFrame" style="display: none;"></div>
+            </div>
+        </template>
+
+        <template id="txtAndImgTemplate">
+            <div class="slideContainer allTypeContainer">
+                <div class="title"></div>
+                <div class="byFrame" style="display: none;"></div>
+                <div class="leftFrame"></div>
+                <div class="txtboxOne rightFrame"></div>
+            </div>
+        </template>
+
+        <template id="listSlideTemplate">
+            <div class="slideContainer allTypeContainer">
+                <div class="title"></div>
+                <div class="byFrame" style="display: none;"></div>
+                <div class="txtboxOne leftFrame"><ul><li></li></ul></div>
+                <div class="txtboxTwo rightFrame"><ul><li></li></ul></div>
+            </div>
+        </template>
+
         <div id="shareModal" class="modal">
             <!-- Modal content -->
             <div class="modal-content shareModal">
@@ -84,5 +113,5 @@
         </div>
 
     </body>
-    <script src="../js/overview.js"></script>
+    <script type="module" src="../js/overview.js"></script>
 </html>
