@@ -7,6 +7,7 @@ const publicPresentationBtn = document.getElementById("publicPresentationBtn");
 const presNameInp = document.getElementById("presNameInp");
 const delPresModal = document.getElementById("delPresModal");
 const deletePresBtn = document.getElementById("deletePresBtn");
+const shareModal =document.getElementById("shareModal");
 
 const newPresModal = document.getElementById("newPresModal");
 const closeModal = document.getElementsByClassName("close")[0];
@@ -38,9 +39,10 @@ closeModal.onclick = function () {
 }
 
 window.onclick = function (event) {
-    if (event.target == newPresModal || event.target == delPresModal) {
+    if (event.target == newPresModal || event.target == delPresModal || event.target == shareModal) {
         newPresModal.style.display = "none";
         delPresModal.style.display = "none";
+        shareModal.style.display = "none";
     }
 };
 
@@ -135,6 +137,10 @@ async function listPresentations() {
             closeDelModal.onclick = function () {
                 delPresModal.style.display = "none";
             };
+            let closeShareModal = shareModal.querySelector('span');
+            closeShareModal.onclick = function () {
+                shareModal.style.display = "none";
+            };
 
             let editbtn = div.firstElementChild.children[2].children[1];
             editbtn.addEventListener('click', function (evt) {
@@ -147,17 +153,52 @@ async function listPresentations() {
             });
 
             let sharebtn = div.firstElementChild.children[2].children[3];
-            sharebtn.addEventListener('click', function (evt) {
-                //TODO
+            if(data[i].visibility === 1){
+                sharebtn.innerHTML = "Share";
+            }else if(data[i].visibility === 2){
+                sharebtn.innerHTML = "Unshare";
+            }
+            let urlout = document.getElementById("urlout");
+            console.log(data[i].visibility);
+            urlout.innerHTML = "https://presentation-tool-2019.herokuapp.com/viewmode.html?id=" + data[i].id;
+            sharebtn.addEventListener("click", async evt => {
+                presID = data[i].id;
+                let id = presID;
+                let url = "http://localhost:8080/presentations/visibility/" + id;
+                let newVisibility = data[i].visibility === 1 ? {visibility: 2} : {visibility: 1};
+                console.log(data[i].visibility);
+                let cfg = {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "authorization": token
+                    },
+                    body:JSON.stringify(newVisibility)
+                };
+                try {
+                    let resp = await fetch(url, cfg);
+                    let payload = await resp.json();
+                    console.log(payload.msg);
+                    data[i].visibility = newVisibility.visibility;
+
+                    if(data[i].visibility === 1){
+                        sharebtn.innerHTML = "Share";
+                        shareModal.style.display = "none";
+                    }else if(data[i].visibility === 2){
+                        sharebtn.innerHTML = "Unshare";
+                        shareModal.style.display = "block";
+                    }
+                } catch (err) {
+                    console.log(err);
+                }
             });
-
-
             presListCont.appendChild(div);
+            }
+        }catch (err){
+            console.log(err);
         }
-    } catch (err) {
-        console.log(err);
-    }
 }
+
 deletePresBtn.addEventListener('click', async evt => {
     let id = presID;
     let url = "http://localhost:8080/presentations/" + id;
@@ -180,3 +221,5 @@ deletePresBtn.addEventListener('click', async evt => {
         console.log(err);
     }
 });
+
+

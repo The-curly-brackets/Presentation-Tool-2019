@@ -24,12 +24,23 @@ router.get("/overview", async function (req, res, next) {
 // TODO: maybe check on the visibility of the presentation ? TBD
 router.get("/:presentationID", async function (req, res, next) {
     db.getPresentationById(req.params.presentationID).then(presentation => {
-        res.status(200).send(presentation);
-    }).catch((err) => {
-        res.status(500).send(err);
-    });
+        if (presentation.visibility === 2) {
+            return res.status(200).send(presentation);
+        }
+        else {
+            let token = req.headers['authorization'];
+            let userID = tokenProtect.getUserIDFromToken(token);
+            db.checkUserIsAuthor(userID, req.params.presentationID).then(isAuthor => {
+                if (isAuthor)
+                    res.status(200).send(presentation);
+                else if (presentation.visibility === 1)
+                    return res.status(403)
+            }).catch((err) => {
+                res.status(500).send(err);
+            });
+        }
+    })
 });
-
 
 // Here we try to create a new presentation.
 router.use(tokenProtect.checkToken);
@@ -64,6 +75,35 @@ router.get("/edit/:presentationID", async function (req, res, next) {
         }).catch(err => res.status(500).send(err));
     } else {
         res.status(403).send({msg: "No token"});
+    }
+});
+
+
+router.use(tokenProtect.checkToken);
+router.put("/visibility/:presentationID", async function (req, res, next) {
+    let token = req.headers['authorization'];
+
+    if (token) {
+        let userID = tokenProtect.getUserIDFromToken(token);
+        let presentationID = parseInt(req.params.presentationID);
+        let visibility =  parseInt(req.body.visibility);
+
+
+        db.checkUserIsAuthor(userID,presentationID).then(isAuthor => {
+            if (isAuthor) {
+                db.updateExistingPresentationVisibility(visibility, presentationID).then(succesfull => {
+                    if (succesfull) {
+                        res.status(200).send({msg: `Updated ${presentationID} succesfully`});
+                    } else {
+                        res.status(500).send({msg: `Could not update ${presentationID}`});
+                    }
+                })
+            } else {
+                res.status(403).send({msg: "You are not author of this presentation"});
+            }
+        }).catch(err => res.status(500).send(err));
+    } else {
+        res.status(403).send({msg: "No token"})
     }
 });
 
@@ -124,8 +164,4 @@ router.delete("/:presentationID", async function (req, res, next) {
         res.status(403).send({msg: "No token"});
     }
 });
-router.put("/visibility/:presentationID", async function (req, res, next) {
-
-});
-
 module.exports = router;
