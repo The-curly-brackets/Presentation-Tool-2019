@@ -183,7 +183,7 @@ async function listPresentations() {
             sharebtn.addEventListener("click", async evt => {
                 presID = data[i].id;
                 let id = presID;
-                let url = "https://presentation-tool-2019.herokuapp.com/html/presentations/visibility/" + id;
+                let url = "https://presentation-tool-2019.herokuapp.com/presentations/visibility/" + id;
                 let newVisibility = data[i].visibility === 1 ? {visibility: 2} : {visibility: 1};
                 console.log(data[i].visibility);
                 let cfg = {
