@@ -15,6 +15,7 @@ const modalDeleteBtn = document.getElementById("modalDeleteBtn");
 
 let token = JSON.parse(sessionStorage.getItem("logindata")).token;
 let newAccountInfo = {};
+
 getUserInfo();
 
 changeUsernameInp.addEventListener('input', evt => {

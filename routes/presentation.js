@@ -51,8 +51,9 @@ router.post("/", async function (req, res, next) {
 
     if (token) {
         let userID = tokenProtect.getUserIDFromToken(token);
-
+        console.log(req.body);
         db.createPresentation(userID, req.body).then(presentationId => {
+            
             res.status(200).send(presentationId);
         }).catch(err => res.status(500).send(err));
     }

@@ -74,7 +74,7 @@ const db = function (dbConnectionString) {
     };
     const createPresentation = async function (userID, presentation) {
         return await runQuery("INSERT INTO presentation (presentation, visibility, name, date) VALUES (CAST($1 AS json), 1, $2, $3) RETURNING id", [presentation, presentation.name, presentation.date]).then(presentationID => {
-            return runQuery('INSERT INTO "user_isAuthor_presentation" ("userId", "presentationId") VALUES ($1, $2) RETURNING "presentationId"', [userID, presentationID.id])
+            return runQuery('INSERT INTO "user_isAuthor_presentation" ("userId", "presentationId") VALUES ($1, $2) RETURNING "presentationId"', [userID, presentationID.id]);
         });
     };
 
@@ -94,6 +94,12 @@ const db = function (dbConnectionString) {
         return await runQuery('SELECT id, name, date, visibility FROM presentation INNER JOIN "user_isAuthor_presentation" ON presentation.id = "user_isAuthor_presentation"."presentationId" WHERE "user_isAuthor_presentation"."userId" = $1', [userId])
     };
 
+    const deleteUserAccount = async function(userID){
+        return await runQuery('DELETE FROM "user_isAuthor_presentation" WHERE "user_isAuthor_presentation"."userId" = $1', [userID]).then(succses => {
+            return runQuery ('DELETE FROM users WHERE id = $1', [userID]);
+        });
+    }
+
     return {
         getUserByID: getUserByID,
         getUserByNameAndPassword: getUserByNameAndPassword,
@@ -109,7 +115,8 @@ const db = function (dbConnectionString) {
         updateUserPassword: updateUserPassword,
         getAllPresentationFromUser: getAllPresentationFromUser,
         updateExistingPresentationVisibility: updateExistingPresentationVisibility,
-        getPresentationVisibility: getPresentationVisibility
+        getPresentationVisibility: getPresentationVisibility,
+        deleteUserAccount: deleteUserAccount
     }
 
 };

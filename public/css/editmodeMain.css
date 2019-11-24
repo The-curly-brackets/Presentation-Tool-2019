@@ -19,14 +19,14 @@ body{
 
 /* ------------------------------- */
 
-#slideTools{
+.slideTools{
     margin-top: 10px;
     font-size: small;
     background-color: #ebebeb;
     height: 42px;
 }
 
-#slideTools> a {
+.slideTools> a {
     font-size: x-large;
     color:black;
     text-decoration: none;

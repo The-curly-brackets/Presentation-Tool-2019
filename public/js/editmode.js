@@ -2,9 +2,10 @@ const newSlideBtn = document.getElementById("newSlideBtn");
 const numberListBtn = document.getElementById("numberListBtn");
 const bulletListBtn = document.getElementById("bulletListBtn");
 
-const imgFileInp = document.getElementById('imgFileInp')
+const imgFileInp = document.getElementById('imgFileInp');
 const imgUpInp = document.getElementById("imgUpInp").addEventListener("click", evt => imgFileInp.click());
 
+const backgroundColorInp = document.getElementById("backgroundColorInp");
 const backgroundImgInp = document.getElementById('backgroundImgInp')
 const backgroundImgBtn = document.getElementById("backgroundImgBtn").addEventListener("click", evt => backgroundImgInp.click());
 
@@ -37,6 +38,7 @@ const alBtn = document.getElementById("alBtn").addEventListener('click', styleSl
 const acBtn = document.getElementById("acBtn").addEventListener('click', styleSlideSave);
 const arBtn = document.getElementById("arBtn").addEventListener('click', styleSlideSave);
 
+const deleteSlideBtn = document.getElementById("deleteSlideBtn");
 
 let token = JSON.parse(sessionStorage.getItem("logindata")).token;
 
@@ -135,6 +137,7 @@ let lastClickedElm;
 let currentSlide = 0;
 let lastClickedSlide; 
 let presentation;
+let imgInBase64;
 
 initialize();
 
@@ -164,7 +167,9 @@ async function initialize() {
             presentation.slides.push(new Slide("title"));   
         }
         console.log(presentation.slides[0].slide.headline);
+        
         slidePreviews();
+        slidePreviewCont.childNodes[0].click();
     } catch (err) {
         console.log(err);
     }
@@ -287,6 +292,42 @@ bulletListBtn.addEventListener('click', evt => {
 fontFamSelect.addEventListener('change', styleSlideSave);
 fontSizeSelect.addEventListener('change', styleSlideSave);
 
+backgroundColorInp.addEventListener('input', styleSlideSave);
+
+deleteSlideBtn.addEventListener('click', evt => {
+    presentation.slides.splice(currentSlide, 1);
+    currentSlide--;
+    loadSlide();
+    slidePreviews()
+    slidePreviewCont.childNodes[currentSlide].click();
+});
+
+imgFileInp.onchange = function(evt) {
+    let theFile = imgFileInp.files[0];
+    //console.log(theFile)
+
+    //check type
+    if (theFile.type != "image/png" && theFile.type != "image/jpeg") {
+        console.log("error: wrong filetype");
+        return;
+    }
+    
+    //check size
+    if (theFile.size > 200000) {
+        console.log("error: file too large");
+        return;
+    }
+
+    let reader = new FileReader();
+    reader.onloadend = function() {
+        imgInBase64 = reader.result;
+        presentation.slides[currentSlide].slide.img.src = imgInBase64;
+        loadSlide();
+    }
+
+    reader.readAsDataURL(theFile);
+}
+
 // --- Functions ------------------------------------------------------
 
 function loadSlide(){
@@ -296,6 +337,10 @@ function loadSlide(){
     console.log(presentation);
     let divs;
     let div;
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     if (slide.type == "title"){
         divs = titleTemplate.content.querySelectorAll("div");
         divs[1].innerHTML = slide.headline.text;
@@ -307,6 +352,7 @@ function loadSlide(){
         divs[1].style.fontStyle = slide.headline.italic;
         divs[1].style.textDecoration = slide.headline.underline;
         divs[1].style.color = slide.headline.fontColor;
+        divs[1].style.textAlign = slide.headline.align;
 
         divs[2].style.fontFamily = slide.byLine.fontType;
         divs[2].style.fontSize = slide.byLine.fontSize;
@@ -314,6 +360,7 @@ function loadSlide(){
         divs[2].style.fontStyle = slide.byLine.italic;
         divs[2].style.textDecoration = slide.byLine.underline;
         divs[2].style.color = slide.byLine.fontColor;
+        divs[2].style.textAlign = slide.byLine.align;
 
         div = titleTemplate.content.cloneNode(true);
 
@@ -330,6 +377,7 @@ function loadSlide(){
         divs[1].style.fontStyle = slide.headline.italic;
         divs[1].style.textDecoration = slide.headline.underline;
         divs[1].style.color = slide.headline.fontColor;
+        divs[1].style.textAlign = slide.headline.align;
 
         divs[3].style.fontFamily = slide.textBoxes[0].fontType;
         divs[3].style.fontSize = slide.textBoxes[0].fontSize;
@@ -337,6 +385,7 @@ function loadSlide(){
         divs[3].style.fontStyle = slide.textBoxes[0].italic;
         divs[3].style.textDecoration = slide.textBoxes[0].underline;
         divs[3].style.color = slide.textBoxes[0].fontColor;
+        divs[3].style.textAlign = slide.textBoxes[0].align;
 
         div = txtAndImgTemplate.content.cloneNode(true);
 
@@ -353,6 +402,7 @@ function loadSlide(){
         divs[1].style.fontStyle = slide.headline.italic;
         divs[1].style.textDecoration = slide.headline.underline;
         divs[1].style.color = slide.headline.fontColor;
+        divs[1].style.textAlign = slide.headline.align;
 
         divs[2].style.fontFamily = slide.textBoxes[0].fontType;
         divs[2].style.fontSize = slide.textBoxes[0].fontSize;
@@ -360,6 +410,7 @@ function loadSlide(){
         divs[2].style.fontStyle = slide.textBoxes[0].italic;
         divs[2].style.textDecoration = slide.textBoxes[0].underline;
         divs[2].style.color = slide.textBoxes[0].fontColor;
+        divs[2].style.textAlign = slide.textBoxes[0].align;
 
         divs[3].style.fontFamily = slide.textBoxes[1].fontType;
         divs[3].style.fontSize = slide.textBoxes[1].fontSize;
@@ -367,20 +418,88 @@ function loadSlide(){
         divs[3].style.fontStyle = slide.textBoxes[1].italic;
         divs[3].style.textDecoration = slide.textBoxes[1].underline;
         divs[3].style.color = slide.textBoxes[1].fontColor;
-
+        divs[3].style.textAlign = slide.textBoxes[1].align;
 
         div = listSlideTemplate.content.cloneNode(true);
     }
     
     for (let i = 0; i < div.firstElementChild.children.length; ++i) {
-        div.firstElementChild.children[i].addEventListener('click', evt => lastClickedElm = evt.target);
+        div.firstElementChild.children[i].addEventListener('click', evt => {
+            lastClickedElm = evt.target;
+            selectValues()
+        });
         div.firstElementChild.children[i].addEventListener('input', localSave);
     }
-
+    editSlideCont.style.backgroundColor = slide.backgroundColor;
     editSlideCont.appendChild(div);
 }
 
+
+
+function selectValues (){
+    // This select the option in fontSizeSelcet that has the same value as the element that was selectet 
+    
+    let options = fontSizeSelect.options;
+    let i = 0;
+
+    for (let option of options) {
+        if(option.value + "pt" == lastClickedElm.style.fontSize){
+            fontSizeSelect.selectedIndex = i;
+        }else {
+            i++;
+        }
+    }
+
+    options = fontFamSelect.options;
+    i = 0;
+
+    for (let option of options) {
+        if (lastClickedElm.style.fontFamily == "helvetica" && option.value == 0){
+            fontFamSelect.selectedIndex = i;
+        } else if (lastClickedElm.style.fontFamily == "calibri" && option.value == 1){
+            fontFamSelect.selectedIndex = i;
+        } else if(lastClickedElm.style.fontFamily == "courier" && option.value == 2){
+            fontFamSelect.selectedIndex = i;
+        }else {
+            i++;
+        }
+    }
+
+    // Henta fra nettet https://css-tricks.com/converting-color-spaces-in-javascript/
+    
+    function RGBToHex(rgb) {
+        // Choose correct separator
+        let sep = rgb.indexOf(",") > -1 ? "," : " ";
+        // Turn "rgb(r,g,b)" into [r,g,b]
+        rgb = rgb.substr(4).split(")")[0].split(sep);
+      
+        let r = (+rgb[0]).toString(16),
+            g = (+rgb[1]).toString(16),
+            b = (+rgb[2]).toString(16);
+      
+        if (r.length == 1)
+          r = "0" + r;
+        if (g.length == 1)
+          g = "0" + g;
+        if (b.length == 1)
+          b = "0" + b;
+      
+        return "#" + r + g + b;
+    }
+
+    textColorInp.value = RGBToHex(lastClickedElm.style.color);
+
+    if(!editSlideCont.style.backgroundColor){
+        editSlideCont.style.backgroundColor = "#ffffff";
+    }
+    backgroundColorInp.value = RGBToHex(editSlideCont.style.backgroundColor);
+}
+
+
 function styleSlideSave (evt){
+    editSlideCont.style.backgroundColor = backgroundColorInp.value;
+    presentation.slides[currentSlide].slide.backgroundColor = backgroundColorInp.value;
+    
     if(lastClickedElm){
         let currentDiv = lastClickedElm;
         let containerDiv = currentDiv.parentNode;
@@ -406,6 +525,14 @@ function styleSlideSave (evt){
             }else {
                 lastClickedElm.style.fontStyle = "italic";
             }
+        }
+
+        if(evt.target.id == "alBtn"){
+            lastClickedElm.style.textAlign = "left";
+        }else if (evt.target.id == "acBtn"){
+            lastClickedElm.style.textAlign = "center";
+        }else if(evt.target.id == "arBtn"){
+            lastClickedElm.style.textAlign = "right";
         }
         
         switch(fontFamSelect.value) {
@@ -438,6 +565,7 @@ function styleSlideSave (evt){
                     presentation.slides[currentSlide].slide.headline.italic =  containerDiv.childNodes[i].style.fontStyle;
                     presentation.slides[currentSlide].slide.headline.underline =  containerDiv.childNodes[i].style.textDecoration;
                     presentation.slides[currentSlide].slide.headline.fontColor =  containerDiv.childNodes[i].style.color;
+                    presentation.slides[currentSlide].slide.headline.align =  containerDiv.childNodes[i].style.textAlign;
                     break;
                 }
                 case "byFrame" : {
@@ -447,6 +575,7 @@ function styleSlideSave (evt){
                     presentation.slides[currentSlide].slide.byLine.italic =  containerDiv.childNodes[i].style.fontStyle;
                     presentation.slides[currentSlide].slide.byLine.underline =  containerDiv.childNodes[i].style.textDecoration;
                     presentation.slides[currentSlide].slide.byLine.fontColor =  containerDiv.childNodes[i].style.color;
+                    presentation.slides[currentSlide].slide.byLine.align =  containerDiv.childNodes[i].style.textAlign;
                     break;
                 }
                 case "imgContainer": {
@@ -460,6 +589,7 @@ function styleSlideSave (evt){
                     presentation.slides[currentSlide].slide.textBoxes[0].italic =  containerDiv.childNodes[i].style.fontStyle;
                     presentation.slides[currentSlide].slide.textBoxes[0].underline =  containerDiv.childNodes[i].style.textDecoration;
                     presentation.slides[currentSlide].slide.textBoxes[0].fontColor =  containerDiv.childNodes[i].style.color;
+                    presentation.slides[currentSlide].slide.textBoxes[0].align =  containerDiv.childNodes[i].style.textAlign;
                     break;
                 }
                 case "txtboxTwo": {
@@ -469,6 +599,7 @@ function styleSlideSave (evt){
                     presentation.slides[currentSlide].slide.textBoxes[1].italic =  containerDiv.childNodes[i].style.fontStyle;
                     presentation.slides[currentSlide].slide.textBoxes[1].underline =  containerDiv.childNodes[i].style.textDecoration;
                     presentation.slides[currentSlide].slide.textBoxes[1].fontColor =  containerDiv.childNodes[i].style.color;
+                    presentation.slides[currentSlide].slide.textBoxes[1].align =  containerDiv.childNodes[i].style.textAlign;
                     break;
                 }
                 default: {}
