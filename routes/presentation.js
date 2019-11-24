@@ -5,8 +5,7 @@ const db_credentials = process.env.DATABASE_URL || "postgres://jksoyjotdnrhsk:33
 const db = require("../modules/db")(db_credentials);
 
 
-router.use(tokenProtect.checkToken);
-router.get("/overview", async function (req, res, next) {
+router.get("/overview",tokenProtect.checkToken, async function (req, res, next) {
     let token = req.headers['authorization'];
 
     if (token) {
@@ -44,8 +43,7 @@ router.get("/:presentationID", async function (req, res, next) {
 });
 
 // Here we try to create a new presentation.
-router.use(tokenProtect.checkToken);
-router.post("/", async function (req, res, next) {
+router.post("/", tokenProtect.checkToken, async function (req, res, next) {
     // We should make a query on the db to create a new presentation.
     // Careful you should add a row in both tables user_isAuthor_presentation and presentation !
     let token = req.headers['authorization'];
@@ -61,8 +59,7 @@ router.post("/", async function (req, res, next) {
 });
 
 // Here we ask the server if we can edit the presentation.
-router.use(tokenProtect.checkToken);
-router.get("/edit/:presentationID", async function (req, res, next) {
+router.get("/edit/:presentationID",tokenProtect.checkToken, async function (req, res, next) {
     let token = req.headers['authorization'];
 
     if (token) {
@@ -80,9 +77,7 @@ router.get("/edit/:presentationID", async function (req, res, next) {
     }
 });
 
-
-router.use(tokenProtect.checkToken);
-router.put("/visibility/:presentationID", async function (req, res, next) {
+router.put("/visibility/:presentationID",tokenProtect.checkToken, async function (req, res, next) {
     let token = req.headers['authorization'];
 
     if (token) {
@@ -111,8 +106,7 @@ router.put("/visibility/:presentationID", async function (req, res, next) {
 
 // Here we try to update an existing presentation
 // TODO: Define what must be in the DB's table presentation
-router.use(tokenProtect.checkToken);
-router.put("/:presentationID", async function (req, res, next) {
+router.put("/:presentationID", tokenProtect.checkToken, async function (req, res, next) {
     let token = req.headers['authorization'];
 
     if (token) {
@@ -140,8 +134,7 @@ router.put("/:presentationID", async function (req, res, next) {
 });
 
 // Here we try to delete an existing presentation
-router.use(tokenProtect.checkToken);
-router.delete("/:presentationID", async function (req, res, next) {
+router.delete("/:presentationID", tokenProtect.checkToken, async function (req, res, next) {
     let token = req.headers['authorization'];
 
     if (token) {

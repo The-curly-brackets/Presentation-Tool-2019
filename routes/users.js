@@ -41,7 +41,7 @@ router.get("/", async function (req, res, next) {
 });
 
 // Updates an existing users username, email or password
-router.put("/", async function (req, res, next) {
+router.put("/", tokenProtect.checkToken, async function (req, res, next) {
     let token = req.headers['authorization'];
 
     if (token) {
@@ -98,7 +98,7 @@ router.put("/", async function (req, res, next) {
 });
 
 // Deletes an existing user
-router.delete("/", async function (req, res, next) {
+router.delete("/", tokenProtect.checkToken, async function (req, res, next) {
     let token = req.headers['authorization'];
     if (token) {
         try {
@@ -113,8 +113,7 @@ router.delete("/", async function (req, res, next) {
     }
 });
 
-router.post("/login", authProtect);
-router.post("/login", async function (req, res, next) {
+router.post("/login", authProtect, async function (req, res, next) {
     let tok = jwt.sign({userID: req.userID}, secret, {expiresIn: "12h"});
     res.status(200).json({userID: req.userID, token: tok});
 });
