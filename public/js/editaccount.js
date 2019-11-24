@@ -46,7 +46,7 @@ function hidetxtOut(){
 
 async function getUserInfo(){
 
-    let url = `http://localhost:8080/users/`
+    let url = `https://presentation-tool-2019.herokuapp.com/users/`
     
     let cfg = {
         method: "GET",
@@ -116,7 +116,7 @@ saveChangesBtn.addEventListener("click", async evt => {
 });
 
 async function saveChanges(){
-    let url = `http://localhost:8080/users/`;
+    let url = `https://presentation-tool-2019.herokuapp.com/users/`;
 
     txtOut.style.visibility = "hidden";
 
@@ -181,7 +181,7 @@ window.onclick = function(event) {
 
 modalDeleteBtn.addEventListener("click", async evt => {
     if(modalPsw.value){
-        let url = `http://localhost:8080/users/`;
+        let url = `https://presentation-tool-2019.herokuapp.com/users/`;
 
         let cfg = {
             method: "DELETE",

@@ -50,7 +50,7 @@ window.onclick = function (event) {
 
 createPresBtn.addEventListener('click', async evt => {
 
-    let url = "http://localhost:8080/presentations/";
+    let url = "https://presentation-tool-2019.herokuapp.com/presentations/";
     let name = presNameInp.value;
     let date = new Date();
     date = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
@@ -92,7 +92,7 @@ signoutBtn.addEventListener('click', evt => {
 
 async function listPresentations() {
     presListCont.innerHTML = "";
-    let url = "http://localhost:8080/presentations/overview";
+    let url = "https://presentation-tool-2019.herokuapp.com/presentations/overview";
     let cfg = {
         method: "GET",
         headers: {
@@ -219,7 +219,7 @@ async function listPresentations() {
 }
 
 deletePresBtn.addEventListener('click', async evt => {
-    let url = "http://localhost:8080/presentations/" + presID;
+    let url = "https://presentation-tool-2019.herokuapp.com/presentations/" + presID;
 
     let cfg = {
         method: "DELETE",

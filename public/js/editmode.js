@@ -130,7 +130,7 @@ async function initialize() {
     let urlParams = new URLSearchParams(window.location.search);
     let id = urlParams.get('id');
 
-    let url = `http://localhost:8080/presentations/${id}`;
+    let url = `https://presentation-tool-2019.herokuapp.com/presentations/${id}`;
 
     let cfg = {
         method: "GET",
@@ -212,7 +212,7 @@ saveBtn.addEventListener('click', async evt => {
     // TODO: Factorize it with other queries and add an independent function
     let urlParams = new URLSearchParams(window.location.search);
     let id = urlParams.get('id');
-    let url = "http://localhost:8080/presentations/" + id;
+    let url = "https://presentation-tool-2019.herokuapp.com/presentations/" + id;
 
     let cfg = {
         method: "PUT",

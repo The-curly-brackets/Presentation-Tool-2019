@@ -9,7 +9,7 @@ loginBtn.addEventListener("click", async evt => {
         return;
     }
 
-    let url = "http://localhost:8080/users/login";
+    let url = "https://presentation-tool-2019.herokuapp.com/users/login";
 
     let cfg = {
         method: "POST",
