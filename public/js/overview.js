@@ -89,6 +89,17 @@ signoutBtn.addEventListener('click', evt => {
     window.location.href = "../html/login.html";
 });
 
+function allDescendantsToPreview(node, slideId) {
+    for (let i = 0; i < node.childNodes.length; i++) {
+        let child = node.childNodes[i];
+        allDescendantsToPreview(child, slideId);
+        if (child.tagName === "DIV") {
+            child.classList.add("noBorder");
+        }
+        child.slideId = slideId;
+    }
+}
+
 
 async function listPresentations() {
     presListCont.innerHTML = "";
@@ -137,6 +148,8 @@ async function listPresentations() {
                 } else if (slide.type === "listSlide") {
                     previewDiv = loadSlideOnTemplateAndClone(listSlideTemplate, slide);
                 }
+                allDescendantsToPreview(previewDiv, i);
+
 
                 presPreview.style.backgroundColor = slide.backgroundColor;
                 presPreview.style.backgroundImage = `url('${slide.backgroundImg}')`;

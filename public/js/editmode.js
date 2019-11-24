@@ -165,6 +165,7 @@ function allDescendantsToPreview(node, slideId) {
         allDescendantsToPreview(child, slideId);
         if (child.isContentEditable) {
             child.setAttribute('contenteditable', "false");
+            child.classList.add("noBorder");
         }
         child.slideId = slideId;
     }

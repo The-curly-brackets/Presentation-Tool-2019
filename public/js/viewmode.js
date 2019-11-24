@@ -56,6 +56,17 @@ async function getPresentationByID() {
     }
 }
 
+function allDescendantsToPreview(node, slideId) {
+    for (let i = 0; i < node.childNodes.length; i++) {
+        let child = node.childNodes[i];
+
+        if (child.tagName === "DIV") {
+            allDescendantsToPreview(child, slideId);
+            child.classList.add("noBorder");
+        }
+    }
+}
+
 function loadSlide(slideNb) {
     slideFrame.innerHTML = "";
     let slide = presentation.slides[slideNb].slide;
@@ -69,6 +80,7 @@ function loadSlide(slideNb) {
     } else if (slide.type === "listSlide") {
         div = loadSlideOnTemplateAndClone(listSlideTemplate, slide);
     }
+    allDescendantsToPreview(div.childNodes[1], slideNb);
     //divs.forEach(div => div.classList.add("borderless"));
 
     slideFrame.style.backgroundColor = slide.backgroundColor;
