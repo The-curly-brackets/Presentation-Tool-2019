@@ -105,10 +105,6 @@ input {
     max-width: 600px;
 }
 
-.modal-content > button {
-    float: right;
-}
-
 /* The Close Button */
 .close {
     color: #aaaaaa;

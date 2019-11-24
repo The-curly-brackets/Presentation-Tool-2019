@@ -247,7 +247,9 @@ newSlideBtn.addEventListener('click', evt => {
 });
 
 backBtn.addEventListener('click', evt => {
-    quitModal.style.display = "block";
+    if (needSave) {
+        quitModal.style.display = "block";
+    }
 });
 
 
