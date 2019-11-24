@@ -24,17 +24,18 @@ router.get("/overview", async function (req, res, next) {
 // TODO: maybe check on the visibility of the presentation ? TBD
 router.get("/:presentationID", async function (req, res, next) {
     db.getPresentationById(req.params.presentationID).then(presentation => {
+        console.log(presentation);
         if (presentation.visibility === 2) {
-            return res.status(200).send(presentation);
-        }
-        else {
+            res.status(200).send(presentation);
+        } else {
             let token = req.headers['authorization'];
             let userID = tokenProtect.getUserIDFromToken(token);
             db.checkUserIsAuthor(userID, req.params.presentationID).then(isAuthor => {
-                if (isAuthor)
+                if (isAuthor) {
                     res.status(200).send(presentation);
-                else if (presentation.visibility === 1)
-                    return res.status(403)
+                } else {
+                    res.status(403)
+                }
             }).catch((err) => {
                 res.status(500).send(err);
             });

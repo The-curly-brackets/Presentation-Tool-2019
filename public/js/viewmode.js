@@ -33,7 +33,7 @@ getPresentationByID().then(id => {
 async function getPresentationByID() {
     let urlParams = new URLSearchParams(window.location.search);
     let id = urlParams.get('id');
-    let url = `https://presentation-tool-2019.herokuapp.com/presentations/${id}`;
+    let url = `http://localhost:8080/presentations/${id}`;
 
     let cfg = {
         method: "GET",
