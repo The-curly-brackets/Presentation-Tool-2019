@@ -244,6 +244,7 @@ newSlideBtn.addEventListener('click', evt => {
     slidePreviews();
     currentSlide = presentation.slides.length - 1;
     loadSlide();
+    needSave = true;
 });
 
 backBtn.addEventListener('click', evt => {
@@ -264,28 +265,33 @@ viewBtn.addEventListener('click', evt => {
 listSlideBtn.addEventListener('click', evt => {
     presentation.slides[currentSlide].slide.type = "listSlide";
     loadSlide();
+    needSave = true;
 });
 
 txtAndImageSlideBtn.addEventListener('click', evt => {
     presentation.slides[currentSlide].slide.type = "txtAndImg";
     loadSlide();
+    needSave = true;
 });
 
 titleSlideBtn.addEventListener('click', evt => {
     presentation.slides[currentSlide].slide.type = "title";
     loadSlide();
+    needSave = true;
 });
 
 numberListBtn.addEventListener('click', evt => {
     if (lastClickedElm) {
         lastClickedElm.innerHTML = lastClickedElm.innerHTML + "<ol><li>list</li></ol>";
     }
+    needSave = true;
 });
 
 bulletListBtn.addEventListener('click', evt => {
     if (lastClickedElm) {
         lastClickedElm.innerHTML = lastClickedElm.innerHTML + "<ul><li>list</li></ul>";
     }
+    needSave = true;
 });
 
 fontFamSelect.addEventListener('change', styleSlideSave);
@@ -300,6 +306,7 @@ deleteSlideBtn.addEventListener('click', evt => {
         currentSlide--;
     }
 
+    needSave = true;
     loadSlide();
     slidePreviewCont.childNodes[currentSlide].click();
 });
@@ -326,6 +333,7 @@ imgFileInp.onchange = function(evt) {
         loadSlide();
     };
 
+    needSave = true;
     reader.readAsDataURL(theFile);
 };
 
@@ -351,6 +359,7 @@ backgroundImgInp.onchange = function(evt) {
         loadSlide();
     }
 
+    needSave = true;
     reader.readAsDataURL(theFile);
 }
 
@@ -424,7 +433,7 @@ function loadSlide() {
 
 
 function selectValues (){
-    // This select the option in fontSizeSelcet that has the same value as the element that was selectet
+    // This select the option in fontSizeSelect that has the same value as the element that was selectet
     
     console.log(lastClickedElm);
     
@@ -484,6 +493,7 @@ function selectValues (){
         editSlideCont.style.backgroundColor = "#ffffff";
     }
     backgroundColorInp.value = RGBToHex(editSlideCont.style.backgroundColor);
+    needSave = true;
 }
 
 
@@ -603,6 +613,7 @@ function styleSlideSave (evt){
         }
         
     }
+    needSave = true;
 }
 
 
