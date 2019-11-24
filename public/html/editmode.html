@@ -7,75 +7,67 @@
         <link rel="stylesheet" type="text/css" href="../css/editmodeSlide.css">
         <link href="https://fonts.googleapis.com/css?family=Playfair+Display&display=swap" rel="stylesheet"> 
         <link href="https://fonts.googleapis.com/css?family=Fondamento&display=swap" rel="stylesheet"> 
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
     </head>
     <body>
-        <div id="toolBarDiv">
+        <div id="toolBarDivWrapper">
+            <div id="toolBarDiv">
             
-            <div class="toolBarCont slideTools">
-                <a id="newSlideBtn">+</a>
+                <div id="items" class="toolBarCont slideTools">
+                    <button id="newSlideBtn" class="button"><i class="material-icons">add</i></button>
+                    <button id="deleteSlideBtn" class="button "><i class="material-icons">remove</i></button>
+                    
+
+                    <button id="titleSlideBtn" class="button space">Title</button>
+                    <button id="txtAndImageSlideBtn" class="button">Text and image</button>
+                    <button id="listSlideBtn" class="button ">List</button>
+
+
+                    <button id="numberListBtn" class="button space"><i id="numberListBtn" class="material-icons">format_list_numbered</i></button>
+                    <button id="bulletListBtn" class="button"><i id="bulletListBtn" class="material-icons">format_list_bulleted</i></button>
+                    <input id="imgFileInp" type="file" hidden>
+                    <button id="imgUpInp" class="button"><i id="imgUpInp" class="material-icons">add_photo_alternate</i></button>
+                
+                    <select id="fontFamSelect" class="space">
+                        <option value="0">Helvetica</option>
+                        <option value="1">Calibri</option>
+                        <option value="2">Courier</option>
+                    </select>
+
+                    <select id="fontSizeSelect">
+                        <option value="12">12 pt</option>
+                        <option value="14">14 pt</option>
+                        <option value="18">18 pt</option>
+                        <option value="24">24 pt</option>
+                        <option value="36">36 pt</option>
+                        <option value="48">48 pt</option>
+                    </select>
+
+
+                    <button id="underlineBtn" class="button space"><i id="underlineBtn" class="material-icons">format_underlined</i></button>
+                    <button id="boldBtn" class="button" ><i id="boldBtn"  class="material-icons">format_bold</i></button>
+                    <button id="italicBtn" class="button"><i id="italicBtn" class="material-icons">format_italic</i></button>
+
+                    <button id="alBtn" class="button space"><i id="alBtn" class="material-icons">format_align_left</i></button>
+                    <button id="acBtn" class="button"><i id="acBtn" class="material-icons">format_align_center</i></button>
+                    <button id="arBtn" class="button"><i id="arBtn" class="material-icons">format_align_right</i></button>
+                    
+
+                    <button class="button space"><label for="textColorInp">Text Color</label></button>
+                    <input id="textColorInp"  type="color" style="width: 50px" value="#ff0000">
+
+                    <button class="button"><label for="backgroundColorInp">Background Color</label></button>
+                    <input id="backgroundColorInp"  type="color" style="width: 50px">
+
+                    <button id="backgroundImgBtn" class="button"><label for="backgroundImgBtn">Background image</label></button>
+                    <input id="backgroundImgInp"  type="file" style="width: 50px">
+
+                    <button id="saveBtn" class="button moreSpace" style="background-color: #5f4eff;">Save</button>
+                    <button id="backBtn" class="button">Back</button>
+                </div>
             </div>
-
-            <div class="toolBarCont slideTools">
-                <a id="deleteSlideBtn">-</a>
-            </div>
-
-            <div id="items" class="toolBarCont">
-                <button id="numberListBtn">123</button>
-                <button id="bulletListBtn">&#8226;&#8226;&#8226;</button>
-                <input id="imgFileInp" type="file" hidden>
-                <button id="imgUpInp">Add Image</button>
-            </div>
-
-            <div id="textEditTools" class="toolBarCont">
-                <select id="fontFamSelect">
-                    <option value="0">Helvetica</option>
-                    <option value="1">Calibri</option>
-                    <option value="2">Courier</option>
-                </select>
-
-                <select id="fontSizeSelect">
-                    <option value="12">12 pt</option>
-                    <option value="14">14 pt</option>
-                    <option value="18">18 pt</option>
-                    <option value="24">24 pt</option>
-                    <option value="36">36 pt</option>
-                    <option value="48">48 pt</option>
-                </select>
-
-                <button id="underlineBtn" class="nbi" style="text-decoration: underline">U</button>
-                <button id="boldBtn" class="nbi" style="font-weight: bold">B</button>
-                <button id="italicBtn" class="nbi" style="font-style:italic">I</button>
-
-                <label for="textColorInp">Text Color</label>
-                <input id="textColorInp" type="color" style="width: 50px" value="#ff0000">
-
-                <button id="alBtn" class="lcr" style="border-left: 1px solid black;">L</button>
-                <button id="acBtn" class="lcr" style="border-bottom: 1px solid black;">C</button>
-                <button id="arBtn" class="lcr" style="border-right: 1px solid black;">R</button>
-            </div>
-
-            <div id="typeOfSlides" class="toolBarCont">
-                <div id="titleSlideBtn">Title</div>
-                <div id="txtAndImageSlideBtn">Text and Image</div>
-                <div id="listSlideBtn">List</div>
-            </div>
-
-            <div id="setSlidebackgroundDiv" class="toolBarCont">
-                    <label for="backgroundColorInp">Background Color</label>
-                    <input id="backgroundColorInp" type="color" style="width: 50px">
-                    <br>
-                    <input id="backgroundImgInp" type="file" hidden>
-                    <label for="backgroundImgBtn">Background</label>
-                    <button id="backgroundImgBtn">Image</button>
-            </div>
-
-            <div id="navBtnsCont" class="toolBarCont"> 
-                <button id="saveBtn" style="background-color: #2f71e3; border-color: #2f71e3">Save</button>
-                <button id="backBtn">Back</button>
-            </div>
-            
         </div>
-
         <div id="underToolBarDiv">
 
             <div id="allSlidesPreviewCont">
@@ -88,14 +80,14 @@
         </div>
 
         <template id="titleSlide">
-            <div id="test" class="titleSlideContainer" >
+            <div class="titleSlideContainer allTypeContainer">
                 <div class="title" contenteditable="true"></div>
                 <div class="byFrame" contenteditable="true"></div>
             </div>
         </template>
 
         <template id="txtAndImgTemplate">
-            <div id="test" class="slideContainer">
+            <div class="slideContainer allTypeContainer">
                 <div class="title" contenteditable="true"></div>
                 <div class="leftFrame" contenteditable="true"></div>
                 <div class="txtboxOne rightFrame" contenteditable="true"></div>
@@ -103,7 +95,7 @@
         </template>
 
         <template id="listSlideTemplate">
-            <div id="test" class="slideContainer">
+            <div class="slideContainer allTypeContainer">
                 <div class="title" contenteditable="true"></div>
                 <div class="txtboxOne leftFrame" contenteditable="true"><ul><li></li></ul></div>
                 <div class="txtboxTwo rightFrame" contenteditable="true"><ul><li></li></ul></div>

@@ -3,23 +3,46 @@ body{
 }
 
 /* ------------------------------- */
+#textColorInp, #backgroundColorInp, #backgroundImgInp { 
+    display: none; 
+}
 
 #toolBarDiv{
-    max-width: 100%;
+    width: 100%;
     min-height: 80px;
-    background-color: white;
-    padding: 5px;
+    max-height: 90px;
+    position: relative;
+    white-space: nowrap;
+    display:table;
+    table-layout:fixed
+}
+
+#toolBarDivWrapper{
+    width: auto;
+    height: auto;
+    display: flex;
+    align-items: center;
+    overflow: auto;
 }
 
 .toolBarCont{
-    float: left;
-    margin-left: 5px;
+    margin: auto;
     padding: 10px;
+    display:table-cell;
+    vertical-align:middle;
 }
 
-/* ------------------------------- */
+
+#underToolBarDiv{
+    display: inline-grid;
+    grid-template-columns: 20% 80%;
+    grid-template-rows: calc(79vw * 0.5625);
+    grid-template-areas:
+            "scroll slide";
+}
 
 .slideTools{
+    width: 42px;
     margin-top: 10px;
     font-size: small;
     background-color: #ebebeb;
@@ -36,18 +59,11 @@ body{
 /* ------------- */
 
 #items{
+    width: 135px;
     margin-top: 10px;
     font-size: small;
     background-color: #ebebeb;
     height: 42px;
-}
-
-#items> button{
-    font-size: small;
-    background-color: white;
-    border: 1px solid black;
-    border-radius: 5px;
-    padding: 10px 10px;
 }
 
 #items> input {
@@ -55,108 +71,6 @@ body{
     width: 180px;
 }
 
-/* ------------- */
-
-#textEditTools{
-    margin-top: 10px;
-    font-size: small;
-    background-color: #ebebeb;
-    height: 42px;
-}
-
-#textEditTools> select{
-    margin-right: 10px;
-}
-
-#textEditTools> button.nbi{
-    font-size: small;
-    border: none;
-    border-bottom: 1px solid black;
-    background-color: #ebebeb;
-    width: 30px;
-    padding: 10px;
-}
-
-#textEditTools> button.lcr{
-    font-size: small;
-    border: none;
-    background-color: #ebebeb;
-    width: 30px;
-    padding: 5px;
-}
-
-#textEditTools> label{
-    margin-left: 20px;
-}
-
-#textEditTools> input{
-    background-color: #ebebeb;
-    margin-right: 20px;
-}
-
-/* ------------- */
-
-#typeOfSlides{
-    margin-top: 10px;
-    font-size: small;
-    background-color: #ebebeb;
-    height: 52px;
-    padding: 5px;
-}
-
-#typeOfSlides> div{
-    background-color: white;
-    text-align: center;
-    float: left;
-    margin-left: 5px;
-    margin-right: 5px;
-    width: 75px;
-    height: 52px;
-    font-size: large
-}
-
-/* ------------- */
-
-#setSlidebackgroundDiv{
-    padding-top: 5px;
-    margin-top: 10px;
-    font-size: small;
-    background-color: #ebebeb;
-    height: 47px;
-}
-
-#setSlidebackgroundDiv> label{
-    
-    font-size: small;
-}
-
-#setSlidebackgroundDiv> input{
-    background-color: #ebebeb;
-}
-
-#backgroundImgInp{
-    width: 180px;
-}
-
-/* ------------- */
-
-#navBtnsCont{
-    float: right;
-    padding-top: 10px;
-    margin-top: 10px;
-    font-size: small;
-    background-color: #ebebeb;
-    height: 42px;
-}
-
-#navBtnsCont> button{
-    font-size: small;
-    background-color: black;
-    color: white;
-    border: 1px solid black;
-    border-radius: 5px;
-    padding: 10px 10px;
-}      
 
 /* ------------------------------- */
 
@@ -168,30 +82,39 @@ body{
 /* ------------- */
 
 #allSlidesPreviewCont{
+    grid-area: scroll;
     float: left;
-    margin: 10px;
-    max-width: 162px;
-    height: 720px;
+    margin: 5px;
+    height: 100%;
     overflow: scroll;
 }
 
 .slidePreview{
-    width: 160px;
-    height: 90px;
-    background-color: white;
-    border: 1px solid black;
-    margin-bottom: 20px;
-    font-size: xx-large;
-    text-align: center;
-    
+    width: 95%;
+    height: 22.7%;
+}
+
+.slidePreviewContent {
+    width: 350%;
+    position: relative;
+    transform-origin: left top;
+    transform: scale(0.25, 0.25);
+
+}
+
+.editSlidePreviewCont{
+    width:100%;
+    position: relative;
 }
 
 /* ------------- */
 
 #editSlideCont{
+    grid-area: slide;
     float: left;
-    width: 1280px;
-    height: 720px;
+    position: relative;
     margin: 10px;
     background-color: white;
 }
+
+

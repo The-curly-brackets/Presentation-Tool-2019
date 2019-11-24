@@ -29,7 +29,7 @@ router.get("/", async function (req, res, next) {
                 if (user) {
                     res.status(200).send(user)
                 } else {
-                    res.status(404).send("userID non-existing");
+                    res.status(404).send({msg: "userID non-existing"});
                 }
             });
         } catch (err) {
@@ -84,7 +84,7 @@ router.put("/", async function (req, res, next) {
                     if (user) {
                         res.status(200).send(user);
                     } else {
-                        res.status(404).json({msg: "user dosn't exsist"})
+                        res.status(404).json({msg: "user doesn't exsist"})
                     }
                 }).catch(err => res.status(500).send(err));
             }
@@ -128,7 +128,7 @@ router.post("/", async function (req, res, next) {
             let tok = jwt.sign(payload, secret, {expiresIn: "12h"});
             res.status(200).send({token: tok});
         } else {
-            res.status(404).send("Not able to create account");
+            res.status(404).send({msg: "Not able to create account"});
         }
     }).catch(err => res.status(500).send(err));
 });
