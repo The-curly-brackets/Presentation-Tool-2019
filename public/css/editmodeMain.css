@@ -3,20 +3,26 @@ body{
 }
 
 /* ------------------------------- */
+#textColorInp, #backgroundColorInp, #backgroundImgInp { 
+    display: none; 
+}
 
 #toolBarDiv{
     width: 100%;
     min-height: 80px;
     max-height: 90px;
     position: relative;
-    background-color: white;
     white-space: nowrap;
     display:table;
     table-layout:fixed
 }
 
 #toolBarDivWrapper{
-    overflow-x: auto;
+    width: auto;
+    height: auto;
+    display: flex;
+    align-items: center;
+    overflow: auto;
 }
 
 .toolBarCont{
@@ -26,6 +32,7 @@ body{
     vertical-align:middle;
 }
 
+
 #underToolBarDiv{
     display: inline-grid;
     grid-template-columns: 20% 80%;
@@ -33,7 +40,6 @@ body{
     grid-template-areas:
             "scroll slide";
 }
-/* ------------------------------- */
 
 .slideTools{
     width: 42px;
@@ -53,19 +59,11 @@ body{
 /* ------------- */
 
 #items{
-    width:180px;
+    width: 135px;
     margin-top: 10px;
     font-size: small;
     background-color: #ebebeb;
     height: 42px;
-}
-
-#items> button{
-    font-size: small;
-    background-color: white;
-    border: 1px solid black;
-    border-radius: 5px;
-    padding: 10px 10px;
 }
 
 #items> input {
@@ -73,112 +71,6 @@ body{
     width: 180px;
 }
 
-/* ------------- */
-
-#textEditTools{
-    width: 640px;
-    margin-top: 10px;
-    font-size: small;
-    background-color: #ebebeb;
-    height: 42px;
-}
-
-#textEditTools> select{
-    margin-right: 10px;
-}
-
-#textEditTools> button.nbi{
-    font-size: small;
-    border: none;
-    border-bottom: 1px solid black;
-    background-color: #ebebeb;
-    width: 30px;
-    padding: 10px;
-}
-
-#textEditTools> button.lcr{
-    font-size: small;
-    border: none;
-    background-color: #ebebeb;
-    width: 30px;
-    padding: 5px;
-}
-
-#textEditTools> label{
-    margin-left: 20px;
-}
-
-#textEditTools> input{
-    background-color: #ebebeb;
-    margin-right: 20px;
-}
-
-/* ------------- */
-
-#typeOfSlides{
-    width: 270px;
-    margin-top: 10px;
-    font-size: small;
-    background-color: #ebebeb;
-    height: 52px;
-    padding: 5px;
-}
-
-#typeOfSlides> div{
-    white-space: normal;
-    background-color: white;
-    text-align: center;
-    float: left;
-    margin-left: 5px;
-    margin-right: 5px;
-    width: 75px;
-    height: 52px;
-    font-size: large
-}
-
-/* ------------- */
-
-#setSlidebackgroundDiv{
-    padding-top: 5px;
-    margin-top: 10px;
-    font-size: small;
-    background-color: #ebebeb;
-    width: 150px;
-    height: 47px;
-}
-
-#setSlidebackgroundDiv> label{
-    
-    font-size: small;
-}
-
-#setSlidebackgroundDiv> input{
-    background-color: #ebebeb;
-}
-
-#backgroundImgInp{
-    width: 180px;
-}
-
-/* ------------- */
-
-#navBtnsCont{
-    padding-top: 10px;
-    margin-top: 10px;
-    font-size: small;
-    background-color: #ebebeb;
-    width: 120px;
-    height: 42px;
-}
-
-#navBtnsCont> button{
-    font-size: small;
-    background-color: black;
-    color: white;
-    border: 1px solid black;
-    border-radius: 5px;
-    padding: 10px 10px;
-}      
 
 /* ------------------------------- */
 
@@ -224,3 +116,5 @@ body{
     margin: 10px;
     background-color: white;
 }
+
+
