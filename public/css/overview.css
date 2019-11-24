@@ -71,7 +71,7 @@ h1{
     width: 1000px;
     height: 560px;
     background-color: white;
-    border: 1px solid black;
+    border: 5px solid black;
 
     transform-origin: left top;
     transform: scale(0.2, 0.2);

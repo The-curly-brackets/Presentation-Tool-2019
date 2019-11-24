@@ -36,8 +36,13 @@ const db = function (dbConnectionString) {
     const getUserByNameAndPassword = async function (username, password) {
         return await runQuery('SELECT * FROM users WHERE username = $1', [username])
             .then(user => {
-                let psw = JSON.parse(user.password);
-                user.valid = hash.hash(password, psw.salt).passwordHash === psw.passwordHash;
+                if (user) {
+                    let psw = JSON.parse(user.password);
+                    user.valid = hash.hash(password, psw.salt).passwordHash === psw.passwordHash;
+                } else {
+                    user = {valid: false};
+                }
+
                 return user;
             });
     };

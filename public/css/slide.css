@@ -16,12 +16,13 @@
 
 .slideContainer {
     display: grid;
+    max-height: 100%;
     grid-template-areas: 
         'headline headline'
         'left right';
     grid-gap: 5%;
     padding: 5%;
-    grid-template-rows: 8vw 25vw;
+    grid-template-rows: calc(79vw * 0.5625 * 0.2) calc(79vw * 0.5625 * 0.6);
     grid-template-columns: 1fr 1fr;
 }
 
