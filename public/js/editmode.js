@@ -249,6 +249,8 @@ newSlideBtn.addEventListener('click', evt => {
 backBtn.addEventListener('click', evt => {
     if (needSave) {
         quitModal.style.display = "block";
+    } else {
+        window.location.href = "../html/overview.html";
     }
 });
 
