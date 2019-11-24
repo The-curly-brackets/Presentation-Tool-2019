@@ -150,6 +150,8 @@ async function initialize() {
         }
         console.log(presentation);
         slidePreviews();
+        currentSlide = 0;
+        loadSlide();
         slidePreviewCont.childNodes[0].click();
     } catch (err) {
         console.log(err);
@@ -169,6 +171,7 @@ function allDescendantsToPreview(node, slideId) {
 
 function slidePreviews() {
     slidePreviewCont.innerHTML = "";
+    let bckCurrentSlide = currentSlide;
 
     for (let i = 0; i < presentation.slides.length; i++) {
         currentSlide = i;
@@ -191,9 +194,7 @@ function slidePreviews() {
         slidePreviewDiv.appendChild(clone);
         slidePreviewCont.appendChild(slidePreviewDiv);
     }
-
-    currentSlide = 0;
-    loadSlide();
+    currentSlide = bckCurrentSlide;
 }
 
 function navigateSlide(evt) {
@@ -235,9 +236,10 @@ saveBtn.addEventListener('click', async evt => {
 
 newSlideBtn.addEventListener('click', evt => {
     presentation.slides.push(new Slide("txtAndImg", presentation.theme));
+
+    slidePreviews();
     currentSlide = presentation.slides.length - 1;
     loadSlide();
-    slidePreviews();
 });
 
 backBtn.addEventListener('click', evt => {
@@ -277,10 +279,13 @@ fontSizeSelect.addEventListener('change', styleSlideSave);
 backgroundColorInp.addEventListener('input', styleSlideSave);
 
 deleteSlideBtn.addEventListener('click', evt => {
-    presentation.slides.splice(currentSlide, 1);
-    currentSlide--;
+       presentation.slides.splice(currentSlide, 1);
+    slidePreviews();
+    if(currentSlide > 0) {
+        currentSlide--;
+    }
+
     loadSlide();
-    slidePreviews()
     slidePreviewCont.childNodes[currentSlide].click();
 });
 
