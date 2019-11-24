@@ -45,7 +45,7 @@ const arBtn = document.getElementById("arBtn").addEventListener('click', styleSl
 const deleteSlideBtn = document.getElementById("deleteSlideBtn");
 
 let token = JSON.parse(sessionStorage.getItem("logindata")).token;
-
+let needSave = false;
 
 // --- Classes ---------------------------------------------------
 
@@ -211,8 +211,9 @@ function navigateSlide(evt) {
 
 // --- EventListener ---------------------------------------------------
 
-saveBtn.addEventListener('click', async evt => {
-    // TODO: Factorize it with other queries and add an independent function
+saveBtn.addEventListener('click', saveToDB);
+
+async function saveToDB(evt) {
     let urlParams = new URLSearchParams(window.location.search);
     let id = urlParams.get('id');
     let url = "http://localhost:8080/presentations/" + id;
@@ -229,12 +230,13 @@ saveBtn.addEventListener('click', async evt => {
     try {
         let resp = await fetch(url, cfg);
         let data = await resp.json();
-        
+        needSave = false;
+        updateSaveBtn();
         console.log(data);
     } catch (err) {
         console.log(err);
     }
-});
+}
 
 newSlideBtn.addEventListener('click', evt => {
     presentation.slides.push(new Slide("txtAndImg", presentation.theme));
@@ -245,8 +247,9 @@ newSlideBtn.addEventListener('click', evt => {
 });
 
 backBtn.addEventListener('click', evt => {
-    window.location.href = "../html/overview.html";
+    quitModal.style.display = "block";
 });
+
 
 viewBtn.addEventListener('click', evt => {
     let urlParams = new URLSearchParams(window.location.search);
@@ -352,7 +355,40 @@ removeBackgroundImg.addEventListener("click", evt => {
     loadSlide();
 })
 
+// ---modal handling ---
+const quitModal =document.getElementById("quitModal");
+
+window.onclick = function (event) {
+    if (event.target === quitModal) {
+        quitModal.style.display = "none";
+    }
+};
+
+quitModal.querySelector('span').onclick = function () {
+    quitModal.style.display = "none";
+};
+
+document.getElementById("noSaveBtn").addEventListener("click", evt => {
+    quitModal.style.display = "none";
+    window.location.href = "../html/overview.html";
+});
+
+let saveBtnModal = document.getElementById("saveBtnModal");
+saveBtnModal.addEventListener('click', async evt => {
+    await saveToDB(evt);
+    window.location.href = "../html/overview.html";
+});
+
+
 // --- Functions ------------------------------------------------------
+
+function updateSaveBtn() {
+    if (needSave) {
+        saveBtn.innerText = "Save";
+    } else {
+        saveBtn.innerText = "Saved";
+    }
+}
 
 function loadSlide() {
     editSlideCont.innerHTML = "";
@@ -604,6 +640,9 @@ function localSave(evt) {
             }
         }
     }
+
+    needSave = true;
+    updateSaveBtn();
 
     localStorage.setItem("presentation", JSON.stringify(presentation));
 }

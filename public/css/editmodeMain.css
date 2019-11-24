@@ -89,6 +89,11 @@ body{
     overflow: scroll;
 }
 
+.quitModal {
+    max-width: 300px;
+    height: 100px;
+}
+
 .editSlidePreviewCont{
     width:100%;
     position: relative;
