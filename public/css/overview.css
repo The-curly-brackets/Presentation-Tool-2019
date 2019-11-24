@@ -18,22 +18,27 @@ li a {
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
+    
 }
 
 li a:hover {
     background-color: black;
 }
 
-.newPresBtn {
-    float: left;
-}
-
 #newPresBtn {
-    background-color: #3e3e3e;
-    color: white;
-    padding: 10px;
-    border: none;
+    position: absolute;
+    left:0px;
+    text-decoration: none;
     font-size: large;
+    border-radius: 5px;
+    padding: 10px 10px;
+    line-height: 1;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+    display: flex;
+    align-items: center;
 }
 
 #newPresBtn:hover{
@@ -105,31 +110,45 @@ div> a{
     margin-top: 20px;
 }
 
-div.themeFrame {
+.themeFrame {
     border: 1px solid black;
-    width: 160px;
-    height: 90px;
     background-color: white;
     float: left;
     margin-right: 20px;
     font-size: x-large;
     text-align: center;
+    display: block;
+
 }
+.theme {
+    margin: 5px;
+    border: 1px solid #ccc;
+    float: left;
+    width: 185px;
+  }
+  
+  .theme:hover {
+    border: 1px solid black;
+  }
+  .themeChoosen{
+    box-shadow: 0 0 15px rgba(33,33,33,.4); 
+  }
+  
+  .theme img {
+    width: 185px;
+    height: auto;
+  }
 
 .modal-content>button {
     float: left;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .modal-content {
-    height: 200px;
+    height: 250px;
 }
 
 .modal-content.delModal {
-    max-width: 300px;
-    height: 100px;
-}
-.modal-content.delModal>button {
-    margin-right: 10px;
-    padding: 5px 10px;
+    max-width: 700px;
+    height: 200px;
 }

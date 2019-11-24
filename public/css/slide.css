@@ -1,17 +1,10 @@
 /* --- CSS for the slide containers ---------------------- */
 
-.allTypeContainer {
-    position: relative;
-    top: 0;
-    left: 0;
-    width: 90%;
-    padding-top: 56.25%;
-}
-
 .titleSlideContainer {
     text-align: center;
+    position: relative;
     margin-top: 18%;
-    padding: 0px 5% 0px 5%;
+    padding: 0px 10% 0px 10%;
 }
 
 .slideContainer {
@@ -29,17 +22,14 @@
 /* --- CSS for elements in the title slide -------------- */
 
 .title {
-    overflow: hidden;
-    position: relative;
-    width: 80%;
     border: 1px solid black;
-    margin: 10px auto;
+    margin-bottom: 10px;
     font-size: 48pt;
+    font: bold;
     padding: 20px 60px 20px 60px;
 }
 
 .byFrame {
-    overflow: hidden;
     border: 1px solid black;
     font-size: x-large;
     padding: 20px;
@@ -48,15 +38,12 @@
 /* --- CSS for elements in the other slides ------------- */
 
 .slideContainer>.title {
-    position: relative;
     text-align: center;
     grid-area: headline;
-    margin: 0 auto;
     border: 1px solid black;
 }
 
 .leftFrame {
-    overflow: hidden;
     grid-area: left;
     font-size: x-large;
     border: 1px solid black;
@@ -69,7 +56,6 @@
 }
 
 .rightFrame {
-    overflow: hidden;
     grid-area: right;
     font-size: x-large;
     border: 1px solid black;

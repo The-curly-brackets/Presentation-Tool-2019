@@ -6,14 +6,14 @@
         <link rel="stylesheet" type="text/css" href="../css/themes.css">
         <link rel="stylesheet" type="text/css" href="../css/overview.css">
         <link rel="stylesheet" type="text/css" href="../css/slide.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     </head>
     <body>
         <div>
             <ul>
-                <li class="newPresBtn"><button id="newPresBtn">New presentation</button></li>
+                <li><a href="#" id="newPresBtn">New presentation&nbsp;<i class="material-icons">add_box</i></a></li>
                 <li><a href="#" id="signoutBtn">Sign out</a></li>
                 <li><a href="#" id="editaccountBtn">Edit account</a></li>
-                <li><a href="#" id="publicPresentationBtn"> Public presentations</a> </li>
             </ul>
         </div>
         <div class="mainContent">
@@ -31,9 +31,9 @@
                 </div>
                 <div class="toolBtnDiv">
                     <a style="background-color: #3e3e3e">Delete</a>
-                    <a>Edit</a>
-                    <a>View</a>
-                    <a>Share</a>
+                    <a style="background-color: #5f4eff;">Edit</a>
+                    <a style="background-color: #5f4eff;">View</a>
+                    <a style="background-color: #5f4eff;">Share</a>
 
                 </div>
             </div>
@@ -47,10 +47,20 @@
                 <input id="presNameInp" placeholder="Name">
                 <br>
                 <p>Chose a theme for you presentation</p>
-                <div id="basicTheme" class="themeFrame">Basic theme</div>
-                <div id="classicTheme" class="themeFrame">Classic theme</div>
-                <div id="darkTheme" class="themeFrame">Dark mode theme</div>
-                <button id="createPresBtn" class="blueBtn">Create presentation</button>
+
+                <div class="theme themeFrame">
+                        <img id="basicTheme"  src="../images/basic_theme.jpg" alt="Basic theme" width="600" height="400">
+                    </div>
+                    
+                    <div class="theme themeFrame">
+                        <img id="classicTheme" src="../images/classic_theme.jpg" alt="Classic theme" width="600" height="400">
+                    </div>
+                    
+                    <div class="theme themeFrame">
+                        <img id="darkTheme" src="../images/dark_mode_theme.jpg" alt="Dark mode theme" width="600" height="400">
+                    </div>
+
+                         <button id="createPresBtn" class="button" style="background-color: #5f4eff;">Create presentation</button>
             </div>
         </div>
 
@@ -60,8 +70,8 @@
             <div class="modal-content delModal">
                 <span class="close">&times;</span>
                 <p>Are you sure you want to delete? </p>
-                <button id="deletePresBtn" class="blueBtn">Yes</button>
-                <button id="cancelPresBtn" class="blueBtn">No</button>
+                <button id="deletePresBtn" class="button"style="background-color: #9589ff;">Yes</button>
+                <button id="cancelPresBtn" class="button space"style="background-color: #9589ff;">No</button>
             </div>
         </div>
 

@@ -3,23 +3,55 @@ body{
     margin: 0px;
     background-color: #ebebeb;
 }
-
-button.blueBtn{
-    border: 1px;
-    border-radius: 15px;
-    background-color: #2f71e3;
-    color: white;
-    font-size: small;
-    padding: 5px 10px;
+.space{
+  margin-left: 20px;
+}
+.moreSpace{
+  margin-left: 70px;
+}
+.button {
+  background-color: white;
+  font-size: small;
+  border-radius: 5px;
+  padding: 10px 10px;
+  border: none;
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
 }
 
-button.redBtn{
-    border: 1px;
-    border-radius: 15px;
-    background-color: red;
-    color: white;
-    font-size: small;
-    padding: 5px 10px;
+.button:hover{
+  background-color: #6f6f7a !important;
+  cursor: pointer;
+}
+
+.toolBtnDiv>a:hover{
+  background-color: #6f6f7a !important;
+  cursor: pointer;
+}
+div.gallery {
+  margin: 5px;
+  border: 1px solid #ccc;
+  float: left;
+  width: 180px;
+}
+
+div.gallery:hover {
+  border: 1px solid #777;
+}
+
+div.gallery img {
+  width: 100%;
+  height: auto;
+}
+
+div.desc {
+  padding: 15px;
+  text-align: center;
 }
 
 input{
@@ -29,9 +61,6 @@ input{
     border-bottom: 1px solid rgb(141, 141, 141);
 }
 
-.active {
-  border: 1px solid #2f71e3;
-}
 
 /* The Modal (background) */
 .modal {
@@ -75,3 +104,4 @@ input{
     text-decoration: none;
     cursor: pointer;
   }
+
