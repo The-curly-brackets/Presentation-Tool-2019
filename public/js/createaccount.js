@@ -5,13 +5,46 @@ const confirmPasswordInp = document.getElementById("confirmPasswordInp");
 const createAccountBtn = document.getElementById("createAccountBtn");
 const txtOut = document.getElementById("txtOut");
 
+txtOut.style.color = "red";
+
+emailInp.addEventListener("input", evt => txtOut.innerHTML = "");
+userNameInp.addEventListener("input", evt => txtOut.innerHTML = "");
+
+
 createAccountBtn.addEventListener("click", evt => {
-    if(passwordInp.value !== confirmPasswordInp.value) {
-        txtOut.innerHTML = "The passwords does not match";
-        txtOut.style.color = "red";
+    let regx = /^[^\s]+@[^\s]+\.[A-Za-z]{2,5}$/;
+    let match = regx.test(emailInp.value);
+    
+    if(!emailInp.value || !userNameInp.value || !passwordInp.value || !confirmPasswordInp.value){
+        txtOut.innerHTML = "All the fields need to be filled out";
         txtOut.style.visibility = "visible";
         return;
     }
+    
+    if(!match){
+        txtOut.innerHTML = "Not a valid email";
+        txtOut.style.visibility = "visible";
+        return;
+    }
+
+    if(userNameInp.value.length < 4){
+        txtOut.innerHTML = "The username must be four characters or more";
+        txtOut.style.visibility = "visible";
+        return;
+    }
+
+    if(passwordInp.value.length < 4){
+        txtOut.innerHTML = "The password must be four characters or more";
+        txtOut.style.visibility = "visible";
+        return;
+    }
+    
+    if(passwordInp.value !== confirmPasswordInp.value) {
+        txtOut.innerHTML = "The passwords does not match";
+        txtOut.style.visibility = "visible";
+        return;
+    }
+    
     createAccount();
 });
 

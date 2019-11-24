@@ -4,12 +4,12 @@ const loginBtn = document.getElementById("loginBtn");
 const txtPswOut = document.getElementById("txtPswOut");
 
 loginBtn.addEventListener("click", async evt => {
-    let url = "http://localhost:8080/users/login";
+    if(!userNameInp.value || !passwordInp.value){
+        txtPswOut.innerHTML = "Fill in username and password";
+        return;
+    }
 
-    let updata = {
-        username: userNameInp.value,
-        password: passwordInp.value
-    };
+    let url = "http://localhost:8080/users/login";
 
     let cfg = {
         method: "POST",
@@ -22,17 +22,20 @@ loginBtn.addEventListener("click", async evt => {
     try {
         let resp = await fetch(url, cfg);
         let data = await resp.json();
-
+        
         if(resp.status > 200){
             throw(data);
         };
-        txtPswOut.innerHTML = "";
+        
         sessionStorage.setItem("logindata", JSON.stringify(data));
         window.location.href = "../html/overview.html";
     }
     catch (err) {
-        txtPswOut.innerHTML = err.msg;
+        txtPswOut.innerHTML = "Username or password is wrong";
         console.log(err);
     }
 
 });
+
+userNameInp.addEventListener('input', evt => txtPswOut.innerHTML = "");
+passwordInp.addEventListener('input', evt => txtPswOut.innerHTML = "");
