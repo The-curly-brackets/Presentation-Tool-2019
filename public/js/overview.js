@@ -137,6 +137,10 @@ async function listPresentations() {
                 } else if (slide.type === "listSlide") {
                     previewDiv = loadSlideOnTemplateAndClone(listSlideTemplate, slide);
                 }
+
+                presPreview.style.backgroundColor = slide.backgroundColor;
+                presPreview.style.backgroundImage = `url('${slide.backgroundImg}')`;
+                presPreview.style.backgroundSize = "cover";
                 presPreview.appendChild(previewDiv);
             }
             let deleteBtn = div.firstElementChild.children[2].children[0];

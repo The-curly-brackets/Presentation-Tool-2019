@@ -368,7 +368,6 @@ function loadSlide() {
         div.firstElementChild.children[i].addEventListener('input', localSave);
     }
     editSlideCont.style.backgroundColor = slide.backgroundColor;
-    
     editSlideCont.style.backgroundImage = `url('${slide.backgroundImg}')`;
     editSlideCont.style.backgroundSize = "cover";
     editSlideCont.appendChild(div);

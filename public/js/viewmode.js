@@ -72,6 +72,8 @@ function loadSlide(slideNb) {
     //divs.forEach(div => div.classList.add("borderless"));
 
     slideFrame.style.backgroundColor = slide.backgroundColor;
+    slideFrame.style.backgroundImage = `url('${slide.backgroundImg}')`;
+    slideFrame.style.backgroundSize = "cover";
     slideFrame.appendChild(div);
 }
 
