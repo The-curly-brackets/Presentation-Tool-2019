@@ -131,7 +131,7 @@ async function initialize() {
     let urlParams = new URLSearchParams(window.location.search);
     let id = urlParams.get('id');
 
-    let url = `http://localhost:8080/presentations/${id}`;
+    let url = `http://presentation-tool-2019.herokuapp.com/presentations/${id}`;
 
     let cfg = {
         method: "GET",
@@ -216,7 +216,7 @@ saveBtn.addEventListener('click', saveToDB);
 async function saveToDB(evt) {
     let urlParams = new URLSearchParams(window.location.search);
     let id = urlParams.get('id');
-    let url = "http://localhost:8080/presentations/" + id;
+    let url = "http://presentation-tool-2019.herokuapp.com/presentations/" + id;
 
     let cfg = {
         method: "PUT",

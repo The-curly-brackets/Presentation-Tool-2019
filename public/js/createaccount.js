@@ -49,7 +49,7 @@ createAccountBtn.addEventListener("click", evt => {
 });
 
 async function createAccount (){
-    let url = "http://localhost:8080/users/";
+    let url = "http://presentation-tool-2019.herokuapp.com/users/";
 
     let updata =  {
         username: userNameInp.value,
