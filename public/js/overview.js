@@ -3,11 +3,9 @@ const presListCont = document.getElementById("presListCont");
 const signoutBtn = document.getElementById("signoutBtn");
 const editaccountBtn = document.getElementById("editaccountBtn");
 const createPresBtn = document.getElementById("createPresBtn");
-const publicPresentationBtn = document.getElementById("publicPresentationBtn");
 const presNameInp = document.getElementById("presNameInp");
 const delPresModal = document.getElementById("delPresModal");
 const deletePresBtn = document.getElementById("deletePresBtn");
-
 const newPresModal = document.getElementById("newPresModal");
 const closeModal = document.getElementsByClassName("close")[0];
 const basicTheme = document.getElementById("basicTheme").addEventListener("click", selectTheme);
@@ -21,6 +19,7 @@ let presID;
 
 function selectTheme(evt) {
     theme = (this.id);
+    document.getElementById(theme).setAttribute("class", "themeChoosen");
 }
 
 let token = JSON.parse(sessionStorage.getItem("logindata")).token;
@@ -85,10 +84,6 @@ signoutBtn.addEventListener('click', evt => {
     window.location.href = "../html/login.html";
 });
 
-publicPresentationBtn.addEventListener('click', evt => {
-    sessionStorage.clear();
-    window.location.href = "../html/publicpresentations.html";
-});
 
 async function listPresentations() {
     presListCont.innerHTML = "";
