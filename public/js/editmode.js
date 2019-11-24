@@ -245,6 +245,7 @@ newSlideBtn.addEventListener('click', evt => {
     currentSlide = presentation.slides.length - 1;
     loadSlide();
     needSave = true;
+    updateSaveBtn();
 });
 
 backBtn.addEventListener('click', evt => {
@@ -266,18 +267,21 @@ listSlideBtn.addEventListener('click', evt => {
     presentation.slides[currentSlide].slide.type = "listSlide";
     loadSlide();
     needSave = true;
+    updateSaveBtn();
 });
 
 txtAndImageSlideBtn.addEventListener('click', evt => {
     presentation.slides[currentSlide].slide.type = "txtAndImg";
     loadSlide();
     needSave = true;
+    updateSaveBtn();
 });
 
 titleSlideBtn.addEventListener('click', evt => {
     presentation.slides[currentSlide].slide.type = "title";
     loadSlide();
     needSave = true;
+    updateSaveBtn();
 });
 
 numberListBtn.addEventListener('click', evt => {
@@ -285,6 +289,7 @@ numberListBtn.addEventListener('click', evt => {
         lastClickedElm.innerHTML = lastClickedElm.innerHTML + "<ol><li>list</li></ol>";
     }
     needSave = true;
+    updateSaveBtn();
 });
 
 bulletListBtn.addEventListener('click', evt => {
@@ -292,6 +297,7 @@ bulletListBtn.addEventListener('click', evt => {
         lastClickedElm.innerHTML = lastClickedElm.innerHTML + "<ul><li>list</li></ul>";
     }
     needSave = true;
+    updateSaveBtn();
 });
 
 fontFamSelect.addEventListener('change', styleSlideSave);
@@ -307,6 +313,7 @@ deleteSlideBtn.addEventListener('click', evt => {
     }
 
     needSave = true;
+    updateSaveBtn();
     loadSlide();
     slidePreviewCont.childNodes[currentSlide].click();
 });
@@ -334,6 +341,7 @@ imgFileInp.onchange = function(evt) {
     };
 
     needSave = true;
+    updateSaveBtn();
     reader.readAsDataURL(theFile);
 };
 
@@ -360,6 +368,7 @@ backgroundImgInp.onchange = function(evt) {
     }
 
     needSave = true;
+    updateSaveBtn();
     reader.readAsDataURL(theFile);
 }
 
@@ -494,6 +503,7 @@ function selectValues (){
     }
     backgroundColorInp.value = RGBToHex(editSlideCont.style.backgroundColor);
     needSave = true;
+    updateSaveBtn();
 }
 
 
@@ -614,6 +624,7 @@ function styleSlideSave (evt){
         
     }
     needSave = true;
+    updateSaveBtn();
 }
 
 
