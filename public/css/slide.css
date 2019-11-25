@@ -49,6 +49,7 @@
     grid-area: left;
     font-size: x-large;
     border: 1px solid black;
+    overflow: hidden;
 }
 
 .leftFrame > img {
