@@ -60,7 +60,6 @@ async function getUserInfo(){
         let resp = await fetch(url, cfg);
         let data = await resp.json();
 
-        console.log(data);
         changeEmailInp.value = data.email;
         changeUsernameInp.value = data.username;
     }
@@ -137,17 +136,16 @@ async function saveChanges(){
         let resp = await fetch(url, cfg);
         let data = await resp.json();
 
-        console.log(resp.status);
 
-        if (resp.status == 200){
+        if (resp.status === 200){
             txtOut.innerHTML = "Saved changes";
             txtOut.style.visibility = "visible";
             txtOut.style.color = "green";
-        }else if(resp.status == 404){
+        }else if(resp.status === 404){
             txtOut.innerHTML = data.msg;
             txtOut.style.visibility = "visible";
             txtOut.style.color = "red";
-        }else if(resp.status == 500){
+        }else if(resp.status === 500){
             txtOut.innerHTML = "Not able to save changes";
             txtOut.style.visibility = "visible";
             txtOut.style.color = "red";
@@ -174,7 +172,7 @@ closeModal.onclick = function() {
 }
 
 window.onclick = function(event) {
-    if (event.target == deleteModal) {
+    if (event.target === deleteModal) {
         deleteModal.style.display = "none";
     }
 }
@@ -195,7 +193,7 @@ modalDeleteBtn.addEventListener("click", async evt => {
             let resp = await fetch(url, cfg);
             let data = await resp.json();
             
-            if(resp.status == 200){
+            if(resp.status === 200){
                 sessionStorage.clear()
                 window.location.href = "login.html";
             }else{

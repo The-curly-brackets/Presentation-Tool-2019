@@ -4,7 +4,7 @@ const loginBtn = document.getElementById("loginBtn");
 const txtPswOut = document.getElementById("txtPswOut");
 
 loginBtn.addEventListener("click", async evt => {
-    if(!userNameInp.value || !passwordInp.value){
+    if (!userNameInp.value || !passwordInp.value) {
         txtPswOut.innerHTML = "Fill in username and password";
         return;
     }
@@ -22,15 +22,13 @@ loginBtn.addEventListener("click", async evt => {
     try {
         let resp = await fetch(url, cfg);
         let data = await resp.json();
-        
-        if(resp.status > 200){
+
+        if (resp.status > 200) {
             throw(data);
-        };
-        
+        }
         sessionStorage.setItem("logindata", JSON.stringify(data));
         window.location.href = "../html/overview.html";
-    }
-    catch (err) {
+    } catch (err) {
         txtPswOut.innerHTML = "Username or password is wrong";
         console.log(err);
     }

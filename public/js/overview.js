@@ -41,7 +41,7 @@ closeModal.onclick = function () {
 };
 
 window.onclick = function (event) {
-    if (event.target == newPresModal || event.target == delPresModal || event.target == shareModal) {
+    if (event.target === newPresModal || event.target === delPresModal || event.target === shareModal) {
         newPresModal.style.display = "none";
         delPresModal.style.display = "none";
         shareModal.style.display = "none";
@@ -194,12 +194,12 @@ async function listPresentations() {
                 sharebtn.innerHTML = "Unshare";
             }
             let urlout = document.getElementById("urlout");
-            console.log(data[i].visibility);
             urlout.href = "http://presentation-tool-2019.herokuapp.com/viewmode.html?id=" + data[i].id;
+
             sharebtn.addEventListener("click", async evt => {
                 let id  = data[i].id;
 
-                urlout.innerHTML = "http://presentation-tool-2019.herokuapp.com/viewmode.html?id=" + id;
+                urlout.innerHTML = "http://presentation-tool-2019.herokuapp.com/html/viewmode.html?id=" + id;
                 let url = "http://presentation-tool-2019.herokuapp.com/presentations/visibility/" + id;
                 let newVisibility = data[i].visibility === 1 ? {visibility: 2} : {visibility: 1};
 
@@ -212,9 +212,8 @@ async function listPresentations() {
                     body:JSON.stringify(newVisibility)
                 };
                 try {
-                    /*let resp = await fetch(url, cfg);
+                    let resp = await fetch(url, cfg);
                     let payload = await resp.json();
-                    console.log(payload.msg);*/
                     data[i].visibility = newVisibility.visibility;
 
                     if(data[i].visibility === 1){

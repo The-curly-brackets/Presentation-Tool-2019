@@ -28,16 +28,6 @@ li a:hover {
 #newPresBtn {
     position: absolute;
     left:0px;
-    text-decoration: none;
-    font-size: large;
-    border-radius: 5px;
-    line-height: 1;
-    letter-spacing: normal;
-    word-wrap: normal;
-    white-space: nowrap;
-    direction: ltr;
-    display: flex;
-    align-items: center;
 }
 
 #newPresBtn:hover{

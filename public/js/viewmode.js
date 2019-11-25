@@ -16,7 +16,8 @@ let fsb = false;
 let tok = null;
 try {
     tok = JSON.parse(sessionStorage.getItem("logindata")).token;
-} catch (e) {}
+} catch (e) {
+}
 
 let presentation;
 let currentSlide = 0;
