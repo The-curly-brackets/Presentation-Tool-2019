@@ -194,7 +194,7 @@ async function listPresentations() {
                 sharebtn.innerHTML = "Unshare";
             }
             let urlout = document.getElementById("urlout");
-            urlout.href = "http://presentation-tool-2019.herokuapp.com/viewmode.html?id=" + data[i].id;
+            urlout.href = "http://presentation-tool-2019.herokuapp.com/html/viewmode.html?id=" + data[i].id;
 
             sharebtn.addEventListener("click", async evt => {
                 let id  = data[i].id;
