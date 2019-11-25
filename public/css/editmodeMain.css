@@ -89,17 +89,9 @@ body{
     overflow: scroll;
 }
 
-.slidePreview{
-    width: 95%;
-    height: 22.7%;
-}
-
-.slidePreviewContent {
-    width: 350%;
-    position: relative;
-    transform-origin: left top;
-    transform: scale(0.25, 0.25);
-
+.quitModal {
+    max-width: 300px;
+    height: 100px;
 }
 
 .editSlidePreviewCont{

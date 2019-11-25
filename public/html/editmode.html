@@ -55,10 +55,10 @@
                     <button id="acBtn" class="button"><i id="acBtn" class="material-icons">format_align_center</i></button>
                     <button id="arBtn" class="button"><i id="arBtn" class="material-icons">format_align_right</i></button>
                     
-                    <button class="button space"><label for="textColorInp">Text Color</label></button>
+                    <button class="button space" id="textColorBtn">Text Color</button>
                     <input id="textColorInp"  type="color" style="width: 50px" value="#ff0000">
 
-                    <button class="button"><label for="backgroundColorInp">Background Color</label></button>
+                    <button class="button" id="backgroundColorBtn">Background Color</button>
                     <input id="backgroundColorInp"  type="color" style="width: 50px">
 
                     <button id="backgroundImgBtn" class="button"><label for="backgroundImgBtn">Background image</label></button>
@@ -66,7 +66,8 @@
 
                     <button id="removeBackgroundImg" class="button">Remove</button>
 
-                    <button id="saveBtn" class="button moreSpace" style="background-color: #5f4eff;">Save</button>
+                    <button id="saveBtn" class="button space buttonBlue">Saved</button>
+                    <button id="viewBtn" class="button">View</button>
                     <button id="backBtn" class="button">Back</button>
 
 
@@ -82,6 +83,17 @@
 
             <div id="editSlideCont">
                 <!-- Here goes the code to edit a slide, JavaScript -->
+            </div>
+        </div>
+
+        <!-- The Modal -->
+        <div id="quitModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content quitModal">
+                <span class="close">&times;</span>
+                <p>Would you like to save changes?</p>
+                <button id="saveBtnModal" class="button">Yes</button>
+                <button id="noSaveBtn" class="button space buttonBlue">No</button>
             </div>
         </div>
 

@@ -16,7 +16,8 @@ let fsb = false;
 let tok = null;
 try {
     tok = JSON.parse(sessionStorage.getItem("logindata")).token;
-} catch (e) {}
+} catch (e) {
+}
 
 let presentation;
 let currentSlide = 0;
@@ -33,7 +34,7 @@ getPresentationByID().then(id => {
 async function getPresentationByID() {
     let urlParams = new URLSearchParams(window.location.search);
     let id = urlParams.get('id');
-    let url = `http://localhost:8080/presentations/${id}`;
+    let url = `http://presentation-tool-2019.herokuapp.com/presentations/${id}`;
 
     let cfg = {
         method: "GET",
@@ -56,6 +57,17 @@ async function getPresentationByID() {
     }
 }
 
+function allDescendantsToPreview(node, slideId) {
+    for (let i = 0; i < node.childNodes.length; i++) {
+        let child = node.childNodes[i];
+
+        if (child.tagName === "DIV") {
+            allDescendantsToPreview(child, slideId);
+            child.classList.add("noBorder");
+        }
+    }
+}
+
 function loadSlide(slideNb) {
     slideFrame.innerHTML = "";
     let slide = presentation.slides[slideNb].slide;
@@ -69,9 +81,12 @@ function loadSlide(slideNb) {
     } else if (slide.type === "listSlide") {
         div = loadSlideOnTemplateAndClone(listSlideTemplate, slide);
     }
+    allDescendantsToPreview(div.childNodes[1], slideNb);
     //divs.forEach(div => div.classList.add("borderless"));
 
     slideFrame.style.backgroundColor = slide.backgroundColor;
+    slideFrame.style.backgroundImage = `url('${slide.backgroundImg}')`;
+    slideFrame.style.backgroundSize = "cover";
     slideFrame.appendChild(div);
 }
 

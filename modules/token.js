@@ -23,7 +23,7 @@ const checkToken = function (req, res, next) {
 };
 
 function getUserIDFromToken(token) {
-    logindata = jwt.verify(token, secretSash.secret);
+    let logindata = jwt.verify(token, secretSash.secret);
 
     return logindata.userid || logindata.userID;
 }

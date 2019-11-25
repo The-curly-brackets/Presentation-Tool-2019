@@ -46,7 +46,7 @@ function hidetxtOut(){
 
 async function getUserInfo(){
 
-    let url = `http://localhost:8080/users/`
+    let url = `http://presentation-tool-2019.herokuapp.com/users/`
     
     let cfg = {
         method: "GET",
@@ -60,7 +60,6 @@ async function getUserInfo(){
         let resp = await fetch(url, cfg);
         let data = await resp.json();
 
-        console.log(data);
         changeEmailInp.value = data.email;
         changeUsernameInp.value = data.username;
     }
@@ -116,7 +115,7 @@ saveChangesBtn.addEventListener("click", async evt => {
 });
 
 async function saveChanges(){
-    let url = `http://localhost:8080/users/`;
+    let url = `http://presentation-tool-2019.herokuapp.com/users/`;
 
     txtOut.style.visibility = "hidden";
 
@@ -137,17 +136,16 @@ async function saveChanges(){
         let resp = await fetch(url, cfg);
         let data = await resp.json();
 
-        console.log(resp.status);
 
-        if (resp.status == 200){
+        if (resp.status === 200){
             txtOut.innerHTML = "Saved changes";
             txtOut.style.visibility = "visible";
             txtOut.style.color = "green";
-        }else if(resp.status == 404){
+        }else if(resp.status === 404){
             txtOut.innerHTML = data.msg;
             txtOut.style.visibility = "visible";
             txtOut.style.color = "red";
-        }else if(resp.status == 500){
+        }else if(resp.status === 500){
             txtOut.innerHTML = "Not able to save changes";
             txtOut.style.visibility = "visible";
             txtOut.style.color = "red";
@@ -174,14 +172,14 @@ closeModal.onclick = function() {
 }
 
 window.onclick = function(event) {
-    if (event.target == deleteModal) {
+    if (event.target === deleteModal) {
         deleteModal.style.display = "none";
     }
 }
 
 modalDeleteBtn.addEventListener("click", async evt => {
     if(modalPsw.value){
-        let url = `http://localhost:8080/users/`;
+        let url = `http://presentation-tool-2019.herokuapp.com/users/`;
 
         let cfg = {
             method: "DELETE",
@@ -195,7 +193,7 @@ modalDeleteBtn.addEventListener("click", async evt => {
             let resp = await fetch(url, cfg);
             let data = await resp.json();
             
-            if(resp.status == 200){
+            if(resp.status === 200){
                 sessionStorage.clear()
                 window.location.href = "login.html";
             }else{

@@ -41,7 +41,7 @@ closeModal.onclick = function () {
 };
 
 window.onclick = function (event) {
-    if (event.target == newPresModal || event.target == delPresModal || event.target == shareModal) {
+    if (event.target === newPresModal || event.target === delPresModal || event.target === shareModal) {
         newPresModal.style.display = "none";
         delPresModal.style.display = "none";
         shareModal.style.display = "none";
@@ -50,7 +50,7 @@ window.onclick = function (event) {
 
 createPresBtn.addEventListener('click', async evt => {
 
-    let url = "http://localhost:8080/presentations/";
+    let url = "http://presentation-tool-2019.herokuapp.com/presentations/";
     let name = presNameInp.value;
     let date = new Date();
     date = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
@@ -89,10 +89,21 @@ signoutBtn.addEventListener('click', evt => {
     window.location.href = "../html/login.html";
 });
 
+function allDescendantsToPreview(node, slideId) {
+    for (let i = 0; i < node.childNodes.length; i++) {
+        let child = node.childNodes[i];
+        allDescendantsToPreview(child, slideId);
+        if (child.tagName === "DIV") {
+            child.classList.add("noBorder");
+        }
+        child.slideId = slideId;
+    }
+}
+
 
 async function listPresentations() {
     presListCont.innerHTML = "";
-    let url = "http://localhost:8080/presentations/overview";
+    let url = "http://presentation-tool-2019.herokuapp.com/presentations/overview";
     let cfg = {
         method: "GET",
         headers: {
@@ -137,6 +148,12 @@ async function listPresentations() {
                 } else if (slide.type === "listSlide") {
                     previewDiv = loadSlideOnTemplateAndClone(listSlideTemplate, slide);
                 }
+                allDescendantsToPreview(previewDiv, i);
+
+
+                presPreview.style.backgroundColor = slide.backgroundColor;
+                presPreview.style.backgroundImage = `url('${slide.backgroundImg}')`;
+                presPreview.style.backgroundSize = "cover";
                 presPreview.appendChild(previewDiv);
             }
             let deleteBtn = div.firstElementChild.children[2].children[0];
@@ -177,15 +194,15 @@ async function listPresentations() {
                 sharebtn.innerHTML = "Unshare";
             }
             let urlout = document.getElementById("urlout");
-            console.log(data[i].visibility);
-            urlout.href = "https://presentation-tool-2019.herokuapp.com/viewmode.html?id=" + data[i].id;
-            urlout.innerHTML = "https://presentation-tool-2019.herokuapp.com/viewmode.html?id=" + data[i].id;
+            urlout.href = "http://presentation-tool-2019.herokuapp.com/html/viewmode.html?id=" + data[i].id;
+
             sharebtn.addEventListener("click", async evt => {
-                presID = data[i].id;
-                let id = presID;
-                let url = "http://localhost:8080/presentations/visibility/" + id;
+                let id  = data[i].id;
+
+                urlout.innerHTML = "http://presentation-tool-2019.herokuapp.com/html/viewmode.html?id=" + id;
+                let url = "http://presentation-tool-2019.herokuapp.com/presentations/visibility/" + id;
                 let newVisibility = data[i].visibility === 1 ? {visibility: 2} : {visibility: 1};
-                console.log(data[i].visibility);
+
                 let cfg = {
                     method: "PUT",
                     headers: {
@@ -197,7 +214,6 @@ async function listPresentations() {
                 try {
                     let resp = await fetch(url, cfg);
                     let payload = await resp.json();
-                    console.log(payload.msg);
                     data[i].visibility = newVisibility.visibility;
 
                     if(data[i].visibility === 1){
@@ -219,7 +235,7 @@ async function listPresentations() {
 }
 
 deletePresBtn.addEventListener('click', async evt => {
-    let url = "http://localhost:8080/presentations/" + presID;
+    let url = "http://presentation-tool-2019.herokuapp.com/presentations/" + presID;
 
     let cfg = {
         method: "DELETE",

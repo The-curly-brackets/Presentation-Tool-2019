@@ -14,44 +14,44 @@ userNameInp.addEventListener("input", evt => txtOut.innerHTML = "");
 createAccountBtn.addEventListener("click", evt => {
     let regx = /^[^\s]+@[^\s]+\.[A-Za-z]{2,5}$/;
     let match = regx.test(emailInp.value);
-    
-    if(!emailInp.value || !userNameInp.value || !passwordInp.value || !confirmPasswordInp.value){
+
+    if (!emailInp.value || !userNameInp.value || !passwordInp.value || !confirmPasswordInp.value) {
         txtOut.innerHTML = "All the fields need to be filled out";
         txtOut.style.visibility = "visible";
         return;
     }
-    
-    if(!match){
+
+    if (!match) {
         txtOut.innerHTML = "Not a valid email";
         txtOut.style.visibility = "visible";
         return;
     }
 
-    if(userNameInp.value.length < 4){
+    if (userNameInp.value.length < 4) {
         txtOut.innerHTML = "The username must be four characters or more";
         txtOut.style.visibility = "visible";
         return;
     }
 
-    if(passwordInp.value.length < 4){
+    if (passwordInp.value.length < 4) {
         txtOut.innerHTML = "The password must be four characters or more";
         txtOut.style.visibility = "visible";
         return;
     }
-    
-    if(passwordInp.value !== confirmPasswordInp.value) {
+
+    if (passwordInp.value !== confirmPasswordInp.value) {
         txtOut.innerHTML = "The passwords does not match";
         txtOut.style.visibility = "visible";
         return;
     }
-    
+
     createAccount();
 });
 
-async function createAccount (){
-    let url = "http://localhost:8080/users/";
+async function createAccount() {
+    let url = "http://presentation-tool-2019.herokuapp.com/users/";
 
-    let updata =  {
+    let updata = {
         username: userNameInp.value,
         email: emailInp.value,
         password: passwordInp.value

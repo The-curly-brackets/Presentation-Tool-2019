@@ -13,7 +13,7 @@
     grid-template-areas: 
         'headline headline'
         'left right';
-    grid-gap: 5%;
+    grid-gap: 0 5%;
     padding: 5%;
     grid-template-rows: calc(79vw * 0.5625 * 0.2) calc(79vw * 0.5625 * 0.6);
     grid-template-columns: 1fr 1fr;
@@ -26,13 +26,15 @@
     margin-bottom: 10px;
     font-size: 48pt;
     font: bold;
-    padding: 20px 60px 20px 60px;
+    overflow: hidden;
+    padding: 10px 30px 10px 30px;
 }
 
 .byFrame {
     border: 1px solid black;
     font-size: x-large;
     padding: 20px;
+    overflow: hidden;
 }
 
 /* --- CSS for elements in the other slides ------------- */
@@ -47,18 +49,21 @@
     grid-area: left;
     font-size: x-large;
     border: 1px solid black;
+    overflow: hidden;
 }
 
 .leftFrame > img {
     width: 100%;
     height: 100%;
     object-fit: contain;
+    overflow: hidden;
 }
 
 .rightFrame {
     grid-area: right;
     font-size: x-large;
     border: 1px solid black;
+    overflow: hidden;
 }
 
 /* --- CSS for basic theme ---------------------- */
@@ -84,4 +89,23 @@
     /*background-color: #141414;*/
     color: #ffffff;
     font-family: Helvetica, Arial, sans-serif;
+}
+
+.noBorder {
+    border: none !important;
+}
+
+/* ---- CSS for the previews scaling -------------*/
+
+.slidePreview{
+    width: 95%;
+    height: 22.7%;
+}
+
+.slidePreviewContent {
+    width: 350%;
+    position: relative;
+    transform-origin: left top;
+    transform: scale(0.25, 0.25);
+
 }

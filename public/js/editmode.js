@@ -4,12 +4,10 @@ const newSlideBtn = document.getElementById("newSlideBtn");
 const numberListBtn = document.getElementById("numberListBtn");
 const bulletListBtn = document.getElementById("bulletListBtn");
 
+const textColorInp = document.getElementById("textColorInp");
 const imgFileInp = document.getElementById('imgFileInp');
-const imgUpInp = document.getElementById("imgUpInp").addEventListener("click", evt => imgFileInp.click());
-
 const backgroundColorInp = document.getElementById("backgroundColorInp");
 const backgroundImgInp = document.getElementById('backgroundImgInp');
-const backgroundImgBtn = document.getElementById("backgroundImgBtn").addEventListener("click", evt => backgroundImgInp.click());
 const removeBackgroundImg = document.getElementById("removeBackgroundImg");
 
 const titleSlideBtn = document.getElementById("titleSlideBtn");
@@ -17,6 +15,7 @@ const txtAndImageSlideBtn = document.getElementById("txtAndImageSlideBtn");
 const listSlideBtn = document.getElementById("listSlideBtn");
 
 const backBtn = document.getElementById("backBtn");
+const viewBtn = document.getElementById("viewBtn");
 const saveBtn = document.getElementById("saveBtn");
 
 const titleTemplate = document.getElementById("titleSlide");
@@ -29,13 +28,17 @@ let editSlideCont = document.getElementById("editSlideCont");
 const fontFamSelect = document.getElementById("fontFamSelect");
 const fontSizeSelect = document.getElementById("fontSizeSelect");
 
-const underlineBtn = document.getElementById("underlineBtn").addEventListener('click', styleSlideSave);
-const boldBtn = document.getElementById("boldBtn").addEventListener('click', styleSlideSave);
-const italicBtn = document.getElementById("italicBtn").addEventListener('click', styleSlideSave);
+document.getElementById("underlineBtn").addEventListener('click', styleSlideSave);
+document.getElementById("boldBtn").addEventListener('click', styleSlideSave);
+document.getElementById("italicBtn").addEventListener('click', styleSlideSave);
 
-const textColorInp = document.getElementById("textColorInp");
 
 textColorInp.addEventListener('input', styleSlideSave);
+
+document.getElementById("backgroundImgBtn").addEventListener("click", evt => backgroundImgInp.click());
+document.getElementById("imgUpInp").addEventListener("click", evt => imgFileInp.click());
+document.getElementById("backgroundColorBtn").addEventListener('click', evt => backgroundColorInp.click());
+document.getElementById("textColorBtn").addEventListener('click', evt => textColorInp.click());
 
 const alBtn = document.getElementById("alBtn").addEventListener('click', styleSlideSave);
 const acBtn = document.getElementById("acBtn").addEventListener('click', styleSlideSave);
@@ -44,7 +47,7 @@ const arBtn = document.getElementById("arBtn").addEventListener('click', styleSl
 const deleteSlideBtn = document.getElementById("deleteSlideBtn");
 
 let token = JSON.parse(sessionStorage.getItem("logindata")).token;
-
+let needSave = false;
 
 // --- Classes ---------------------------------------------------
 
@@ -52,12 +55,12 @@ class Slide {
     constructor(typeOfSlide, presentationTheme) {
         this.fontFam = "helvetica";
         this.fontcolor = "#000000";
-        
-        if(presentationTheme == "classicTheme"){
+
+        if (presentationTheme === "classicTheme") {
             this.fontFam = "Fondamento";
             this.bColor = "#832724";
             this.fontcolor = "#ffffff";
-        }else if(presentationTheme == "darkTheme"){
+        } else if (presentationTheme === "darkTheme") {
             this.fontcolor = "#ffffff";
             this.bColor = "#000000";
         }
@@ -130,7 +133,7 @@ async function initialize() {
     let urlParams = new URLSearchParams(window.location.search);
     let id = urlParams.get('id');
 
-    let url = `http://localhost:8080/presentations/${id}`;
+    let url = `http://presentation-tool-2019.herokuapp.com/presentations/${id}`;
 
     let cfg = {
         method: "GET",
@@ -144,12 +147,14 @@ async function initialize() {
         let resp = await fetch(url, cfg);
         let data = await resp.json();
         presentation = data.presentation;
-       
+
         if (presentation.slides.length === 0) {
-            presentation.slides.push(new Slide("title", presentation.theme));   
+            presentation.slides.push(new Slide("title", presentation.theme));
         }
-        console.log(presentation);
+
         slidePreviews();
+        currentSlide = 0;
+        loadSlide();
         slidePreviewCont.childNodes[0].click();
     } catch (err) {
         console.log(err);
@@ -162,6 +167,7 @@ function allDescendantsToPreview(node, slideId) {
         allDescendantsToPreview(child, slideId);
         if (child.isContentEditable) {
             child.setAttribute('contenteditable', "false");
+            child.classList.add("noBorder");
         }
         child.slideId = slideId;
     }
@@ -169,6 +175,7 @@ function allDescendantsToPreview(node, slideId) {
 
 function slidePreviews() {
     slidePreviewCont.innerHTML = "";
+    let bckCurrentSlide = currentSlide;
 
     for (let i = 0; i < presentation.slides.length; i++) {
         currentSlide = i;
@@ -191,13 +198,11 @@ function slidePreviews() {
         slidePreviewDiv.appendChild(clone);
         slidePreviewCont.appendChild(slidePreviewDiv);
     }
-
-    currentSlide = 0;
-    loadSlide();
+    currentSlide = bckCurrentSlide;
 }
 
 function navigateSlide(evt) {
-    if(lastClickedSlide){
+    if (lastClickedSlide) {
         lastClickedSlide.style.border = "1px solid black";
     }
     currentSlide = evt.currentTarget.slideId;
@@ -208,11 +213,12 @@ function navigateSlide(evt) {
 
 // --- EventListener ---------------------------------------------------
 
-saveBtn.addEventListener('click', async evt => {
-    // TODO: Factorize it with other queries and add an independent function
+saveBtn.addEventListener('click', saveToDB);
+
+async function saveToDB(evt) {
     let urlParams = new URLSearchParams(window.location.search);
     let id = urlParams.get('id');
-    let url = "http://localhost:8080/presentations/" + id;
+    let url = "http://presentation-tool-2019.herokuapp.com/presentations/" + id;
 
     let cfg = {
         method: "PUT",
@@ -226,49 +232,73 @@ saveBtn.addEventListener('click', async evt => {
     try {
         let resp = await fetch(url, cfg);
         let data = await resp.json();
-        
-        console.log(data);
+        needSave = false;
+        updateSaveBtn();
     } catch (err) {
         console.log(err);
     }
-});
+}
 
 newSlideBtn.addEventListener('click', evt => {
     presentation.slides.push(new Slide("txtAndImg", presentation.theme));
+
+    slidePreviews();
     currentSlide = presentation.slides.length - 1;
     loadSlide();
-    slidePreviews();
+    needSave = true;
+    updateSaveBtn();
 });
 
 backBtn.addEventListener('click', evt => {
-    window.location.href = "../html/overview.html";
+    if (needSave) {
+        quitModal.style.display = "block";
+    } else {
+        window.location.href = "../html/overview.html";
+    }
+});
+
+
+viewBtn.addEventListener('click', evt => {
+    let urlParams = new URLSearchParams(window.location.search);
+    let id = urlParams.get('id');
+    window.location.href = "../html/viewmode.html?id=" + id;
 });
 
 listSlideBtn.addEventListener('click', evt => {
     presentation.slides[currentSlide].slide.type = "listSlide";
     loadSlide();
+    needSave = true;
+    updateSaveBtn();
 });
 
 txtAndImageSlideBtn.addEventListener('click', evt => {
     presentation.slides[currentSlide].slide.type = "txtAndImg";
     loadSlide();
+    needSave = true;
+    updateSaveBtn();
 });
 
 titleSlideBtn.addEventListener('click', evt => {
     presentation.slides[currentSlide].slide.type = "title";
     loadSlide();
+    needSave = true;
+    updateSaveBtn();
 });
 
 numberListBtn.addEventListener('click', evt => {
     if (lastClickedElm) {
         lastClickedElm.innerHTML = lastClickedElm.innerHTML + "<ol><li>list</li></ol>";
     }
+    needSave = true;
+    updateSaveBtn();
 });
 
 bulletListBtn.addEventListener('click', evt => {
     if (lastClickedElm) {
         lastClickedElm.innerHTML = lastClickedElm.innerHTML + "<ul><li>list</li></ul>";
     }
+    needSave = true;
+    updateSaveBtn();
 });
 
 fontFamSelect.addEventListener('change', styleSlideSave);
@@ -278,21 +308,26 @@ backgroundColorInp.addEventListener('input', styleSlideSave);
 
 deleteSlideBtn.addEventListener('click', evt => {
     presentation.slides.splice(currentSlide, 1);
-    currentSlide--;
+    slidePreviews();
+    if (currentSlide > 0) {
+        currentSlide--;
+    }
+
+    needSave = true;
+    updateSaveBtn();
     loadSlide();
-    slidePreviews()
     slidePreviewCont.childNodes[currentSlide].click();
 });
 
-imgFileInp.onchange = function(evt) {
+imgFileInp.onchange = function (evt) {
     let theFile = imgFileInp.files[0];
 
     //check type
-    if (theFile.type != "image/png" && theFile.type != "image/jpeg") {
+    if (theFile.type !== "image/png" && theFile.type !=="image/jpeg") {
         console.log("error: wrong filetype");
         return;
     }
-    
+
     //check size
     if (theFile.size > 200000) {
         console.log("error: file too large");
@@ -300,16 +335,18 @@ imgFileInp.onchange = function(evt) {
     }
 
     let reader = new FileReader();
-    reader.onloadend = function() {
+    reader.onloadend = function () {
         imgInBase64 = reader.result;
         presentation.slides[currentSlide].slide.img.src = imgInBase64;
         loadSlide();
     };
 
+    needSave = true;
+    updateSaveBtn();
     reader.readAsDataURL(theFile);
 };
 
-backgroundImgInp.onchange = function(evt) {
+backgroundImgInp.onchange = function (evt) {
     let theFile = backgroundImgInp.files[0];
 
     //check type
@@ -317,7 +354,7 @@ backgroundImgInp.onchange = function(evt) {
         console.log("error: wrong filetype");
         return;
     }
-    
+
     //check size
     if (theFile.size > 200000) {
         console.log("error: file too large");
@@ -325,21 +362,56 @@ backgroundImgInp.onchange = function(evt) {
     }
 
     let reader = new FileReader();
-    reader.onloadend = function() {
+    reader.onloadend = function () {
         imgInBase64 = reader.result;
         presentation.slides[currentSlide].slide.backgroundImg = imgInBase64;
         loadSlide();
-    }
+    };
 
+    needSave = true;
+    updateSaveBtn();
     reader.readAsDataURL(theFile);
-}
+};
 
 removeBackgroundImg.addEventListener("click", evt => {
     presentation.slides[currentSlide].slide.backgroundImg = "";
     loadSlide();
-})
+});
+
+// ---modal handling ---
+const quitModal = document.getElementById("quitModal");
+
+window.onclick = function (event) {
+    if (event.target === quitModal) {
+        quitModal.style.display = "none";
+    }
+};
+
+quitModal.querySelector('span').onclick = function () {
+    quitModal.style.display = "none";
+};
+
+document.getElementById("noSaveBtn").addEventListener("click", evt => {
+    quitModal.style.display = "none";
+    window.location.href = "../html/overview.html";
+});
+
+let saveBtnModal = document.getElementById("saveBtnModal");
+saveBtnModal.addEventListener('click', async evt => {
+    await saveToDB(evt);
+    window.location.href = "../html/overview.html";
+});
+
 
 // --- Functions ------------------------------------------------------
+
+function updateSaveBtn() {
+    if (needSave) {
+        saveBtn.innerText = "Save";
+    } else {
+        saveBtn.innerText = "Saved";
+    }
+}
 
 function loadSlide() {
     editSlideCont.innerHTML = "";
@@ -347,7 +419,7 @@ function loadSlide() {
     editSlideCont.classList.add(presentation.theme);
     let div;
 
-    if (slide.type === "title"){
+    if (slide.type === "title") {
         div = loadSlideOnTemplateAndClone(titleTemplate, slide);
     } else if (slide.type === "txtAndImg") {
         div = loadSlideOnTemplateAndClone(txtAndImgTemplate, slide);
@@ -363,26 +435,20 @@ function loadSlide() {
         div.firstElementChild.children[i].addEventListener('input', localSave);
     }
     editSlideCont.style.backgroundColor = slide.backgroundColor;
-    
     editSlideCont.style.backgroundImage = `url('${slide.backgroundImg}')`;
     editSlideCont.style.backgroundSize = "cover";
     editSlideCont.appendChild(div);
 }
 
 
-
-function selectValues (){
-    // This select the option in fontSizeSelcet that has the same value as the element that was selectet
-    
-    console.log(lastClickedElm);
-    
+function selectValues() {
     let options = fontSizeSelect.options;
     let i = 0;
 
     for (let option of options) {
-        if(option.value + "pt" == lastClickedElm.style.fontSize){
+        if (option.value + "pt" === lastClickedElm.style.fontSize) {
             fontSizeSelect.selectedIndex = i;
-        }else {
+        } else {
             i++;
         }
     }
@@ -391,108 +457,110 @@ function selectValues (){
     i = 0;
 
     for (let option of options) {
-        if (lastClickedElm.style.fontFamily == "helvetica" && option.value == 0){
+        if (lastClickedElm.style.fontFamily === "helvetica" && option.value === 0) {
             fontFamSelect.selectedIndex = i;
-        } else if (lastClickedElm.style.fontFamily == "calibri" && option.value == 1){
+        } else if (lastClickedElm.style.fontFamily === "calibri" && option.value === 1) {
             fontFamSelect.selectedIndex = i;
-        } else if(lastClickedElm.style.fontFamily == "courier" && option.value == 2){
+        } else if (lastClickedElm.style.fontFamily === "courier" && option.value === 2) {
             fontFamSelect.selectedIndex = i;
-        }else if(lastClickedElm.style.fontFamily == "Fondamento" && option.value == 3){
+        } else if (lastClickedElm.style.fontFamily === "Fondamento" && option.value === 3) {
             fontFamSelect.selectedIndex = i;
-        }else {
+        } else {
             i++;
         }
     }
 
-    // Henta fra nettet https://css-tricks.com/converting-color-spaces-in-javascript/
-    
+    // Inspired from https://css-tricks.com/converting-color-spaces-in-javascript/
+
     function RGBToHex(rgb) {
         // Choose correct separator
         let sep = rgb.indexOf(",") > -1 ? "," : " ";
         // Turn "rgb(r,g,b)" into [r,g,b]
         rgb = rgb.substr(4).split(")")[0].split(sep);
-      
+
         let r = (+rgb[0]).toString(16),
             g = (+rgb[1]).toString(16),
             b = (+rgb[2]).toString(16);
-      
-        if (r.length == 1)
-          r = "0" + r;
-        if (g.length == 1)
-          g = "0" + g;
-        if (b.length == 1)
-          b = "0" + b;
-      
+
+        if (r.length === 1)
+            r = "0" + r;
+        if (g.length === 1)
+            g = "0" + g;
+        if (b.length === 1)
+            b = "0" + b;
+
         return "#" + r + g + b;
     }
 
     textColorInp.value = RGBToHex(lastClickedElm.style.color);
 
-    if(!editSlideCont.style.backgroundColor){
+    if (!editSlideCont.style.backgroundColor) {
         editSlideCont.style.backgroundColor = "#ffffff";
     }
     backgroundColorInp.value = RGBToHex(editSlideCont.style.backgroundColor);
+    needSave = true;
+    updateSaveBtn();
 }
 
 
-function styleSlideSave (evt){
+function styleSlideSave(evt) {
     editSlideCont.style.backgroundColor = backgroundColorInp.value;
     presentation.slides[currentSlide].slide.backgroundColor = backgroundColorInp.value;
-    
-    if(lastClickedElm){
-        let currentDiv = lastClickedElm;
-        let containerDiv = currentDiv.parentNode;
-        
+
+    if (lastClickedElm) {
+        let containerDiv = lastClickedElm.parentNode;
+
         lastClickedElm.style.fontSize = fontSizeSelect.value + "pt";
         lastClickedElm.style.color = textColorInp.value;
-        
-        if(evt.target.id == "boldBtn"){
-            if(lastClickedElm.style.fontWeight == "bold"){
+
+        if (evt.target.id === "boldBtn") {
+            if (lastClickedElm.style.fontWeight === "bold") {
                 lastClickedElm.style.fontWeight = "normal";
-            }else{
+            } else {
                 lastClickedElm.style.fontWeight = "bold";
-            } 
-        }else if(evt.target.id == "underlineBtn"){
-            if(lastClickedElm.style.textDecoration == "underline"){
+            }
+        } else if (evt.target.id === "underlineBtn") {
+            if (lastClickedElm.style.textDecoration === "underline") {
                 lastClickedElm.style.textDecoration = "none";
-            }else{
+            } else {
                 lastClickedElm.style.textDecoration = "underline";
             }
-        }else if(evt.target.id == "italicBtn"){
-            if(lastClickedElm.style.fontStyle == "italic"){
+        } else if (evt.target.id === "italicBtn") {
+            if (lastClickedElm.style.fontStyle === "italic") {
                 lastClickedElm.style.fontStyle = "normal";
-            }else {
+            } else {
                 lastClickedElm.style.fontStyle = "italic";
             }
         }
 
-        if(evt.target.id == "alBtn"){
+        if (evt.target.id === "alBtn") {
             lastClickedElm.style.textAlign = "left";
-        }else if (evt.target.id == "acBtn"){
+        } else if (evt.target.id === "acBtn") {
             lastClickedElm.style.textAlign = "center";
-        }else if(evt.target.id == "arBtn"){
+        } else if (evt.target.id === "arBtn") {
             lastClickedElm.style.textAlign = "right";
         }
-        
-        switch(fontFamSelect.value) {
-                case "0": {
-                    lastClickedElm.style.fontFamily = "helvetica";
-                    break;
-                }
-                case "1": {
-                    lastClickedElm.style.fontFamily = "calibri";
-                    break;
-                }
-                case "2": {
-                    lastClickedElm.style.fontFamily = "courier";
-                    break;
-                }
-                case "3": {
-                    lastClickedElm.style.fontFamily = "Fondamento";
-                    break;
-                }
-                default: {}
+
+        switch (fontFamSelect.value) {
+            case "0": {
+                lastClickedElm.style.fontFamily = "helvetica";
+                break;
             }
+            case "1": {
+                lastClickedElm.style.fontFamily = "calibri";
+                break;
+            }
+            case "2": {
+                lastClickedElm.style.fontFamily = "courier";
+                break;
+            }
+            case "3": {
+                lastClickedElm.style.fontFamily = "Fondamento";
+                break;
+            }
+            default: {
+            }
+        }
 
         for (let i = 0; i < containerDiv.childNodes.length; ++i) {
             let className = containerDiv.childNodes[i].className;
@@ -504,21 +572,21 @@ function styleSlideSave (evt){
                 case "title": {
                     presentation.slides[currentSlide].slide.headline.fontType = containerDiv.childNodes[i].style.fontFamily;
                     presentation.slides[currentSlide].slide.headline.fontSize = containerDiv.childNodes[i].style.fontSize;
-                    presentation.slides[currentSlide].slide.headline.bold =  containerDiv.childNodes[i].style.fontWeight;
-                    presentation.slides[currentSlide].slide.headline.italic =  containerDiv.childNodes[i].style.fontStyle;
-                    presentation.slides[currentSlide].slide.headline.underline =  containerDiv.childNodes[i].style.textDecoration;
-                    presentation.slides[currentSlide].slide.headline.fontColor =  containerDiv.childNodes[i].style.color;
-                    presentation.slides[currentSlide].slide.headline.align =  containerDiv.childNodes[i].style.textAlign;
+                    presentation.slides[currentSlide].slide.headline.bold = containerDiv.childNodes[i].style.fontWeight;
+                    presentation.slides[currentSlide].slide.headline.italic = containerDiv.childNodes[i].style.fontStyle;
+                    presentation.slides[currentSlide].slide.headline.underline = containerDiv.childNodes[i].style.textDecoration;
+                    presentation.slides[currentSlide].slide.headline.fontColor = containerDiv.childNodes[i].style.color;
+                    presentation.slides[currentSlide].slide.headline.align = containerDiv.childNodes[i].style.textAlign;
                     break;
                 }
                 case "byFrame" : {
                     presentation.slides[currentSlide].slide.byLine.fontType = containerDiv.childNodes[i].style.fontFamily;
                     presentation.slides[currentSlide].slide.byLine.fontSize = containerDiv.childNodes[i].style.fontSize;
-                    presentation.slides[currentSlide].slide.byLine.bold =  containerDiv.childNodes[i].style.fontWeight;
-                    presentation.slides[currentSlide].slide.byLine.italic =  containerDiv.childNodes[i].style.fontStyle;
-                    presentation.slides[currentSlide].slide.byLine.underline =  containerDiv.childNodes[i].style.textDecoration;
-                    presentation.slides[currentSlide].slide.byLine.fontColor =  containerDiv.childNodes[i].style.color;
-                    presentation.slides[currentSlide].slide.byLine.align =  containerDiv.childNodes[i].style.textAlign;
+                    presentation.slides[currentSlide].slide.byLine.bold = containerDiv.childNodes[i].style.fontWeight;
+                    presentation.slides[currentSlide].slide.byLine.italic = containerDiv.childNodes[i].style.fontStyle;
+                    presentation.slides[currentSlide].slide.byLine.underline = containerDiv.childNodes[i].style.textDecoration;
+                    presentation.slides[currentSlide].slide.byLine.fontColor = containerDiv.childNodes[i].style.color;
+                    presentation.slides[currentSlide].slide.byLine.align = containerDiv.childNodes[i].style.textAlign;
                     break;
                 }
                 case "imgContainer": {
@@ -528,29 +596,32 @@ function styleSlideSave (evt){
                 case "txtboxOne": {
                     presentation.slides[currentSlide].slide.textBoxes[0].fontType = containerDiv.childNodes[i].style.fontFamily;
                     presentation.slides[currentSlide].slide.textBoxes[0].fontSize = containerDiv.childNodes[i].style.fontSize;
-                    presentation.slides[currentSlide].slide.textBoxes[0].bold =  containerDiv.childNodes[i].style.fontWeight;
-                    presentation.slides[currentSlide].slide.textBoxes[0].italic =  containerDiv.childNodes[i].style.fontStyle;
-                    presentation.slides[currentSlide].slide.textBoxes[0].underline =  containerDiv.childNodes[i].style.textDecoration;
-                    presentation.slides[currentSlide].slide.textBoxes[0].fontColor =  containerDiv.childNodes[i].style.color;
-                    presentation.slides[currentSlide].slide.textBoxes[0].align =  containerDiv.childNodes[i].style.textAlign;
+                    presentation.slides[currentSlide].slide.textBoxes[0].bold = containerDiv.childNodes[i].style.fontWeight;
+                    presentation.slides[currentSlide].slide.textBoxes[0].italic = containerDiv.childNodes[i].style.fontStyle;
+                    presentation.slides[currentSlide].slide.textBoxes[0].underline = containerDiv.childNodes[i].style.textDecoration;
+                    presentation.slides[currentSlide].slide.textBoxes[0].fontColor = containerDiv.childNodes[i].style.color;
+                    presentation.slides[currentSlide].slide.textBoxes[0].align = containerDiv.childNodes[i].style.textAlign;
                     break;
                 }
                 case "txtboxTwo": {
                     presentation.slides[currentSlide].slide.textBoxes[1].fontType = containerDiv.childNodes[i].style.fontFamily;
                     presentation.slides[currentSlide].slide.textBoxes[1].fontSize = containerDiv.childNodes[i].style.fontSize;
-                    presentation.slides[currentSlide].slide.textBoxes[1].bold =  containerDiv.childNodes[i].style.fontWeight;
-                    presentation.slides[currentSlide].slide.textBoxes[1].italic =  containerDiv.childNodes[i].style.fontStyle;
-                    presentation.slides[currentSlide].slide.textBoxes[1].underline =  containerDiv.childNodes[i].style.textDecoration;
-                    presentation.slides[currentSlide].slide.textBoxes[1].fontColor =  containerDiv.childNodes[i].style.color;
-                    presentation.slides[currentSlide].slide.textBoxes[1].align =  containerDiv.childNodes[i].style.textAlign;
+                    presentation.slides[currentSlide].slide.textBoxes[1].bold = containerDiv.childNodes[i].style.fontWeight;
+                    presentation.slides[currentSlide].slide.textBoxes[1].italic = containerDiv.childNodes[i].style.fontStyle;
+                    presentation.slides[currentSlide].slide.textBoxes[1].underline = containerDiv.childNodes[i].style.textDecoration;
+                    presentation.slides[currentSlide].slide.textBoxes[1].fontColor = containerDiv.childNodes[i].style.color;
+                    presentation.slides[currentSlide].slide.textBoxes[1].align = containerDiv.childNodes[i].style.textAlign;
                     break;
                 }
-                default: {}
+                default: {
+                }
             }
 
         }
-        
+
     }
+    needSave = true;
+    updateSaveBtn();
 }
 
 
@@ -559,7 +630,7 @@ function localSave(evt) {
     let containerDiv = currentDiv.parentNode;
     // Get the informations on the div
     // Save them in the corresponding slide in local storage
-    
+
 
     for (let i = 0; i < containerDiv.childNodes.length; ++i) {
         let className = containerDiv.childNodes[i].className;
@@ -592,6 +663,9 @@ function localSave(evt) {
             }
         }
     }
+
+    needSave = true;
+    updateSaveBtn();
 
     localStorage.setItem("presentation", JSON.stringify(presentation));
 }

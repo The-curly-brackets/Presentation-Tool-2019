@@ -3,12 +3,13 @@ export function loadSlideOnTemplateAndClone(template, slide) {
 
     divs[1].innerHTML = slide.headline.text;
     divs[2].innerHTML = slide.byLine.text;
-    divs[4].innerHTML = slide.textBoxes[1].text;
 
     if (slide.type === "txtAndImg") {
         divs[3].innerHTML = `<img src="${slide.img.src}">`;
+        divs[4].innerHTML = slide.textBoxes[0].text;
     } else {
         divs[3].innerHTML = slide.textBoxes[0].text;
+        divs[4].innerHTML = slide.textBoxes[1].text;
     }
 
     applyStyle(divs[1].style, slide.headline);
